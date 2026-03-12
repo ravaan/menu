@@ -24,7 +24,8 @@
   };
   let currentView = "browser";
   let currentEventId = null;
-  let modalDishId = null;
+  let popoverDishId = null;
+  let activeFilterGroup = null;
   let menuLibrary = {};
   let activeMenuId = null;
   let menuDropdownOpen = false;
@@ -329,6 +330,40 @@
       .join("");
   }
 
+  function toggleFilterGroup(groupName) {
+    const chipsRow = document.getElementById("filter-chips-row");
+    const targetChips = document.getElementById(`filter-${groupName}`);
+    if (!targetChips) return;
+
+    if (activeFilterGroup === groupName) {
+      // Close - move chips back to hidden container
+      targetChips.classList.add("hidden");
+      chipsRow.innerHTML = "";
+      activeFilterGroup = null;
+    } else {
+      // Close previous
+      if (activeFilterGroup) {
+        const prev = document.getElementById(`filter-${activeFilterGroup}`);
+        if (prev) prev.classList.add("hidden");
+      }
+      // Show target chips in the chips row
+      chipsRow.innerHTML = "";
+      targetChips.classList.remove("hidden");
+      chipsRow.appendChild(targetChips);
+      activeFilterGroup = groupName;
+    }
+  }
+
+  function updateFilterGroupLabels() {
+    document.querySelectorAll(".filter-group-label").forEach((label) => {
+      const group = label.dataset.toggle;
+      const count = activeFilters[group] ? activeFilters[group].length : 0;
+      const baseName = label.textContent.replace(/\s*\(\d+\)$/, "").trim();
+      label.textContent = count > 0 ? `${baseName} (${count})` : baseName;
+      label.classList.toggle("has-active", count > 0);
+    });
+  }
+
   // ==========================================
   // DISH FILTERING
   // ==========================================
@@ -417,11 +452,16 @@
     const grid = document.getElementById("dish-grid");
     const stats = document.getElementById("browser-stats");
 
-    stats.textContent = `Showing ${filtered.length} of ${allDishes.length} dishes`;
+    const selectedCount = new Set(Object.values(eventSelections).flat()).size;
+    stats.innerHTML =
+      `<span>${filtered.length} / ${allDishes.length} dishes</span>` +
+      (selectedCount > 0
+        ? ` <span class="stats-selected">&middot; ${selectedCount} selected</span>`
+        : "");
 
     if (filtered.length === 0) {
       grid.innerHTML =
-        '<div class="event-empty">No dishes match your filters. Try broadening your search.</div>';
+        '<div class="dish-grid-empty">No dishes match your filters.</div>';
       return;
     }
 
@@ -429,46 +469,31 @@
       .map((dish) => {
         const isCustom = dish.source === "custom_suggestion";
         const dishEvents = getDishEvents(dish.id);
-        const cuisineTags = (dish.cuisine_region || [])
-          .slice(0, 3)
-          .map((c) => `<span class="tag tag-cuisine">${formatLabel(c)}</span>`)
-          .join("");
-        const culturalTags = (dish.cultural_relevance || [])
-          .map((c) => `<span class="tag tag-cultural">${formatLabel(c)}</span>`)
-          .join("");
-        const spiceTag = dish.spice_level
-          ? `<span class="tag tag-spice-${dish.spice_level}">${formatLabel(dish.spice_level)}</span>`
-          : "";
-        const categoryTag = `<span class="tag">${formatLabel(dish.category)}</span>`;
+        const hasEvents = dishEvents.length > 0;
+        const cuisineStr = (dish.cuisine_region || [])
+          .slice(0, 2)
+          .map(formatLabel)
+          .join(", ");
+        const subtitle = [formatLabel(dish.category), cuisineStr]
+          .filter(Boolean)
+          .join(" \u00b7 ");
 
-        const eventBadges = dishEvents
+        const eventDots = dishEvents
           .map(
-            (ev) => `<span class="event-badge">${ev.name.split(" ")[0]}</span>`,
+            (ev) =>
+              `<span class="event-dot" title="${escapeHtml(ev.name)}">${ev.name.charAt(0)}</span>`,
           )
           .join("");
 
-        const pairingHint = dish.pairing_group ? getPairingHint(dish) : "";
-
-        return `
-        <div class="dish-card ${isCustom ? "custom-dish" : ""}" data-dish-id="${dish.id}">
-          <div class="dish-card-header">
+        return `<div class="dish-card ${hasEvents ? "dish-selected" : ""} ${isCustom ? "custom-dish" : ""}" data-dish-id="${dish.id}">
+          <div class="dish-card-top">
             <span class="dish-name">${escapeHtml(dish.name)}</span>
-            <span class="dish-badges">
-              ${isCustom ? '<span class="badge badge-custom">Custom</span>' : ""}
-              ${dish.is_signature ? '<span class="badge badge-signature">Signature</span>' : ""}
-            </span>
+            ${dish.is_signature ? '<span class="badge-dot sig" title="Signature">\u2605</span>' : ""}
+            ${isCustom ? '<span class="badge-dot cust" title="Custom">\u25c6</span>' : ""}
           </div>
-          <div class="dish-description">${escapeHtml(dish.description || "")}</div>
-          <div class="dish-tags">
-            ${categoryTag}${cuisineTags}${culturalTags}${spiceTag}
-          </div>
-          ${pairingHint ? `<div class="dish-pairing">${pairingHint}</div>` : ""}
-          <div class="dish-actions">
-            <button class="btn-add-event" data-dish-id="${dish.id}">+ Add to Event</button>
-            ${eventBadges ? `<div class="dish-event-badges">${eventBadges}</div>` : ""}
-          </div>
-        </div>
-      `;
+          <div class="dish-subtitle">${subtitle}</div>
+          ${eventDots ? `<div class="dish-event-dots">${eventDots}</div>` : ""}
+        </div>`;
       })
       .join("");
   }
@@ -823,6 +848,7 @@
 
   function switchMenu(menuId) {
     if (!menuLibrary[menuId]) return;
+    if (popoverDishId) closePopover();
     saveState();
     activeMenuId = menuId;
     const menu = menuLibrary[menuId];
@@ -1022,6 +1048,7 @@
   // ==========================================
   function switchView(view) {
     currentView = view;
+    if (popoverDishId) closePopover();
     document
       .querySelectorAll(".view")
       .forEach((v) => v.classList.remove("active"));
@@ -1044,30 +1071,72 @@
     saveState();
   }
 
-  function openAddModal(dishId) {
-    modalDishId = dishId;
+  function openPopover(dishId, anchorEl) {
+    popoverDishId = dishId;
     const dish = getDishById(dishId);
     if (!dish) return;
 
-    document.getElementById("modal-dish-name").textContent = dish.name;
+    const popover = document.getElementById("dish-popover");
+    document.getElementById("popover-dish-name").textContent = dish.name;
 
-    const eventsContainer = document.getElementById("modal-events");
-    eventsContainer.innerHTML = events
+    // Event toggle buttons
+    document.getElementById("popover-events").innerHTML = events
       .map((ev) => {
         const isAdded = (eventSelections[ev.id] || []).includes(dishId);
-        return `<button class="modal-event-btn ${isAdded ? "already-added" : ""}" data-event-id="${ev.id}">
-        ${ev.name}
-      </button>`;
+        return `<button class="popover-event-btn ${isAdded ? "event-active" : ""}" data-event-id="${ev.id}">
+          <span>${escapeHtml(ev.name)}</span>
+          <span>${isAdded ? "\u2713" : "+"}</span>
+        </button>`;
       })
       .join("");
 
-    document.getElementById("modal-overlay").classList.add("active");
+    // Dish details
+    const tags = [
+      ...(dish.cuisine_region || []),
+      ...(dish.cultural_relevance || []),
+      dish.spice_level,
+    ]
+      .filter(Boolean)
+      .map((t) => `<span class="popover-tag">${formatLabel(t)}</span>`)
+      .join("");
+    const pairingHint = dish.pairing_group ? getPairingHint(dish) : "";
+    document.getElementById("popover-details").innerHTML =
+      (dish.description
+        ? `<div class="popover-details-desc">${escapeHtml(dish.description)}</div>`
+        : "") +
+      (tags ? `<div class="popover-tags">${tags}</div>` : "") +
+      (pairingHint
+        ? `<div style="margin-top:0.25rem;color:var(--accent);font-style:italic">${pairingHint}</div>`
+        : "");
+
+    // Position using fixed coordinates
+    const rect = anchorEl.getBoundingClientRect();
+    let top = rect.bottom + 4;
+    let left = rect.left;
+
+    // Flip above if near bottom
+    if (rect.bottom + 300 > window.innerHeight) {
+      top = rect.top - 300 - 4;
+      if (top < 0) top = 4;
+    }
+    // Clamp right
+    if (left + 260 > window.innerWidth) {
+      left = window.innerWidth - 264;
+    }
+    if (left < 4) left = 4;
+
+    popover.style.top = top + "px";
+    popover.style.left = left + "px";
+    popover.classList.add("active");
   }
 
-  function closeModal() {
-    document.getElementById("modal-overlay").classList.remove("active");
+  function closePopover() {
+    document.getElementById("dish-popover").classList.remove("active");
+    popoverDishId = null;
+  }
+
+  function closeHelpModal() {
     document.getElementById("help-overlay").classList.remove("active");
-    modalDishId = null;
   }
 
   function toggleDishInEvent(eventId, dishId) {
@@ -1088,6 +1157,18 @@
     renderEventTabs();
     if (currentView === "planner") renderEventContent();
     if (currentView === "summary") renderSummary();
+
+    // Re-sync popover after grid re-render
+    if (popoverDishId) {
+      const newCard = document.querySelector(
+        `.dish-card[data-dish-id="${popoverDishId}"]`,
+      );
+      if (newCard) {
+        openPopover(popoverDishId, newCard);
+      } else {
+        closePopover();
+      }
+    }
   }
 
   function removeDishFromEvent(eventId, dishId) {
@@ -1123,8 +1204,15 @@
       }, 200);
     });
 
-    // Filter chips (event delegation)
-    document.querySelector(".filter-sidebar").addEventListener("click", (e) => {
+    // Filter bar delegation
+    document.getElementById("filter-bar").addEventListener("click", (e) => {
+      // Filter group label toggle
+      const groupLabel = e.target.closest(".filter-group-label");
+      if (groupLabel) {
+        toggleFilterGroup(groupLabel.dataset.toggle);
+        return;
+      }
+      // Filter chip toggle
       const chip = e.target.closest(".filter-chip");
       if (!chip) return;
 
@@ -1139,6 +1227,8 @@
         activeFilters[key] = activeFilters[key].filter((v) => v !== value);
       }
 
+      updateFilterGroupLabels();
+      if (popoverDishId) closePopover();
       renderDishGrid();
     });
 
@@ -1155,41 +1245,66 @@
         });
         document.getElementById("search-input").value = "";
         document
-          .querySelectorAll(".filter-chip.active")
+          .querySelectorAll("#filter-bar .filter-chip.active")
           .forEach((c) => c.classList.remove("active"));
+        activeFilterGroup = null;
+        document
+          .querySelectorAll(".filter-group-chips")
+          .forEach((c) => c.classList.add("hidden"));
+        updateFilterGroupLabels();
+        if (popoverDishId) closePopover();
         renderDishGrid();
       });
 
-    // Add to event buttons (delegation on grid)
+    // Dish grid - whole card click opens popover
     document.getElementById("dish-grid").addEventListener("click", (e) => {
-      const btn = e.target.closest(".btn-add-event");
-      if (btn) {
-        openAddModal(btn.dataset.dishId);
+      const card = e.target.closest(".dish-card");
+      if (!card) return;
+      const dishId = card.dataset.dishId;
+      if (popoverDishId === dishId) {
+        closePopover();
+        return;
       }
+      openPopover(dishId, card);
     });
 
-    // Modal events
-    document.getElementById("modal-events").addEventListener("click", (e) => {
-      const btn = e.target.closest(".modal-event-btn");
-      if (btn && modalDishId) {
-        toggleDishInEvent(btn.dataset.eventId, modalDishId);
-        // Update modal buttons
-        openAddModal(modalDishId);
+    // Popover events
+    document.getElementById("popover-events").addEventListener("click", (e) => {
+      const btn = e.target.closest(".popover-event-btn");
+      if (btn && popoverDishId) {
+        toggleDishInEvent(btn.dataset.eventId, popoverDishId);
       }
     });
 
     document
-      .getElementById("modal-close")
-      .addEventListener("click", closeModal);
-    document.getElementById("modal-overlay").addEventListener("click", (e) => {
-      if (e.target === e.currentTarget) closeModal();
+      .getElementById("popover-close")
+      .addEventListener("click", closePopover);
+
+    // Click outside popover to dismiss
+    document.addEventListener("click", (e) => {
+      if (!popoverDishId) return;
+      const popover = document.getElementById("dish-popover");
+      if (popover.contains(e.target)) return;
+      if (e.target.closest(".dish-card")) return;
+      closePopover();
     });
 
     // Help modal
-    document.getElementById("help-close").addEventListener("click", closeModal);
+    document
+      .getElementById("help-close")
+      .addEventListener("click", closeHelpModal);
     document.getElementById("help-overlay").addEventListener("click", (e) => {
-      if (e.target === e.currentTarget) closeModal();
+      if (e.target === e.currentTarget) closeHelpModal();
     });
+
+    // Scroll dismiss popover
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (popoverDishId) closePopover();
+      },
+      { passive: true },
+    );
 
     // Event tabs
     document.getElementById("event-tabs").addEventListener("click", (e) => {
@@ -1316,10 +1431,12 @@
           document.getElementById("help-overlay").classList.add("active");
           break;
         case "Escape":
-          if (menuDropdownOpen) {
+          if (popoverDishId) {
+            closePopover();
+          } else if (menuDropdownOpen) {
             toggleMenuDropdown(false);
           } else {
-            closeModal();
+            closeHelpModal();
           }
           break;
       }
