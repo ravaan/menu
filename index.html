@@ -8,20 +8,31 @@
   </head>
   <body>
     <header class="app-header">
-      <div class="header-content">
-        <h1 class="app-title">Wedding Menu Planner</h1>
-        <p class="app-subtitle">Taj Gateway Nashik &bull; 23 April 2026</p>
-      </div>
-      <div class="menu-bar">
-        <div class="menu-bar-left">
+      <div class="header-row">
+        <div class="header-left">
+          <h1 class="app-title">Wedding Menu Planner</h1>
+          <span class="app-subtitle"
+            >Taj Gateway Nashik &middot; 23 Apr 2026</span
+          >
+        </div>
+        <nav class="main-nav">
+          <button class="nav-tab active" data-view="browser" title="Press 1">
+            Browser
+          </button>
+          <button class="nav-tab" data-view="planner" title="Press 2">
+            Planner
+          </button>
+          <button class="nav-tab" data-view="summary" title="Press 3">
+            Summary
+          </button>
+        </nav>
+        <div class="header-right">
           <button class="menu-trigger" id="menu-trigger">
             <span class="menu-trigger-name" id="menu-trigger-name"
               >My Menu</span
             >
             <span class="menu-trigger-chevron">&#9662;</span>
           </button>
-        </div>
-        <div class="menu-bar-right">
           <button class="menu-bar-btn" id="btn-save-as">Save As</button>
           <button class="menu-bar-btn" id="btn-export">Export</button>
           <label class="menu-bar-btn menu-bar-btn-label" id="btn-import-label">
@@ -43,82 +54,80 @@
         </div>
         <div class="menu-dropdown-list" id="menu-dropdown-list"></div>
       </div>
-      <nav class="main-nav">
-        <button class="nav-tab active" data-view="browser" title="Press 1">
-          <span class="nav-icon">&#9776;</span> Dish Browser
-        </button>
-        <button class="nav-tab" data-view="planner" title="Press 2">
-          <span class="nav-icon">&#9998;</span> Event Planner
-        </button>
-        <button class="nav-tab" data-view="summary" title="Press 3">
-          <span class="nav-icon">&#9733;</span> Summary
-        </button>
-      </nav>
     </header>
 
     <!-- VIEW 1: DISH BROWSER -->
     <main id="view-browser" class="view active">
       <div class="browser-layout">
-        <aside class="filter-sidebar">
-          <div class="search-wrapper">
-            <input
-              type="text"
-              id="search-input"
-              placeholder="Search dishes... ( / )"
-              autocomplete="off"
-            />
-            <span class="search-hint">/</span>
+        <div class="filter-bar" id="filter-bar">
+          <div class="filter-bar-top">
+            <div class="search-wrapper">
+              <input
+                type="text"
+                id="search-input"
+                placeholder="Search dishes... ( / )"
+                autocomplete="off"
+              />
+              <span class="search-hint">/</span>
+            </div>
+            <div class="filter-bar-stats" id="browser-stats"></div>
+            <button class="btn-clear-filters" id="btn-clear-filters">
+              Clear All
+            </button>
           </div>
-
-          <div class="filter-section">
-            <h3 class="filter-title">Source</h3>
-            <div class="filter-group" id="filter-source"></div>
+          <div class="filter-bar-groups">
+            <div class="filter-group-inline">
+              <button class="filter-group-label" data-toggle="source">
+                Source
+              </button>
+              <div class="filter-group-chips hidden" id="filter-source"></div>
+            </div>
+            <div class="filter-group-inline">
+              <button class="filter-group-label" data-toggle="category">
+                Category
+              </button>
+              <div class="filter-group-chips hidden" id="filter-category"></div>
+            </div>
+            <div class="filter-group-inline">
+              <button class="filter-group-label" data-toggle="cuisine">
+                Cuisine
+              </button>
+              <div class="filter-group-chips hidden" id="filter-cuisine"></div>
+            </div>
+            <div class="filter-group-inline">
+              <button class="filter-group-label" data-toggle="cultural">
+                Cultural
+              </button>
+              <div class="filter-group-chips hidden" id="filter-cultural"></div>
+            </div>
+            <div class="filter-group-inline">
+              <button class="filter-group-label" data-toggle="spice">
+                Spice
+              </button>
+              <div class="filter-group-chips hidden" id="filter-spice"></div>
+            </div>
+            <div class="filter-group-inline">
+              <button class="filter-group-label" data-toggle="richness">
+                Richness
+              </button>
+              <div class="filter-group-chips hidden" id="filter-richness"></div>
+            </div>
+            <div class="filter-group-inline">
+              <button class="filter-group-label" data-toggle="crowd">
+                Crowd
+              </button>
+              <div class="filter-group-chips hidden" id="filter-crowd"></div>
+            </div>
+            <div class="filter-group-inline">
+              <button class="filter-group-label" data-toggle="method">
+                Method
+              </button>
+              <div class="filter-group-chips hidden" id="filter-method"></div>
+            </div>
           </div>
-
-          <div class="filter-section">
-            <h3 class="filter-title">Category</h3>
-            <div class="filter-group" id="filter-category"></div>
-          </div>
-
-          <div class="filter-section">
-            <h3 class="filter-title">Cuisine Region</h3>
-            <div class="filter-group" id="filter-cuisine"></div>
-          </div>
-
-          <div class="filter-section">
-            <h3 class="filter-title">Cultural Relevance</h3>
-            <div class="filter-group" id="filter-cultural"></div>
-          </div>
-
-          <div class="filter-section">
-            <h3 class="filter-title">Spice Level</h3>
-            <div class="filter-group" id="filter-spice"></div>
-          </div>
-
-          <div class="filter-section">
-            <h3 class="filter-title">Richness</h3>
-            <div class="filter-group" id="filter-richness"></div>
-          </div>
-
-          <div class="filter-section">
-            <h3 class="filter-title">Crowd Appeal</h3>
-            <div class="filter-group" id="filter-crowd"></div>
-          </div>
-
-          <div class="filter-section">
-            <h3 class="filter-title">Cooking Method</h3>
-            <div class="filter-group" id="filter-method"></div>
-          </div>
-
-          <button class="btn-clear-filters" id="btn-clear-filters">
-            Clear All Filters
-          </button>
-        </aside>
-
-        <div class="browser-main">
-          <div class="browser-stats" id="browser-stats"></div>
-          <div class="dish-grid" id="dish-grid"></div>
+          <div class="filter-chips-row" id="filter-chips-row"></div>
         </div>
+        <div class="dish-grid" id="dish-grid"></div>
       </div>
     </main>
 
@@ -155,18 +164,14 @@
       </div>
     </main>
 
-    <!-- ADD TO EVENT MODAL -->
-    <div class="modal-overlay" id="modal-overlay">
-      <div class="modal" id="add-to-event-modal">
-        <div class="modal-header">
-          <h3 id="modal-dish-name"></h3>
-          <button class="modal-close" id="modal-close">&times;</button>
-        </div>
-        <div class="modal-body">
-          <p>Add to which event(s)?</p>
-          <div class="modal-events" id="modal-events"></div>
-        </div>
+    <!-- DISH POPOVER -->
+    <div class="dish-popover" id="dish-popover">
+      <div class="popover-header">
+        <span class="popover-dish-name" id="popover-dish-name"></span>
+        <button class="popover-close" id="popover-close">&times;</button>
       </div>
+      <div class="popover-events" id="popover-events"></div>
+      <div class="popover-details" id="popover-details"></div>
     </div>
 
     <!-- KEYBOARD HELP -->
