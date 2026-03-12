@@ -1,0 +1,124 @@
+{
+  "wedding": {
+    "date": "2026-04-23",
+    "venue": "Taj Gateway Nashik",
+    "venue_address": "P-17, MIDC Ambad, Mumbai Agra Road 422010, Maharashtra",
+    "guest_count": "100-300",
+    "dietary": "fully_vegetarian",
+    "jain_requirements": false
+  },
+  "groom": {
+    "name": "Arpit",
+    "community": "Marwari",
+    "cultural_roots": ["rajasthani", "marwari", "vrindavan"],
+    "birth_place": "Asansol, West Bengal",
+    "places_lived": [
+      { "city": "Asansol", "state": "West Bengal", "years": "0-8" },
+      { "city": "Kanpur", "state": "Uttar Pradesh", "years": "8-18" },
+      { "city": "Pilani", "state": "Rajasthan", "context": "College (BITS)" },
+      { "city": "Coimbatore", "state": "Tamil Nadu", "duration": "2 months" },
+      { "city": "Mumbai", "state": "Maharashtra", "duration": "6 months" },
+      {
+        "city": "Bangalore",
+        "state": "Karnataka",
+        "context": "Primary residence"
+      }
+    ],
+    "family_background": {
+      "paternal": "Rajasthani Marwari, family based in Vrindavan for 100+ years",
+      "maternal": "Grandfather born and brought up in Jhajha, Bihar"
+    },
+    "food_influences": [
+      "rajasthani",
+      "marwari",
+      "bihari",
+      "up",
+      "south_indian",
+      "maharashtrian"
+    ]
+  },
+  "bride": {
+    "community": "Sindhi",
+    "cultural_roots": ["sindhi", "karachi_partition"],
+    "birth_place": "Mumbai, Maharashtra",
+    "places_lived": [
+      { "city": "Mumbai", "state": "Maharashtra", "context": "Born here" },
+      { "city": "Bahrain", "country": "Bahrain", "duration": "2 years" },
+      { "city": "Al Ain", "country": "UAE", "duration": "12 years" },
+      { "city": "Mumbai", "state": "Maharashtra", "context": "Return" },
+      { "city": "Pilani", "state": "Rajasthan", "context": "College (BITS)" },
+      { "city": "Mumbai", "state": "Maharashtra", "duration": "3-4 years" },
+      { "city": "Bangalore", "state": "Karnataka", "context": "Current" }
+    ],
+    "family_background": {
+      "all_grandparents": "Came from Karachi during partition"
+    },
+    "food_preferences": "Loves simple food, good vada pav, Sindhi things",
+    "food_influences": ["sindhi", "mumbai_street", "middle_eastern", "emirati"]
+  },
+  "events": [
+    {
+      "id": "mehndi_dinner",
+      "name": "Mehndi/Bhaat Dinner",
+      "day": 1,
+      "time": "evening",
+      "type": "dinner",
+      "guidance": "Lean Sindhi. Hands in mehndi — spoon-friendly/bite-sized food only. Lighter than wedding dinner.",
+      "selected_dishes": []
+    },
+    {
+      "id": "hi_tea",
+      "name": "Hi-Tea",
+      "day": 1,
+      "time": "afternoon",
+      "type": "hi_tea",
+      "guidance": "Finger food, small elegant portions, sweet + savory mix. Tea/coffee is the anchor.",
+      "selected_dishes": []
+    },
+    {
+      "id": "sangeet_dinner",
+      "name": "Sangeet Dinner",
+      "day": 1,
+      "time": "night",
+      "type": "dinner",
+      "guidance": "Festive, high-energy. Fun street food counters. Avoid repeating Wedding Dinner dishes.",
+      "selected_dishes": []
+    },
+    {
+      "id": "breakfast",
+      "name": "Buffet Breakfast",
+      "day": 2,
+      "time": "morning",
+      "type": "breakfast",
+      "guidance": "Guests partied last night. Cultural touches, not generic hotel breakfast. Great chai + filter coffee.",
+      "selected_dishes": []
+    },
+    {
+      "id": "lunch_hi_tea",
+      "name": "Lunch Hi-Tea",
+      "day": 2,
+      "time": "afternoon",
+      "type": "hi_tea",
+      "guidance": "Keep it LIGHT. Between breakfast and grand dinner. Middle Eastern mezze fits well (bride's UAE connection).",
+      "selected_dishes": []
+    },
+    {
+      "id": "wedding_dinner",
+      "name": "Grand Wedding Dinner",
+      "day": 2,
+      "time": "evening",
+      "type": "dinner",
+      "guidance": "THE event. Signature dishes from both sides. Full course with live stations. Showstopper desserts.",
+      "selected_dishes": []
+    },
+    {
+      "id": "supper",
+      "name": "Late Night Supper",
+      "day": 2,
+      "time": "late_night",
+      "type": "supper",
+      "guidance": "Comfort food only. Small portions, warm, comforting. Guests exhausted, rituals past midnight.",
+      "selected_dishes": []
+    }
+  ]
+}

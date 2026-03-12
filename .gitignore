@@ -1,0 +1,4 @@
+.DS_Store
+.claude/
+*.pdf
+static-website-prompt.md

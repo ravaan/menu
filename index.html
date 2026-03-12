@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wedding Menu Planner - Arpit &amp; Family</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-content">
+        <h1 class="app-title">Wedding Menu Planner</h1>
+        <p class="app-subtitle">Taj Gateway Nashik &bull; 23 April 2026</p>
+      </div>
+      <nav class="main-nav">
+        <button class="nav-tab active" data-view="browser" title="Press 1">
+          <span class="nav-icon">&#9776;</span> Dish Browser
+        </button>
+        <button class="nav-tab" data-view="planner" title="Press 2">
+          <span class="nav-icon">&#9998;</span> Event Planner
+        </button>
+        <button class="nav-tab" data-view="summary" title="Press 3">
+          <span class="nav-icon">&#9733;</span> Summary
+        </button>
+      </nav>
+    </header>
+
+    <!-- VIEW 1: DISH BROWSER -->
+    <main id="view-browser" class="view active">
+      <div class="browser-layout">
+        <aside class="filter-sidebar">
+          <div class="search-wrapper">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search dishes... ( / )"
+              autocomplete="off"
+            />
+            <span class="search-hint">/</span>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-title">Source</h3>
+            <div class="filter-group" id="filter-source"></div>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-title">Category</h3>
+            <div class="filter-group" id="filter-category"></div>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-title">Cuisine Region</h3>
+            <div class="filter-group" id="filter-cuisine"></div>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-title">Cultural Relevance</h3>
+            <div class="filter-group" id="filter-cultural"></div>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-title">Spice Level</h3>
+            <div class="filter-group" id="filter-spice"></div>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-title">Richness</h3>
+            <div class="filter-group" id="filter-richness"></div>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-title">Crowd Appeal</h3>
+            <div class="filter-group" id="filter-crowd"></div>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-title">Cooking Method</h3>
+            <div class="filter-group" id="filter-method"></div>
+          </div>
+
+          <button class="btn-clear-filters" id="btn-clear-filters">
+            Clear All Filters
+          </button>
+        </aside>
+
+        <div class="browser-main">
+          <div class="browser-stats" id="browser-stats"></div>
+          <div class="dish-grid" id="dish-grid"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- VIEW 2: EVENT PLANNER -->
+    <main id="view-planner" class="view">
+      <div class="planner-layout">
+        <div class="event-tabs" id="event-tabs"></div>
+        <div class="event-content" id="event-content">
+          <div class="event-header" id="event-header"></div>
+          <div class="event-dishes" id="event-dishes"></div>
+          <div class="event-notes-section">
+            <label for="event-notes">Chef Discussion Notes</label>
+            <textarea
+              id="event-notes"
+              placeholder="Notes for discussion with chef..."
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- VIEW 3: SUMMARY -->
+    <main id="view-summary" class="view">
+      <div class="summary-layout">
+        <div class="summary-header">
+          <h2>Menu Summary</h2>
+          <div class="summary-actions">
+            <button class="btn-copy" id="btn-copy-text">Copy as Text</button>
+          </div>
+        </div>
+        <div class="summary-stats" id="summary-stats"></div>
+        <div class="summary-events" id="summary-events"></div>
+        <div class="repetition-report" id="repetition-report"></div>
+      </div>
+    </main>
+
+    <!-- ADD TO EVENT MODAL -->
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="modal" id="add-to-event-modal">
+        <div class="modal-header">
+          <h3 id="modal-dish-name"></h3>
+          <button class="modal-close" id="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Add to which event(s)?</p>
+          <div class="modal-events" id="modal-events"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEYBOARD HELP -->
+    <div class="modal-overlay" id="help-overlay">
+      <div class="modal" id="help-modal">
+        <div class="modal-header">
+          <h3>Keyboard Shortcuts</h3>
+          <button class="modal-close" id="help-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="shortcut-row"><kbd>/</kbd> Focus search</div>
+          <div class="shortcut-row"><kbd>1</kbd> Dish Browser</div>
+          <div class="shortcut-row"><kbd>2</kbd> Event Planner</div>
+          <div class="shortcut-row"><kbd>3</kbd> Summary</div>
+          <div class="shortcut-row"><kbd>?</kbd> This help</div>
+          <div class="shortcut-row"><kbd>Esc</kbd> Close modal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
