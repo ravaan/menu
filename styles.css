@@ -568,6 +568,51 @@ body {
   text-transform: uppercase;
 }
 
+/* Category tints */
+.dish-card.cat-snack {
+  background: #fefcf5;
+}
+.dish-card.cat-chaat {
+  background: #fef9f0;
+}
+.dish-card.cat-soup {
+  background: #f5faf8;
+}
+.dish-card.cat-salad {
+  background: #f4faf4;
+}
+.dish-card.cat-main_course {
+  background: #fdf5f5;
+}
+.dish-card.cat-dal {
+  background: #fdf8f2;
+}
+.dish-card.cat-vegetable {
+  background: #f5f8f5;
+}
+.dish-card.cat-rice {
+  background: #f8f6fb;
+}
+.dish-card.cat-bread {
+  background: #faf7f3;
+}
+.dish-card.cat-dessert {
+  background: #fdf5f9;
+}
+.dish-card.cat-live_station {
+  background: #f5f7fb;
+}
+.dish-card.cat-hi_tea {
+  background: #faf5f8;
+}
+.dish-card.cat-breakfast {
+  background: #f8f9f4;
+}
+
+.dish-card.dish-selected {
+  background: #f8f5fc;
+}
+
 /* ============================================
    DISH POPOVER
    ============================================ */

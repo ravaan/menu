@@ -485,7 +485,7 @@
           )
           .join("");
 
-        return `<div class="dish-card ${hasEvents ? "dish-selected" : ""} ${isCustom ? "custom-dish" : ""}" data-dish-id="${dish.id}">
+        return `<div class="dish-card cat-${dish.category} ${hasEvents ? "dish-selected" : ""} ${isCustom ? "custom-dish" : ""}" data-dish-id="${dish.id}">
           <div class="dish-card-top">
             <span class="dish-name">${escapeHtml(dish.name)}</span>
             ${dish.is_signature ? '<span class="badge-dot sig" title="Signature">\u2605</span>' : ""}
