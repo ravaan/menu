@@ -613,6 +613,87 @@ body {
   background: #f8f5fc;
 }
 
+/* Category tints on filter chips (slightly stronger for visibility) */
+.filter-chip.cat-snack {
+  background: #fef9ea;
+  border-color: #e8dfc0;
+}
+.filter-chip.cat-chaat {
+  background: #fef3e0;
+  border-color: #e5d4b0;
+}
+.filter-chip.cat-soup {
+  background: #e8f5f0;
+  border-color: #b8d8ca;
+}
+.filter-chip.cat-salad {
+  background: #e8f5e8;
+  border-color: #b8d8b8;
+}
+.filter-chip.cat-main_course {
+  background: #fdeaea;
+  border-color: #e0bfbf;
+}
+.filter-chip.cat-dal {
+  background: #fdf0e0;
+  border-color: #e0ccaa;
+}
+.filter-chip.cat-vegetable {
+  background: #eaf5ea;
+  border-color: #bcd8bc;
+}
+.filter-chip.cat-rice {
+  background: #f0edf8;
+  border-color: #ccc4e0;
+}
+.filter-chip.cat-bread {
+  background: #f5efe5;
+  border-color: #d8ccb8;
+}
+.filter-chip.cat-dessert {
+  background: #fdeaf2;
+  border-color: #e0bcd0;
+}
+.filter-chip.cat-live_station {
+  background: #eaeff8;
+  border-color: #b8c8e0;
+}
+.filter-chip.cat-hi_tea {
+  background: #f5eaf0;
+  border-color: #d8bcc8;
+}
+.filter-chip.cat-breakfast {
+  background: #f0f2e6;
+  border-color: #ccd0a8;
+}
+.filter-chip.cat-accompaniment {
+  background: #f0eff5;
+  border-color: #c8c4d8;
+}
+.filter-chip.cat-beverage {
+  background: #e8f0f5;
+  border-color: #b8ccd8;
+}
+.filter-chip.cat-snack.active,
+.filter-chip.cat-chaat.active,
+.filter-chip.cat-soup.active,
+.filter-chip.cat-salad.active,
+.filter-chip.cat-main_course.active,
+.filter-chip.cat-dal.active,
+.filter-chip.cat-vegetable.active,
+.filter-chip.cat-rice.active,
+.filter-chip.cat-bread.active,
+.filter-chip.cat-dessert.active,
+.filter-chip.cat-live_station.active,
+.filter-chip.cat-hi_tea.active,
+.filter-chip.cat-breakfast.active,
+.filter-chip.cat-accompaniment.active,
+.filter-chip.cat-beverage.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
 /* ============================================
    DISH POPOVER
    ============================================ */

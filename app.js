@@ -325,7 +325,7 @@
     container.innerHTML = values
       .map(
         (v) =>
-          `<button class="filter-chip" data-filter="${filterKey}" data-value="${v}">${formatLabel(v)}</button>`,
+          `<button class="filter-chip${filterKey === "category" ? ` cat-${v}` : ""}" data-filter="${filterKey}" data-value="${v}">${formatLabel(v)}</button>`,
       )
       .join("");
   }
