@@ -12,6 +12,37 @@
         <h1 class="app-title">Wedding Menu Planner</h1>
         <p class="app-subtitle">Taj Gateway Nashik &bull; 23 April 2026</p>
       </div>
+      <div class="menu-bar">
+        <div class="menu-bar-left">
+          <button class="menu-trigger" id="menu-trigger">
+            <span class="menu-trigger-name" id="menu-trigger-name"
+              >My Menu</span
+            >
+            <span class="menu-trigger-chevron">&#9662;</span>
+          </button>
+        </div>
+        <div class="menu-bar-right">
+          <button class="menu-bar-btn" id="btn-save-as">Save As</button>
+          <button class="menu-bar-btn" id="btn-export">Export</button>
+          <label class="menu-bar-btn menu-bar-btn-label" id="btn-import-label">
+            Import
+            <input
+              type="file"
+              id="btn-import"
+              accept=".json"
+              style="display: none"
+            />
+          </label>
+        </div>
+      </div>
+      <div class="menu-dropdown-overlay" id="menu-dropdown-overlay"></div>
+      <div class="menu-dropdown" id="menu-dropdown">
+        <div class="menu-dropdown-header">
+          <span>Saved Menus</span>
+          <button class="menu-bar-btn" id="btn-new-menu">+ New Menu</button>
+        </div>
+        <div class="menu-dropdown-list" id="menu-dropdown-list"></div>
+      </div>
       <nav class="main-nav">
         <button class="nav-tab active" data-view="browser" title="Press 1">
           <span class="nav-icon">&#9776;</span> Dish Browser

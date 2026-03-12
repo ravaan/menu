@@ -25,6 +25,9 @@
   let currentView = "browser";
   let currentEventId = null;
   let modalDishId = null;
+  let menuLibrary = {};
+  let activeMenuId = null;
+  let menuDropdownOpen = false;
 
   // Pairing groups
   const PAIRING_MAP = {
@@ -119,6 +122,7 @@
       renderEventTabs();
       renderEventContent();
       renderSummary();
+      updateMenuUI();
     } catch (err) {
       console.error("Failed to load data:", err);
       document.body.innerHTML =
@@ -130,31 +134,63 @@
   // PERSISTENCE
   // ==========================================
   const STORAGE_KEY = "wedding-menu-planner";
+  const STORAGE_KEY_V2 = "wedding-menu-planner-v2";
 
   function saveState() {
-    const state = { eventSelections, eventNotes, currentEventId, currentView };
+    if (!activeMenuId || !menuLibrary[activeMenuId]) return;
+    const menu = menuLibrary[activeMenuId];
+    menu.eventSelections = JSON.parse(JSON.stringify(eventSelections));
+    menu.eventNotes = JSON.parse(JSON.stringify(eventNotes));
+    menu.updatedAt = new Date().toISOString();
+    const fullState = {
+      version: 2,
+      activeMenuId,
+      menus: menuLibrary,
+      uiState: { currentEventId, currentView },
+    };
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      localStorage.setItem(STORAGE_KEY_V2, JSON.stringify(fullState));
     } catch (e) {
       console.warn("Could not save state:", e);
+      showToast("Storage full - could not save");
     }
   }
 
   function loadState() {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const state = JSON.parse(saved);
-        eventSelections = state.eventSelections || {};
-        eventNotes = state.eventNotes || {};
-        if (state.currentEventId) currentEventId = state.currentEventId;
-        if (state.currentView) {
-          currentView = state.currentView;
-          switchView(currentView);
+      const v2 = localStorage.getItem(STORAGE_KEY_V2);
+      if (v2) {
+        const state = JSON.parse(v2);
+        menuLibrary = state.menus || {};
+        activeMenuId = state.activeMenuId;
+        // Load selections BEFORE switchView (which calls saveState)
+        if (activeMenuId && menuLibrary[activeMenuId]) {
+          eventSelections = JSON.parse(
+            JSON.stringify(menuLibrary[activeMenuId].eventSelections || {}),
+          );
+          eventNotes = JSON.parse(
+            JSON.stringify(menuLibrary[activeMenuId].eventNotes || {}),
+          );
+        }
+        if (state.uiState) {
+          if (state.uiState.currentEventId)
+            currentEventId = state.uiState.currentEventId;
+          if (state.uiState.currentView) {
+            currentView = state.uiState.currentView;
+            switchView(currentView);
+          }
+        }
+      } else {
+        const v1 = localStorage.getItem(STORAGE_KEY);
+        if (v1) {
+          migrateFromV1(JSON.parse(v1));
+        } else {
+          createNewMenu("My Menu", true);
         }
       }
     } catch (e) {
       console.warn("Could not load state:", e);
+      createNewMenu("My Menu", true);
     }
 
     // Ensure all events have selections arrays
@@ -162,6 +198,29 @@
       if (!eventSelections[ev.id]) eventSelections[ev.id] = [];
       if (!eventNotes[ev.id]) eventNotes[ev.id] = "";
     });
+  }
+
+  function migrateFromV1(v1State) {
+    const menuId = "menu_" + Date.now();
+    menuLibrary[menuId] = {
+      id: menuId,
+      name: "My Menu",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      eventSelections: v1State.eventSelections || {},
+      eventNotes: v1State.eventNotes || {},
+    };
+    activeMenuId = menuId;
+    eventSelections = JSON.parse(
+      JSON.stringify(menuLibrary[menuId].eventSelections),
+    );
+    eventNotes = JSON.parse(JSON.stringify(menuLibrary[menuId].eventNotes));
+    if (v1State.currentEventId) currentEventId = v1State.currentEventId;
+    if (v1State.currentView) {
+      currentView = v1State.currentView;
+      switchView(currentView);
+    }
+    saveState();
   }
 
   // ==========================================
@@ -713,6 +772,252 @@
   }
 
   // ==========================================
+  // MENU MANAGEMENT
+  // ==========================================
+  function createNewMenu(name, setActive) {
+    const safeName = (name || "").trim();
+    if (!safeName) return null;
+    const uniqueName = getUniqueName(safeName);
+    const menuId = "menu_" + Date.now();
+    menuLibrary[menuId] = {
+      id: menuId,
+      name: uniqueName,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      eventSelections: {},
+      eventNotes: {},
+    };
+    if (setActive) {
+      activeMenuId = menuId;
+      eventSelections = {};
+      eventNotes = {};
+      events.forEach((ev) => {
+        eventSelections[ev.id] = [];
+        eventNotes[ev.id] = "";
+      });
+    }
+    saveState();
+    updateMenuUI();
+    return menuId;
+  }
+
+  function saveMenuAs(name) {
+    const safeName = (name || "").trim();
+    if (!safeName) return null;
+    const uniqueName = getUniqueName(safeName);
+    const menuId = "menu_" + Date.now();
+    menuLibrary[menuId] = {
+      id: menuId,
+      name: uniqueName,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      eventSelections: JSON.parse(JSON.stringify(eventSelections)),
+      eventNotes: JSON.parse(JSON.stringify(eventNotes)),
+    };
+    activeMenuId = menuId;
+    saveState();
+    updateMenuUI();
+    showToast(`Saved as "${uniqueName}"`);
+    return menuId;
+  }
+
+  function switchMenu(menuId) {
+    if (!menuLibrary[menuId]) return;
+    saveState();
+    activeMenuId = menuId;
+    const menu = menuLibrary[menuId];
+    eventSelections = JSON.parse(JSON.stringify(menu.eventSelections || {}));
+    eventNotes = JSON.parse(JSON.stringify(menu.eventNotes || {}));
+    events.forEach((ev) => {
+      if (!eventSelections[ev.id]) eventSelections[ev.id] = [];
+      if (!eventNotes[ev.id]) eventNotes[ev.id] = "";
+    });
+    saveState();
+    renderDishGrid();
+    renderEventTabs();
+    renderEventContent();
+    renderSummary();
+    updateMenuUI();
+    toggleMenuDropdown(false);
+    showToast(`Switched to "${menu.name}"`);
+  }
+
+  function renameMenu(menuId, newName) {
+    if (!menuLibrary[menuId]) return;
+    const safeName = (newName || "").trim();
+    if (!safeName) return;
+    menuLibrary[menuId].name = getUniqueName(safeName, menuId);
+    menuLibrary[menuId].updatedAt = new Date().toISOString();
+    saveState();
+    updateMenuUI();
+  }
+
+  function deleteMenu(menuId) {
+    const menuIds = Object.keys(menuLibrary);
+    if (menuIds.length <= 1) {
+      showToast("Cannot delete the last menu");
+      return;
+    }
+    if (!confirm(`Delete "${menuLibrary[menuId].name}"?`)) return;
+    delete menuLibrary[menuId];
+    if (activeMenuId === menuId) {
+      const remaining = Object.keys(menuLibrary);
+      switchMenu(remaining[0]);
+    } else {
+      saveState();
+      updateMenuUI();
+    }
+    showToast("Menu deleted");
+  }
+
+  function getUniqueName(baseName, excludeId) {
+    const existingNames = Object.values(menuLibrary)
+      .filter((m) => m.id !== excludeId)
+      .map((m) => m.name);
+    if (!existingNames.includes(baseName)) return baseName;
+    let i = 2;
+    while (existingNames.includes(`${baseName} (${i})`)) i++;
+    return `${baseName} (${i})`;
+  }
+
+  // ==========================================
+  // EXPORT / IMPORT
+  // ==========================================
+  function exportMenu() {
+    if (!activeMenuId || !menuLibrary[activeMenuId]) return;
+    saveState();
+    const menu = menuLibrary[activeMenuId];
+    const exportData = {
+      _format: "wedding-menu-planner",
+      _version: 1,
+      name: menu.name,
+      exportedAt: new Date().toISOString(),
+      eventSelections: menu.eventSelections,
+      eventNotes: menu.eventNotes,
+    };
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `menu-${menu.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("Menu exported");
+  }
+
+  function importMenu(file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (!validateImport(data)) {
+          showToast("Invalid menu file");
+          return;
+        }
+        const validIds = new Set(allDishes.map((d) => d.id));
+        const cleanSelections = {};
+        for (const [evId, dishes] of Object.entries(
+          data.eventSelections || {},
+        )) {
+          cleanSelections[evId] = (dishes || []).filter((id) =>
+            validIds.has(id),
+          );
+        }
+        const menuId = "menu_" + Date.now();
+        const name = getUniqueName(data.name || "Imported Menu");
+        menuLibrary[menuId] = {
+          id: menuId,
+          name,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          eventSelections: cleanSelections,
+          eventNotes: data.eventNotes || {},
+        };
+        saveState();
+        updateMenuUI();
+        showToast(`Imported "${name}"`);
+      } catch (err) {
+        console.error("Import failed:", err);
+        showToast("Failed to import - invalid JSON");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function validateImport(data) {
+    if (!data || typeof data !== "object") return false;
+    if (data._format !== "wedding-menu-planner") return false;
+    if (!data.eventSelections || typeof data.eventSelections !== "object")
+      return false;
+    for (const val of Object.values(data.eventSelections)) {
+      if (!Array.isArray(val)) return false;
+    }
+    return true;
+  }
+
+  // ==========================================
+  // MENU DROPDOWN UI
+  // ==========================================
+  function updateMenuUI() {
+    const trigger = document.getElementById("menu-trigger-name");
+    if (!trigger) return;
+    const menu = menuLibrary[activeMenuId];
+    trigger.textContent = menu ? menu.name : "No Menu";
+    renderMenuDropdown();
+  }
+
+  function renderMenuDropdown() {
+    const list = document.getElementById("menu-dropdown-list");
+    if (!list) return;
+    const sorted = Object.values(menuLibrary).sort(
+      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt),
+    );
+    list.innerHTML = sorted
+      .map((menu) => {
+        const dishCount = getDishCountForMenu(menu);
+        const isActive = menu.id === activeMenuId;
+        const date = new Date(menu.updatedAt).toLocaleDateString();
+        return `<div class="menu-dropdown-item ${isActive ? "active" : ""}" data-menu-id="${menu.id}">
+        <div class="menu-dropdown-item-info">
+          <div class="menu-dropdown-item-name">${escapeHtml(menu.name)}</div>
+          <div class="menu-dropdown-item-meta">${dishCount} dishes &bull; ${date}</div>
+        </div>
+        <div class="menu-dropdown-item-actions">
+          <button class="menu-action-btn menu-rename-btn" data-menu-id="${menu.id}" title="Rename">&#9998;</button>
+          <button class="menu-action-btn menu-delete-btn" data-menu-id="${menu.id}" title="Delete">&times;</button>
+        </div>
+      </div>`;
+      })
+      .join("");
+  }
+
+  function getDishCountForMenu(menu) {
+    const ids = new Set();
+    for (const dishes of Object.values(menu.eventSelections || {})) {
+      (dishes || []).forEach((id) => ids.add(id));
+    }
+    return ids.size;
+  }
+
+  function toggleMenuDropdown(open) {
+    menuDropdownOpen = open !== undefined ? open : !menuDropdownOpen;
+    const dropdown = document.getElementById("menu-dropdown");
+    const overlay = document.getElementById("menu-dropdown-overlay");
+    if (menuDropdownOpen) {
+      dropdown.classList.add("active");
+      overlay.classList.add("active");
+      renderMenuDropdown();
+    } else {
+      dropdown.classList.remove("active");
+      overlay.classList.remove("active");
+    }
+  }
+
+  // ==========================================
   // EVENT HANDLERS
   // ==========================================
   function switchView(view) {
@@ -918,6 +1223,70 @@
       .getElementById("btn-copy-text")
       .addEventListener("click", copyAsText);
 
+    // Menu bar
+    document.getElementById("menu-trigger").addEventListener("click", () => {
+      toggleMenuDropdown();
+    });
+
+    document
+      .getElementById("menu-dropdown-overlay")
+      .addEventListener("click", () => {
+        toggleMenuDropdown(false);
+      });
+
+    document
+      .getElementById("menu-dropdown-list")
+      .addEventListener("click", (e) => {
+        const renameBtn = e.target.closest(".menu-rename-btn");
+        if (renameBtn) {
+          e.stopPropagation();
+          const id = renameBtn.dataset.menuId;
+          const current = menuLibrary[id] ? menuLibrary[id].name : "";
+          const newName = prompt("Rename menu:", current);
+          if (newName) renameMenu(id, newName);
+          return;
+        }
+        const deleteBtn = e.target.closest(".menu-delete-btn");
+        if (deleteBtn) {
+          e.stopPropagation();
+          deleteMenu(deleteBtn.dataset.menuId);
+          return;
+        }
+        const item = e.target.closest(".menu-dropdown-item");
+        if (item) {
+          switchMenu(item.dataset.menuId);
+        }
+      });
+
+    document.getElementById("btn-new-menu").addEventListener("click", () => {
+      const name = prompt("New menu name:");
+      if (name && name.trim()) {
+        createNewMenu(name.trim(), true);
+        renderDishGrid();
+        renderEventTabs();
+        renderEventContent();
+        renderSummary();
+        toggleMenuDropdown(false);
+        showToast(`Created "${menuLibrary[activeMenuId].name}"`);
+      }
+    });
+
+    document.getElementById("btn-save-as").addEventListener("click", () => {
+      const name = prompt("Save menu as:");
+      if (name && name.trim()) {
+        saveMenuAs(name.trim());
+      }
+    });
+
+    document.getElementById("btn-export").addEventListener("click", exportMenu);
+
+    document.getElementById("btn-import").addEventListener("change", (e) => {
+      if (e.target.files && e.target.files[0]) {
+        importMenu(e.target.files[0]);
+        e.target.value = "";
+      }
+    });
+
     // Keyboard shortcuts
     document.addEventListener("keydown", (e) => {
       // Don't capture when typing in input/textarea
@@ -947,7 +1316,11 @@
           document.getElementById("help-overlay").classList.add("active");
           break;
         case "Escape":
-          closeModal();
+          if (menuDropdownOpen) {
+            toggleMenuDropdown(false);
+          } else {
+            closeModal();
+          }
           break;
       }
     });
