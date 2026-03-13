@@ -2888,6 +2888,45 @@
         "wedding_dinner"
       ],
       "notes": "Elegant presentation chaat, great for wedding"
+    },
+    {
+      "id": "puran-poli",
+      "name": "Puran Poli",
+      "description": "Sweet flatbread stuffed with jaggery and chana dal filling, served with ghee",
+      "category": "dessert",
+      "sub_category": "maharashtrian_special",
+      "cuisine_type": "indian",
+      "cuisine_region": [
+        "maharashtrian"
+      ],
+      "cooking_method": [
+        "tawa"
+      ],
+      "primary_ingredients": [
+        "dal",
+        "flour"
+      ],
+      "spice_level": "mild",
+      "texture": [
+        "soft"
+      ],
+      "course_type": "dessert",
+      "serving_temp": "hot",
+      "richness": "rich",
+      "crowd_appeal": "universal",
+      "season_appropriateness": "all_season",
+      "prep_complexity": "needs_specialist",
+      "pairing_group": null,
+      "is_signature": false,
+      "cultural_relevance": [
+        "maharashtrian"
+      ],
+      "source": "custom_suggestion",
+      "suggested_events": [
+        "wedding_dinner",
+        "mehndi_lunch"
+      ],
+      "notes": "Classic Maharashtrian sweet, great cultural touch for a Nashik wedding"
     }
   ]
 }
