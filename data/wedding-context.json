@@ -58,11 +58,11 @@
   },
   "events": [
     {
-      "id": "mehndi_dinner",
-      "name": "Mehndi/Bhaat Dinner",
+      "id": "mehndi_lunch",
+      "name": "Mehndi/Bhaat Lunch",
       "day": 1,
-      "time": "evening",
-      "type": "dinner",
+      "time": "afternoon",
+      "type": "lunch",
       "guidance": "Lean Sindhi. Hands in mehndi — spoon-friendly/bite-sized food only. Lighter than wedding dinner.",
       "selected_dishes": []
     },
@@ -94,12 +94,21 @@
       "selected_dishes": []
     },
     {
-      "id": "lunch_hi_tea",
-      "name": "Lunch Hi-Tea",
+      "id": "haldi_lunch",
+      "name": "Haldi Lunch",
       "day": 2,
       "time": "afternoon",
+      "type": "lunch",
+      "guidance": "Haldi ceremony lunch. Keep it moderate — guests have breakfast behind them and grand dinner ahead.",
+      "selected_dishes": []
+    },
+    {
+      "id": "pre_wedding_hi_tea",
+      "name": "Hi-Tea",
+      "day": 2,
+      "time": "evening",
       "type": "hi_tea",
-      "guidance": "Keep it LIGHT. Between breakfast and grand dinner. Middle Eastern mezze fits well (bride's UAE connection).",
+      "guidance": "Light finger food and snacks between Haldi Lunch and Grand Wedding Dinner. Tea/coffee anchor.",
       "selected_dishes": []
     },
     {
@@ -118,6 +127,15 @@
       "time": "late_night",
       "type": "supper",
       "guidance": "Comfort food only. Small portions, warm, comforting. Guests exhausted, rituals past midnight.",
+      "selected_dishes": []
+    },
+    {
+      "id": "checkout_breakfast",
+      "name": "Checkout Breakfast",
+      "day": 3,
+      "time": "morning",
+      "type": "breakfast",
+      "guidance": "Final meal before guests depart. Hearty, warm, comforting. Good chai and coffee essential.",
       "selected_dishes": []
     }
   ]

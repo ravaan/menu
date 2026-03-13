@@ -397,7 +397,7 @@
       "is_signature": true,
       "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner", "wedding_dinner"],
+      "suggested_events": ["mehndi_lunch", "wedding_dinner"],
       "notes": "Signature Sindhi dish. Needs specialist who knows Sindhi kadhi."
     },
     {
@@ -422,7 +422,7 @@
       "is_signature": true,
       "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner"],
+      "suggested_events": ["mehndi_lunch"],
       "notes": "Comfort food that every Sindhi guest will appreciate"
     },
     {
@@ -497,7 +497,7 @@
       "is_signature": false,
       "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner", "breakfast"],
+      "suggested_events": ["mehndi_lunch", "breakfast"],
       "notes": "Sindhi signature - crowd pleaser"
     },
     {
@@ -547,7 +547,7 @@
       "is_signature": false,
       "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner", "wedding_dinner"],
+      "suggested_events": ["mehndi_lunch", "wedding_dinner"],
       "notes": "Festive sweet rice"
     },
     {
@@ -597,7 +597,7 @@
       "is_signature": false,
       "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner", "wedding_dinner"],
+      "suggested_events": ["mehndi_lunch", "wedding_dinner"],
       "notes": "Traditional Sindhi wedding dessert"
     },
     {
@@ -622,7 +622,7 @@
       "is_signature": false,
       "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner"],
+      "suggested_events": ["mehndi_lunch"],
       "notes": "Light curry, good complement to heavier dishes"
     },
     {
@@ -647,7 +647,7 @@
       "is_signature": false,
       "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner"],
+      "suggested_events": ["mehndi_lunch"],
       "notes": "Sweet bread unique to Sindhi cuisine"
     },
     {
@@ -672,7 +672,7 @@
       "is_signature": false,
       "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner"],
+      "suggested_events": ["mehndi_lunch"],
       "notes": "Perfect for April heat"
     },
     {
@@ -1372,7 +1372,7 @@
       "is_signature": false,
       "cultural_relevance": ["middle_eastern"],
       "source": "custom_suggestion",
-      "suggested_events": ["lunch_hi_tea"],
+      "suggested_events": ["haldi_lunch"],
       "notes": "Brides UAE connection"
     },
     {
@@ -1397,7 +1397,7 @@
       "is_signature": false,
       "cultural_relevance": ["middle_eastern"],
       "source": "custom_suggestion",
-      "suggested_events": ["lunch_hi_tea"],
+      "suggested_events": ["haldi_lunch"],
       "notes": ""
     },
     {
@@ -1447,7 +1447,7 @@
       "is_signature": false,
       "cultural_relevance": ["emirati", "middle_eastern"],
       "source": "custom_suggestion",
-      "suggested_events": ["lunch_hi_tea", "wedding_dinner"],
+      "suggested_events": ["haldi_lunch", "wedding_dinner"],
       "notes": "Directly connected to UAE"
     },
     {
@@ -1472,7 +1472,7 @@
       "is_signature": false,
       "cultural_relevance": ["middle_eastern"],
       "source": "custom_suggestion",
-      "suggested_events": ["lunch_hi_tea"],
+      "suggested_events": ["haldi_lunch"],
       "notes": ""
     },
     {
@@ -1497,7 +1497,7 @@
       "is_signature": false,
       "cultural_relevance": ["emirati", "middle_eastern"],
       "source": "custom_suggestion",
-      "suggested_events": ["lunch_hi_tea"],
+      "suggested_events": ["haldi_lunch"],
       "notes": "Gulf nostalgia for the bride"
     },
     {
@@ -1522,7 +1522,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner", "lunch_hi_tea"],
+      "suggested_events": ["mehndi_lunch", "haldi_lunch"],
       "notes": "Perfect for April heat in Nashik"
     },
     {
@@ -1547,7 +1547,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner", "sangeet_dinner", "wedding_dinner"],
+      "suggested_events": ["mehndi_lunch", "sangeet_dinner", "wedding_dinner"],
       "notes": "Great as welcome drink"
     },
     {
@@ -1572,7 +1572,7 @@
       "is_signature": false,
       "cultural_relevance": ["rajasthani", "marwari"],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner", "lunch_hi_tea"],
+      "suggested_events": ["mehndi_lunch", "haldi_lunch"],
       "notes": "Rajasthani classic cooler"
     },
     {
@@ -1597,7 +1597,7 @@
       "is_signature": false,
       "cultural_relevance": ["bihari"],
       "source": "custom_suggestion",
-      "suggested_events": ["breakfast", "lunch_hi_tea"],
+      "suggested_events": ["breakfast", "haldi_lunch"],
       "notes": "Very cooling, Bihar heritage"
     },
     {
@@ -1647,7 +1647,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "custom_suggestion",
-      "suggested_events": ["mehndi_dinner", "wedding_dinner"],
+      "suggested_events": ["mehndi_lunch", "wedding_dinner"],
       "notes": "Classic Indian wedding welcome drink"
     }
   ]
