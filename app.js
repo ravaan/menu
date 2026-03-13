@@ -79,13 +79,21 @@
   };
 
   const EVENT_TIMING = {
-    mehndi_dinner: "Day 1 - Evening",
+    mehndi_lunch: "Day 1 - Afternoon",
     hi_tea: "Day 1 - Afternoon",
     sangeet_dinner: "Day 1 - Night",
     breakfast: "Day 2 - Morning",
-    lunch_hi_tea: "Day 2 - Afternoon",
-    wedding_dinner: "Day 2 - Evening",
+    haldi_lunch: "Day 2 - Afternoon",
+    pre_wedding_hi_tea: "Day 2 - Evening",
+    wedding_dinner: "Day 2 - Night",
     supper: "Day 2 - Late Night",
+    checkout_breakfast: "Day 3 - Morning",
+  };
+
+  // Migration map for renamed event IDs
+  const EVENT_ID_MIGRATION = {
+    mehndi_dinner: "mehndi_lunch",
+    lunch_hi_tea: "haldi_lunch",
   };
 
   // ==========================================
@@ -194,11 +202,35 @@
       createNewMenu("My Menu", true);
     }
 
+    // Migrate renamed event IDs
+    migrateEventIds(eventSelections);
+    migrateEventIds(eventNotes);
+    // Also migrate in all saved menus
+    for (const menu of Object.values(menuLibrary)) {
+      if (menu.eventSelections) migrateEventIds(menu.eventSelections);
+      if (menu.eventNotes) migrateEventIds(menu.eventNotes);
+    }
+
     // Ensure all events have selections arrays
     events.forEach((ev) => {
       if (!eventSelections[ev.id]) eventSelections[ev.id] = [];
       if (!eventNotes[ev.id]) eventNotes[ev.id] = "";
     });
+  }
+
+  function migrateEventIds(obj) {
+    for (const [oldId, newId] of Object.entries(EVENT_ID_MIGRATION)) {
+      if (obj[oldId] !== undefined) {
+        if (!obj[newId]) {
+          obj[newId] = obj[oldId];
+        } else if (Array.isArray(obj[oldId]) && Array.isArray(obj[newId])) {
+          // Merge arrays, deduplicate
+          const merged = new Set([...obj[newId], ...obj[oldId]]);
+          obj[newId] = [...merged];
+        }
+        delete obj[oldId];
+      }
+    }
   }
 
   function migrateFromV1(v1State) {

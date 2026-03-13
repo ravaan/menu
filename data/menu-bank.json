@@ -3197,7 +3197,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["wedding_dinner", "sangeet_dinner", "lunch_hi_tea"],
+      "suggested_events": ["wedding_dinner", "sangeet_dinner", "haldi_lunch"],
       "notes": ""
     },
     {
@@ -3247,7 +3247,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["wedding_dinner", "lunch_hi_tea"],
+      "suggested_events": ["wedding_dinner", "haldi_lunch"],
       "notes": ""
     },
     {
@@ -3272,7 +3272,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["wedding_dinner", "lunch_hi_tea"],
+      "suggested_events": ["wedding_dinner", "haldi_lunch"],
       "notes": ""
     },
     {
@@ -3297,7 +3297,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["lunch_hi_tea", "wedding_dinner"],
+      "suggested_events": ["haldi_lunch", "wedding_dinner"],
       "notes": ""
     },
     {
@@ -3347,7 +3347,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["breakfast", "supper", "mehndi_dinner"],
+      "suggested_events": ["breakfast", "supper", "mehndi_lunch"],
       "notes": "Light and healthy"
     },
     {
@@ -3447,7 +3447,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["sangeet_dinner", "mehndi_dinner"],
+      "suggested_events": ["sangeet_dinner", "mehndi_lunch"],
       "notes": ""
     },
     {
@@ -3472,7 +3472,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["mehndi_dinner", "sangeet_dinner"],
+      "suggested_events": ["mehndi_lunch", "sangeet_dinner"],
       "notes": ""
     },
     {
@@ -3522,7 +3522,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["wedding_dinner", "mehndi_dinner"],
+      "suggested_events": ["wedding_dinner", "mehndi_lunch"],
       "notes": "Fragrant plain rice alternative"
     },
     {
@@ -3672,7 +3672,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["breakfast", "mehndi_dinner"],
+      "suggested_events": ["breakfast", "mehndi_lunch"],
       "notes": ""
     },
     {
@@ -3722,7 +3722,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["mehndi_dinner", "sangeet_dinner"],
+      "suggested_events": ["mehndi_lunch", "sangeet_dinner"],
       "notes": ""
     },
     {
@@ -3772,7 +3772,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["mehndi_dinner"],
+      "suggested_events": ["mehndi_lunch"],
       "notes": ""
     },
     {
@@ -3797,7 +3797,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["sangeet_dinner", "mehndi_dinner"],
+      "suggested_events": ["sangeet_dinner", "mehndi_lunch"],
       "notes": ""
     },
     {
@@ -3847,7 +3847,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["mehndi_dinner", "sangeet_dinner"],
+      "suggested_events": ["mehndi_lunch", "sangeet_dinner"],
       "notes": ""
     },
     {
@@ -3872,7 +3872,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["mehndi_dinner"],
+      "suggested_events": ["mehndi_lunch"],
       "notes": ""
     },
     {
@@ -4247,7 +4247,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["wedding_dinner", "mehndi_dinner"],
+      "suggested_events": ["wedding_dinner", "mehndi_lunch"],
       "notes": "Smaller, more delicate rasmalai"
     },
     {
@@ -4322,7 +4322,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["mehndi_dinner", "supper"],
+      "suggested_events": ["mehndi_lunch", "supper"],
       "notes": ""
     },
     {
@@ -4472,7 +4472,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["mehndi_dinner", "sangeet_dinner"],
+      "suggested_events": ["mehndi_lunch", "sangeet_dinner"],
       "notes": ""
     },
     {
@@ -5147,7 +5147,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["hi_tea", "lunch_hi_tea"],
+      "suggested_events": ["hi_tea", "haldi_lunch"],
       "notes": "Elegant bite-sized"
     },
     {
@@ -5172,7 +5172,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["hi_tea", "lunch_hi_tea"],
+      "suggested_events": ["hi_tea", "haldi_lunch"],
       "notes": ""
     },
     {
@@ -5197,7 +5197,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["hi_tea", "lunch_hi_tea"],
+      "suggested_events": ["hi_tea", "haldi_lunch"],
       "notes": ""
     },
     {
@@ -5272,7 +5272,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["hi_tea", "lunch_hi_tea"],
+      "suggested_events": ["hi_tea", "haldi_lunch"],
       "notes": "3 varieties"
     },
     {
@@ -5297,7 +5297,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["hi_tea", "lunch_hi_tea"],
+      "suggested_events": ["hi_tea", "haldi_lunch"],
       "notes": "Paprika and parmesan varieties"
     },
     {
@@ -5397,7 +5397,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["hi_tea", "lunch_hi_tea"],
+      "suggested_events": ["hi_tea", "haldi_lunch"],
       "notes": ""
     },
     {
@@ -5447,7 +5447,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["hi_tea", "lunch_hi_tea"],
+      "suggested_events": ["hi_tea", "haldi_lunch"],
       "notes": "Essential for April Nashik heat"
     },
     {
@@ -5472,7 +5472,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "taj_menu_bank",
-      "suggested_events": ["hi_tea", "lunch_hi_tea"],
+      "suggested_events": ["hi_tea", "haldi_lunch"],
       "notes": ""
     }
   ]
