@@ -1706,7 +1706,7 @@ kbd {
 }
 
 .na-cell {
-  background: #f5f5f5;
+  background: #dcdcdc;
 }
 
 .freeform-cell {
@@ -2021,7 +2021,7 @@ kbd {
   }
 
   .na-cell {
-    background: #f0f0f0 !important;
+    background: #dcdcdc !important;
   }
 
   .theme-row,

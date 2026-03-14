@@ -2092,28 +2092,58 @@
       }
     });
 
-    // Check if any freeform event has extras, add Extra Pick rows only for those
-    const freeformEventIds = events
-      .filter((ev) => EVENT_PACKAGE_MAP[ev.id] === "freeform")
-      .map((ev) => ev.id);
-    const maxExtras = Math.max(
-      ...freeformEventIds.map((evId) => {
-        const sel = eventSelections[evId];
-        return sel && sel.extras ? sel.extras.length : 0;
-      }),
-      0,
-    );
-    if (maxExtras > 0) {
-      for (let i = 0; i < maxExtras; i++) {
-        rows.push({
-          key: `extra_${i}`,
-          label: `Extra Pick ${i + 1}`,
-          slotType: "extras",
-          index: i,
-          isOverflow: false,
-        });
+    // For freeform events, expand slot rows if freeform dishes exceed the slot count
+    events.forEach((ev) => {
+      const pkgKey = EVENT_PACKAGE_MAP[ev.id];
+      if (pkgKey !== "freeform") return;
+      const allIds = getAllDishIdsForEvent(ev.id);
+      const placed = {};
+      allIds.forEach((id) => {
+        const dish = getDishById(id);
+        if (!dish) return;
+        const course = getCourseType(dish);
+        const courseToSlot = {
+          beverage: "welcome_drink",
+          starter: "starter",
+          soup: "soup",
+          salad: "salad",
+          chaat: "starter",
+          main: "main_course",
+          side: "main_course",
+          bread: "bread",
+          rice: "rice",
+          dessert: "dessert",
+          live_station: "live_counter",
+        };
+        const slotType = courseToSlot[course] || "main_course";
+        if (!placed[slotType]) placed[slotType] = 0;
+        placed[slotType]++;
+      });
+      // Ensure rows exist for all freeform dishes
+      for (const [slotType, count] of Object.entries(placed)) {
+        const existing = rows.filter((r) => r.slotType === slotType).length;
+        for (let i = existing; i < count; i++) {
+          const slotDef = fullMealSlots.find((s) => s.type === slotType);
+          const label = slotDef
+            ? slotDef.count > 1 || i > 0
+              ? `${slotDef.label.replace(/s$/, "")} ${i + 1}`
+              : slotDef.label
+            : formatLabel(slotType) + ` ${i + 1}`;
+          // Insert after last row of same type
+          const lastIdx = rows.reduce(
+            (acc, r, idx) => (r.slotType === slotType ? idx : acc),
+            -1,
+          );
+          rows.splice(lastIdx + 1, 0, {
+            key: `${slotType}_${i}`,
+            label,
+            slotType,
+            index: i,
+            isOverflow: true,
+          });
+        }
       }
-    }
+    });
 
     // Group events by day for column headers
     const dayGroups = {};
@@ -2176,14 +2206,11 @@
     html += "<tbody>";
     rows.forEach((row) => {
       const isTheme = row.key === "theme";
-      const isExtra = row.slotType === "extras";
       const rowClass = isTheme
         ? "theme-row"
-        : isExtra
-          ? "extra-row"
-          : row.isOverflow
-            ? "overflow-row"
-            : "";
+        : row.isOverflow
+          ? "overflow-row"
+          : "";
 
       html += `<tr class="${rowClass}">`;
       html += `<td class="row-label">${escapeHtml(row.label)}</td>`;
@@ -2195,18 +2222,6 @@
         if (isTheme) {
           const theme = ev.theme || "";
           html += `<td class="theme-cell">${escapeHtml(theme)}</td>`;
-          return;
-        }
-
-        if (isExtra) {
-          const extras = sel && sel.extras ? sel.extras : [];
-          const dishId = extras[row.index];
-          const dish = dishId ? getDishById(dishId) : null;
-          const colorKey = `${ev.id}_extras_${row.index}`;
-          const colorClass = cellColors[colorKey]
-            ? `cell-${cellColors[colorKey]}`
-            : "";
-          html += `<td class="dish-cell extra-cell ${colorClass}" data-event-id="${ev.id}" data-slot-type="extras" data-slot-index="${row.index}">${dish ? escapeHtml(dish.name) : ""}</td>`;
           return;
         }
 
