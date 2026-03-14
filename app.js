@@ -1429,14 +1429,17 @@
       });
 
       html += `</div>
-          <div class="cat-note-col">
-            <textarea class="category-note-input" data-event-id="${ev.id}" data-slot-type="${course}" placeholder="Add note...">${escapeHtml(noteVal)}</textarea>
-          </div>
-        </div>
       </div>`;
     });
 
     dishesEl.innerHTML = html;
+
+    // Render notes panel for freeform
+    const noteSlots = sortedCourses.map((c) => ({
+      type: c,
+      label: COURSE_LABELS[c] || formatLabel(c),
+    }));
+    renderNotesPanel(ev, noteSlots);
   }
 
   function renderStructuredEventContent(ev, dishesEl, pkgKey) {
@@ -1507,14 +1510,39 @@
       }
 
       html += `</div>
-          <div class="cat-note-col">
-            <textarea class="category-note-input" data-event-id="${ev.id}" data-slot-type="${slotDef.type}" placeholder="Add note...">${escapeHtml(noteVal)}</textarea>
-          </div>
-        </div>
       </div>`;
     });
 
     dishesEl.innerHTML = html;
+
+    // Render notes panel
+    renderNotesPanel(ev, template);
+  }
+
+  function renderNotesPanel(ev, slotDefs) {
+    const panel = document.getElementById("notes-panel-body");
+    if (!panel) return;
+
+    let html = "";
+
+    // Event-level note
+    const eventNote = eventNotes[ev.id] || "";
+    html += `<div class="notes-section">
+      <div class="notes-section-label event-note-label">Event</div>
+      <textarea class="notes-textarea" data-note-type="event" data-event-id="${ev.id}" placeholder="Event notes...">${escapeHtml(eventNote)}</textarea>
+    </div>`;
+
+    // Category-level notes
+    slotDefs.forEach((slot) => {
+      const noteKey = `${ev.id}_${slot.type}`;
+      const noteVal = categoryNotes[noteKey] || "";
+      html += `<div class="notes-section">
+        <div class="notes-section-label">${slot.label}</div>
+        <textarea class="notes-textarea" data-note-type="category" data-event-id="${ev.id}" data-slot-type="${slot.type}" placeholder="Notes...">${escapeHtml(noteVal)}</textarea>
+      </div>`;
+    });
+
+    panel.innerHTML = html;
   }
 
   function getPairingSuggestions(eventId) {
@@ -2948,30 +2976,37 @@
       }
     });
 
-    // Category notes (blur to save)
+    // Notes panel (blur to save - handles both event and category notes)
     document
-      .getElementById("event-dishes")
+      .getElementById("notes-panel-body")
       .addEventListener("focusout", (e) => {
-        const textarea = e.target.closest(".category-note-input");
-        if (textarea) {
+        const textarea = e.target.closest(".notes-textarea");
+        if (!textarea) return;
+        const noteType = textarea.dataset.noteType;
+        const val = textarea.value.trim();
+
+        if (noteType === "event") {
+          eventNotes[textarea.dataset.eventId] = val;
+        } else if (noteType === "category") {
           const key = `${textarea.dataset.eventId}_${textarea.dataset.slotType}`;
-          const val = textarea.value.trim();
           if (val) {
             categoryNotes[key] = val;
           } else {
             delete categoryNotes[key];
           }
+        }
+        saveState();
+      });
+
+    // Keep legacy event-notes textarea working if it exists
+    const eventNotesEl = document.getElementById("event-notes");
+    if (eventNotesEl)
+      eventNotesEl.addEventListener("input", (e) => {
+        if (currentEventId) {
+          eventNotes[currentEventId] = e.target.value;
           saveState();
         }
       });
-
-    // Event notes
-    document.getElementById("event-notes").addEventListener("input", (e) => {
-      if (currentEventId) {
-        eventNotes[currentEventId] = e.target.value;
-        saveState();
-      }
-    });
 
     // Copy text
     document
