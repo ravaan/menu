@@ -965,11 +965,23 @@ body {
 
 .planner-category-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0.4rem 0.75rem;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  gap: 0.4rem;
+}
+
+.planner-category-header:hover {
+  background: #eeeef2;
+}
+
+.cat-toggle {
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
 }
 
 .cat-label {
@@ -978,6 +990,23 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--text-secondary);
+  flex: 1;
+}
+
+.planner-category-body {
+  display: flex;
+}
+
+.cat-dishes-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.cat-note-col {
+  width: 200px;
+  min-width: 200px;
+  border-left: 1px solid #f0f0f2;
+  display: flex;
 }
 
 .cat-progress {
@@ -1059,28 +1088,29 @@ body {
   color: var(--text-muted);
 }
 
-/* Category note */
-.planner-category-note {
-  border-top: 1px solid #f0f0f2;
-}
-
+/* Category note (right column) */
 .category-note-input {
   width: 100%;
   border: none;
-  padding: 0.3rem 0.75rem;
-  font-size: 0.72rem;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.7rem;
   font-family: var(--font-body);
   color: var(--text-muted);
   background: transparent;
   resize: none;
-  min-height: 1.6rem;
-  max-height: 60px;
+  min-height: 100%;
+  line-height: 1.4;
 }
 
 .category-note-input:focus {
   outline: none;
   color: var(--text-primary);
-  background: #fafafa;
+  background: #fafcff;
+}
+
+.category-note-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
 }
 
 /* Repetition warning (keep for both views) */

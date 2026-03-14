@@ -1402,10 +1402,13 @@
       const noteVal = categoryNotes[noteKey] || "";
 
       html += `<div class="planner-category-card">
-        <div class="planner-category-header">
+        <div class="planner-category-header" data-toggle-cat="${course}">
+          <span class="cat-toggle">\u25BC</span>
           <span class="cat-label">${courseLabel}</span>
           <span class="cat-progress">${count}</span>
-        </div>`;
+        </div>
+        <div class="planner-category-body">
+          <div class="cat-dishes-col">`;
 
       grouped[course].forEach((dish) => {
         const otherEvents = getDishEvents(dish.id).filter(
@@ -1425,8 +1428,10 @@
         </div>`;
       });
 
-      html += `<div class="planner-category-note">
-          <textarea class="category-note-input" data-event-id="${ev.id}" data-slot-type="${course}" placeholder="+ Add note...">${escapeHtml(noteVal)}</textarea>
+      html += `</div>
+          <div class="cat-note-col">
+            <textarea class="category-note-input" data-event-id="${ev.id}" data-slot-type="${course}" placeholder="Add note...">${escapeHtml(noteVal)}</textarea>
+          </div>
         </div>
       </div>`;
     });
@@ -1466,13 +1471,16 @@
       const noteVal = categoryNotes[noteKey] || "";
 
       html += `<div class="planner-category-card">
-        <div class="planner-category-header">
+        <div class="planner-category-header" data-toggle-cat="${slotDef.type}">
+          <span class="cat-toggle">\u25BC</span>
           <span class="cat-label">${slotDef.label}</span>
           <span class="cat-progress ${progressClass}">${progressText}</span>
-        </div>`;
+        </div>
+        <div class="planner-category-body">
+          <div class="cat-dishes-col">`;
 
       if (slotDishes.length === 0) {
-        html += `<div class="cat-empty">&mdash;</div>`;
+        html += `<div class="cat-empty">\u2014</div>`;
       } else {
         slotDishes.forEach((dishId) => {
           const dish = getDishById(dishId);
@@ -1498,8 +1506,10 @@
         });
       }
 
-      html += `<div class="planner-category-note">
-          <textarea class="category-note-input" data-event-id="${ev.id}" data-slot-type="${slotDef.type}" placeholder="+ Add note...">${escapeHtml(noteVal)}</textarea>
+      html += `</div>
+          <div class="cat-note-col">
+            <textarea class="category-note-input" data-event-id="${ev.id}" data-slot-type="${slotDef.type}" placeholder="Add note...">${escapeHtml(noteVal)}</textarea>
+          </div>
         </div>
       </div>`;
     });
@@ -2860,6 +2870,22 @@
 
     // Remove dish from event (supports both old .btn-remove and new .btn-dish-remove)
     document.getElementById("event-dishes").addEventListener("click", (e) => {
+      // Collapse/expand category
+      const catHeader = e.target.closest(
+        ".planner-category-header[data-toggle-cat]",
+      );
+      if (catHeader) {
+        const card = catHeader.closest(".planner-category-card");
+        const body = card.querySelector(".planner-category-body");
+        const toggle = catHeader.querySelector(".cat-toggle");
+        if (body) {
+          const collapsed = body.style.display === "none";
+          body.style.display = collapsed ? "" : "none";
+          if (toggle) toggle.textContent = collapsed ? "\u25BC" : "\u25B6";
+        }
+        return;
+      }
+
       const btn =
         e.target.closest(".btn-dish-remove") || e.target.closest(".btn-remove");
       if (btn) {
