@@ -956,40 +956,39 @@ body {
 
 /* Category cards */
 .planner-category-card {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
   background: var(--bg-card);
-  overflow: hidden;
+}
+
+.planner-category-card:last-child {
+  border-bottom: none;
 }
 
 .planner-category-header {
   display: flex;
   align-items: center;
-  padding: 0.4rem 0.75rem;
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border);
+  padding: 0.2rem 0.5rem;
   cursor: pointer;
   user-select: none;
-  gap: 0.4rem;
+  gap: 0.3rem;
 }
 
 .planner-category-header:hover {
-  background: #eeeef2;
+  background: var(--bg-secondary);
 }
 
 .cat-toggle {
-  font-size: 0.55rem;
+  font-size: 0.5rem;
   color: var(--text-muted);
   flex-shrink: 0;
 }
 
 .cat-label {
-  font-size: 0.68rem;
-  font-weight: 700;
+  font-size: 0.65rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   flex: 1;
 }
 
@@ -1003,17 +1002,18 @@ body {
 }
 
 .cat-note-col {
-  width: 200px;
-  min-width: 200px;
+  width: 180px;
+  min-width: 180px;
   border-left: 1px solid #f0f0f2;
   display: flex;
+  background: #fcfcfd;
 }
 
 .cat-progress {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 600;
   color: var(--text-muted);
-  padding: 1px 6px;
+  padding: 0px 5px;
   border-radius: 999px;
   background: white;
   border: 1px solid var(--border);
@@ -1036,9 +1036,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.3rem 0.75rem;
-  font-size: 0.8rem;
-  border-bottom: 1px solid #f0f0f2;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.78rem;
+  border-bottom: 1px solid #f4f4f6;
 }
 
 .planner-dish-row:last-child {
@@ -1083,8 +1083,8 @@ body {
 }
 
 .cat-empty {
-  padding: 0.3rem 0.75rem;
-  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
 }
 
@@ -1092,8 +1092,8 @@ body {
 .category-note-input {
   width: 100%;
   border: none;
-  padding: 0.35rem 0.6rem;
-  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.68rem;
   font-family: var(--font-body);
   color: var(--text-muted);
   background: transparent;
