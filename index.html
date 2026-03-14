@@ -138,15 +138,15 @@
     <!-- VIEW 2: EVENT PLANNER -->
     <main id="view-planner" class="view">
       <div class="planner-layout">
-        <div class="event-tabs" id="event-tabs"></div>
-        <div class="event-content" id="event-content">
-          <div class="event-header" id="event-header"></div>
-          <div class="event-dishes" id="event-dishes"></div>
-          <div class="event-notes-section">
-            <label for="event-notes">Chef Discussion Notes</label>
+        <aside class="planner-sidebar" id="planner-sidebar"></aside>
+        <div class="planner-main">
+          <div class="planner-event-header" id="event-header"></div>
+          <div class="planner-categories" id="event-dishes"></div>
+          <div class="planner-event-notes">
+            <label for="event-notes">Event Notes</label>
             <textarea
               id="event-notes"
-              placeholder="Notes for discussion with chef..."
+              placeholder="Notes for chef discussion..."
             ></textarea>
           </div>
         </div>
