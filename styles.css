@@ -907,12 +907,83 @@ body {
   color: white;
 }
 
-/* Main content area */
-.planner-main {
+/* Center content area */
+.planner-center {
   flex: 1;
-  padding: 1.5rem 2rem;
+  padding: 1rem 1.25rem;
   overflow-y: auto;
-  max-width: 800px;
+  min-width: 0;
+}
+
+/* Right notes panel */
+.planner-notes-panel {
+  width: 260px;
+  min-width: 260px;
+  border-left: 1px solid var(--border);
+  background: #fafbfc;
+  overflow-y: auto;
+  position: sticky;
+  top: 50px;
+  height: calc(100vh - 50px);
+  display: flex;
+  flex-direction: column;
+}
+
+.notes-panel-header {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: 0.75rem 0.75rem 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.notes-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.25rem 0;
+}
+
+.notes-section {
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid #f0f0f2;
+}
+
+.notes-section-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+
+.notes-section-label.event-note-label {
+  color: var(--accent);
+}
+
+.notes-section textarea {
+  width: 100%;
+  border: none;
+  padding: 0.2rem 0;
+  font-size: 0.72rem;
+  font-family: var(--font-body);
+  color: var(--text-secondary);
+  background: transparent;
+  resize: none;
+  min-height: 2rem;
+  line-height: 1.4;
+}
+
+.notes-section textarea:focus {
+  outline: none;
+  color: var(--text-primary);
+}
+
+.notes-section textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.4;
 }
 
 /* Event header */
@@ -993,20 +1064,6 @@ body {
 }
 
 .planner-category-body {
-  display: flex;
-}
-
-.cat-dishes-col {
-  flex: 1;
-  min-width: 0;
-}
-
-.cat-note-col {
-  width: 180px;
-  min-width: 180px;
-  border-left: 1px solid #f0f0f2;
-  display: flex;
-  background: #fcfcfd;
 }
 
 .cat-progress {
@@ -1088,30 +1145,7 @@ body {
   color: var(--text-muted);
 }
 
-/* Category note (right column) */
-.category-note-input {
-  width: 100%;
-  border: none;
-  padding: 0.2rem 0.5rem;
-  font-size: 0.68rem;
-  font-family: var(--font-body);
-  color: var(--text-muted);
-  background: transparent;
-  resize: none;
-  min-height: 100%;
-  line-height: 1.4;
-}
-
-.category-note-input:focus {
-  outline: none;
-  color: var(--text-primary);
-  background: #fafcff;
-}
-
-.category-note-input::placeholder {
-  color: var(--text-muted);
-  opacity: 0.5;
-}
+/* (category notes moved to right panel) */
 
 /* Repetition warning (keep for both views) */
 .repetition-warning {
@@ -1173,9 +1207,9 @@ body {
   font-size: 0.85rem;
 }
 
-/* Event notes */
+/* (event notes moved to right panel) */
 .planner-event-notes {
-  margin-top: 1.5rem;
+  display: none;
 }
 
 .planner-event-notes label {
@@ -1557,8 +1591,12 @@ kbd {
     border-bottom-color: var(--accent);
   }
 
-  .planner-main {
-    padding: 1rem;
+  .planner-center {
+    padding: 0.75rem;
+  }
+
+  .planner-notes-panel {
+    display: none;
   }
 
   .summary-layout {
@@ -2069,6 +2107,7 @@ kbd {
   .btn-copy,
   .btn-clear-filters,
   .planner-sidebar,
+  .planner-notes-panel,
   .planner-event-notes,
   .modal-overlay,
   .toast,
