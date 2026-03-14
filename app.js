@@ -2398,22 +2398,53 @@
     popover.classList.remove("active");
   }
 
+  function getCellDishId(eventId, slotType, slotIndex) {
+    const sel = eventSelections[eventId];
+    if (!sel) return null;
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
+
+    if (pkgKey === "freeform") {
+      // For freeform events, dishes are in extras but rendered in virtual slot rows
+      // We need to find the Nth dish of matching course type
+      const allIds = getAllDishIdsForEvent(eventId);
+      const courseToSlot = {
+        beverage: "welcome_drink",
+        starter: "starter",
+        soup: "soup",
+        salad: "salad",
+        chaat: "starter",
+        main: "main_course",
+        side: "main_course",
+        bread: "bread",
+        rice: "rice",
+        dessert: "dessert",
+        live_station: "live_counter",
+      };
+      const matching = [];
+      allIds.forEach((id) => {
+        const dish = getDishById(id);
+        if (!dish) return;
+        const course = getCourseType(dish);
+        const mapped = courseToSlot[course] || "main_course";
+        if (mapped === slotType) matching.push(id);
+      });
+      return matching[slotIndex] || null;
+    }
+
+    // Structured event
+    if (sel.slots && sel.slots[slotType]) {
+      return sel.slots[slotType][slotIndex] || null;
+    }
+    return null;
+  }
+
   function renderCellSearchResults(query) {
     if (!cellSearchTarget) return;
     const results = document.getElementById("cell-search-results");
     const { eventId, slotType, slotIndex } = cellSearchTarget;
 
     // Get current dish in cell
-    const sel = eventSelections[eventId];
-    let currentDishId = null;
-    if (slotType === "extras") {
-      currentDishId =
-        sel && sel.extras && sel.extras[slotIndex]
-          ? sel.extras[slotIndex]
-          : null;
-    } else if (sel && sel.slots && sel.slots[slotType]) {
-      currentDishId = sel.slots[slotType][slotIndex] || null;
-    }
+    const currentDishId = getCellDishId(eventId, slotType, slotIndex);
 
     // Filter dishes by category matching slotType
     const categories = SLOT_TO_CATEGORIES[slotType] || [];
@@ -2432,11 +2463,12 @@
     // Remove option if cell has a dish
     if (currentDishId) {
       const currentDish = getDishById(currentDishId);
-      html += `<div class="cell-search-item remove-item" data-action="remove">Remove: ${currentDish ? escapeHtml(currentDish.name) : "dish"}</div>`;
+      html += `<div class="cell-search-item remove-item" data-action="remove" data-dish-id="${currentDishId}">\u2715 Remove: ${currentDish ? escapeHtml(currentDish.name) : "dish"}</div>`;
     }
 
     filtered.forEach((dish) => {
-      html += `<div class="cell-search-item" data-dish-id="${dish.id}">${escapeHtml(dish.name)}</div>`;
+      const isCurrent = dish.id === currentDishId;
+      html += `<div class="cell-search-item ${isCurrent ? "current-dish" : ""}" data-dish-id="${dish.id}">${escapeHtml(dish.name)}${isCurrent ? " \u2713" : ""}</div>`;
     });
 
     if (filtered.length === 0 && !currentDishId) {
@@ -2452,21 +2484,28 @@
     const { eventId, slotType, slotIndex } = cellSearchTarget;
     const sel = eventSelections[eventId];
     if (!sel) return;
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
 
-    if (slotType === "extras") {
-      // Replace or add at index
-      if (!sel.extras) sel.extras = [];
-      while (sel.extras.length <= slotIndex) sel.extras.push(null);
-      sel.extras[slotIndex] = dishId;
-      // Clean up nulls at end
-      while (sel.extras.length > 0 && !sel.extras[sel.extras.length - 1]) {
-        sel.extras.pop();
+    if (pkgKey === "freeform") {
+      // For freeform, first remove existing dish at this virtual position if any
+      const existingId = getCellDishId(eventId, slotType, slotIndex);
+      if (existingId && sel.extras) {
+        const idx = sel.extras.indexOf(existingId);
+        if (idx >= 0) sel.extras.splice(idx, 1);
       }
+      // Add the new dish to extras
+      if (!sel.extras) sel.extras = [];
+      sel.extras.push(dishId);
     } else {
       if (!sel.slots[slotType]) sel.slots[slotType] = [];
-      while (sel.slots[slotType].length <= slotIndex)
-        sel.slots[slotType].push(null);
-      sel.slots[slotType][slotIndex] = dishId;
+      // Replace at index or add
+      if (slotIndex < sel.slots[slotType].length) {
+        sel.slots[slotType][slotIndex] = dishId;
+      } else {
+        while (sel.slots[slotType].length < slotIndex)
+          sel.slots[slotType].push(null);
+        sel.slots[slotType][slotIndex] = dishId;
+      }
       // Clean up nulls at end
       while (
         sel.slots[slotType].length > 0 &&
@@ -2491,13 +2530,17 @@
     const { eventId, slotType, slotIndex } = cellSearchTarget;
     const sel = eventSelections[eventId];
     if (!sel) return;
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
 
-    if (slotType === "extras") {
-      if (sel.extras && sel.extras[slotIndex]) {
-        sel.extras.splice(slotIndex, 1);
+    if (pkgKey === "freeform") {
+      // Find the actual dish ID and remove from extras
+      const dishId = getCellDishId(eventId, slotType, slotIndex);
+      if (dishId && sel.extras) {
+        const idx = sel.extras.indexOf(dishId);
+        if (idx >= 0) sel.extras.splice(idx, 1);
       }
     } else {
-      if (sel.slots[slotType] && sel.slots[slotType][slotIndex]) {
+      if (sel.slots[slotType] && sel.slots[slotType][slotIndex] !== undefined) {
         sel.slots[slotType].splice(slotIndex, 1);
       }
     }
