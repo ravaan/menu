@@ -10,7 +10,7 @@
   // ==========================================
   let allDishes = [];
   let events = [];
-  let eventSelections = {}; // V3: { eventId: { slots: { slotType: [dishId,...] }, extras: [] } }
+  let eventSelections = {}; // V3: { eventId: { slots: { slotType: [dishId,...] }, extras?: [] } } (extras only for freeform)
   let eventNotes = {}; // { eventId: "string" }
   let customDishes = []; // user-created dishes
   let activeFilters = {
@@ -198,12 +198,11 @@
         dal: ["sindhi-kadhi"],
         rice: ["steamed-rice"],
         bread: [],
-        curd: [],
+        curd: ["dahi-bhalla"],
         dessert: ["gulab-jamun", "moong-dal-halwa"],
         ice_cream: [],
         live_counter: [],
       },
-      extras: ["dahi-bhalla"],
     },
     hi_tea: {
       slots: {
@@ -211,7 +210,6 @@
         starter: ["vada-pav", "ragda-pattice", "kothimbir-vadi"],
         dessert: ["puran-poli"],
       },
-      extras: [],
     },
     sangeet_dinner: {
       slots: {
@@ -232,11 +230,10 @@
         rice: ["mushroom-parsley-rice"],
         bread: [],
         curd: [],
-        dessert: ["tiramisu", "orange-mousse-cake"],
+        dessert: ["tiramisu", "orange-mousse-cake", "baked-ras-malai"],
         ice_cream: [],
-        live_counter: ["live-chaat-station"],
+        live_counter: ["live-chaat-station", "live-pasta-station"],
       },
-      extras: ["live-pasta-station", "baked-ras-malai"],
     },
     breakfast: {
       slots: {},
@@ -246,7 +243,11 @@
       slots: {
         welcome_drink: ["citruz-fuzz", "sauf-ka-sharbat"],
         soup: ["lemon-coriander-vegetable-soup"],
-        salad: ["tossed-vegetable-salad", "thai-papaya-and-chives-salad"],
+        salad: [
+          "tossed-vegetable-salad",
+          "thai-papaya-and-chives-salad",
+          "aloo-pudina-chaat",
+        ],
         starter: ["phaldari-kabab"],
         main_course: [],
         dal: [],
@@ -257,7 +258,6 @@
         ice_cream: [],
         live_counter: ["live-chaat-station"],
       },
-      extras: ["aloo-pudina-chaat"],
     },
     pre_wedding_hi_tea: {
       slots: {
@@ -265,7 +265,6 @@
         starter: ["dhokla", "vegetable-samosa", "fruit-chaat"],
         dessert: ["date-and-almond-energy-bites"],
       },
-      extras: [],
     },
     wedding_dinner: {
       slots: {
@@ -286,7 +285,6 @@
         ice_cream: [],
         live_counter: [],
       },
-      extras: [],
     },
     supper: {
       slots: {},
@@ -482,7 +480,34 @@
       if (!eventNotes[ev.id]) eventNotes[ev.id] = "";
     });
 
+    // Migrate any lingering extras to slots for structured events
+    migrateExtrasToSlots(eventSelections);
+    for (const menu of Object.values(menuLibrary)) {
+      if (menu.eventSelections) migrateExtrasToSlots(menu.eventSelections);
+    }
+
     invalidateCache();
+  }
+
+  function migrateExtrasToSlots(selections) {
+    for (const [evId, sel] of Object.entries(selections)) {
+      if (!sel || !sel.extras || sel.extras.length === 0) continue;
+      const pkgKey = EVENT_PACKAGE_MAP[evId] || "freeform";
+      if (pkgKey === "freeform") continue;
+      // Move extras into proper slots
+      const extras = sel.extras.slice();
+      extras.forEach((dishId) => {
+        const dish = getDishById(dishId);
+        const suggestedSlot = getSuggestedSlotType(dish, pkgKey);
+        if (suggestedSlot && sel.slots[suggestedSlot] !== undefined) {
+          sel.slots[suggestedSlot].push(dishId);
+        } else {
+          const fallbackSlot = Object.keys(sel.slots)[0];
+          if (fallbackSlot) sel.slots[fallbackSlot].push(dishId);
+        }
+      });
+      delete sel.extras;
+    }
   }
 
   function migrateV2SelectionsToV3(v2Selections) {
@@ -496,29 +521,33 @@
         template.forEach((s) => {
           slots[s.type] = [];
         });
-        const slotMaxes = {};
-        template.forEach((s) => {
-          slotMaxes[s.type] = s.count;
-        });
         const extras = [];
         dishes.forEach((dishId) => {
           const dish = getDishById(dishId);
-          if (!dish) {
+          if (pkgKey === "freeform") {
             extras.push(dishId);
             return;
           }
+          if (!dish) {
+            // For structured events, put unknown dishes in first slot
+            const fallbackSlot = Object.keys(slots)[0];
+            if (fallbackSlot) slots[fallbackSlot].push(dishId);
+            return;
+          }
           const suggestedSlot = getSuggestedSlotType(dish, pkgKey);
-          if (
-            suggestedSlot &&
-            slots[suggestedSlot] !== undefined &&
-            slots[suggestedSlot].length < (slotMaxes[suggestedSlot] || 0)
-          ) {
+          if (suggestedSlot && slots[suggestedSlot] !== undefined) {
             slots[suggestedSlot].push(dishId);
           } else {
-            extras.push(dishId);
+            // Fallback to first slot for structured events
+            const fallbackSlot = Object.keys(slots)[0];
+            if (fallbackSlot) slots[fallbackSlot].push(dishId);
           }
         });
-        v3Selections[evId] = { slots, extras };
+        if (pkgKey === "freeform") {
+          v3Selections[evId] = { slots, extras };
+        } else {
+          v3Selections[evId] = { slots };
+        }
       } else if (dishes && typeof dishes === "object" && dishes.slots) {
         // Already V3
         v3Selections[evId] = dishes;
@@ -555,12 +584,15 @@
                 newVal.slots[slotType] = [...merged];
               }
             }
-            // Merge extras
-            const mergedExtras = new Set([
-              ...(newVal.extras || []),
-              ...(oldVal.extras || []),
-            ]);
-            newVal.extras = [...mergedExtras];
+            // Merge extras only for freeform events
+            const pkgKey = EVENT_PACKAGE_MAP[newId] || "freeform";
+            if (pkgKey === "freeform") {
+              const mergedExtras = new Set([
+                ...(newVal.extras || []),
+                ...(oldVal.extras || []),
+              ]);
+              newVal.extras = [...mergedExtras];
+            }
           } else if (Array.isArray(oldVal) && Array.isArray(newVal)) {
             // V2 flat array fallback
             const merged = new Set([...newVal, ...oldVal]);
@@ -607,7 +639,10 @@
     template.forEach((s) => {
       slots[s.type] = [];
     });
-    return { slots, extras: [] };
+    if (pkgKey === "freeform") {
+      return { slots, extras: [] };
+    }
+    return { slots };
   }
 
   function getAllDishIdsForEvent(eventId) {
@@ -670,14 +705,14 @@
       if (dish.course_type === "starter") return "starter";
       if (dish.course_type === "dessert") return "dessert";
       if (dish.course_type === "beverage") return "welcome_drink";
-      return null; // -> extras
+      return null; // no matching slot found
     }
     if (packageKey === "hi_tea") {
       if (cat === "beverage" || dish.course_type === "beverage") return "drink";
       if (cat === "dessert" || dish.course_type === "dessert") return "dessert";
       return "starter"; // everything else
     }
-    return null; // freeform -> extras
+    return null; // freeform
   }
 
   function getSlotFill(eventId, slotType) {
@@ -707,23 +742,20 @@
       return { slot: null, overflow: false };
     }
 
+    // For structured events: always add to suggested slot
     const suggestedSlot = getSuggestedSlotType(dish, pkgKey);
     if (suggestedSlot && sel.slots[suggestedSlot] !== undefined) {
-      const fill = getSlotFill(eventId, suggestedSlot);
-      if (fill.current < fill.max) {
-        sel.slots[suggestedSlot].push(dishId);
-        invalidateCache();
-        return { slot: suggestedSlot, overflow: false };
-      }
+      sel.slots[suggestedSlot].push(dishId);
+      invalidateCache();
+      return { slot: suggestedSlot, overflow: false };
     }
-
-    // Overflow to extras
-    sel.extras.push(dishId);
+    // Fallback: if no suggested slot matches, put in starter slot as default
+    const fallbackSlot = Object.keys(sel.slots)[0] || "starter";
+    if (sel.slots[fallbackSlot]) {
+      sel.slots[fallbackSlot].push(dishId);
+    }
     invalidateCache();
-    const slotLabel = suggestedSlot
-      ? SLOT_LABELS[suggestedSlot] || suggestedSlot
-      : null;
-    return { slot: null, overflow: true, fullSlotLabel: slotLabel };
+    return { slot: fallbackSlot, overflow: false };
   }
 
   function removeDishFromEvent(eventId, dishId) {
@@ -747,8 +779,9 @@
       }
     }
 
-    // Then search extras
-    if (sel.extras) {
+    // Search extras only for freeform events
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
+    if (pkgKey === "freeform" && sel.extras) {
       const idx = sel.extras.indexOf(dishId);
       if (idx >= 0) {
         sel.extras.splice(idx, 1);
@@ -766,6 +799,7 @@
   function moveDishToSlot(eventId, dishId, newSlotType) {
     const sel = eventSelections[eventId];
     if (!sel) return;
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
 
     // Remove from current location
     if (sel.slots) {
@@ -777,7 +811,7 @@
         }
       }
     }
-    if (sel.extras) {
+    if (pkgKey === "freeform" && sel.extras) {
       const idx = sel.extras.indexOf(dishId);
       if (idx >= 0) {
         sel.extras.splice(idx, 1);
@@ -785,12 +819,16 @@
     }
 
     // Add to new location
-    if (newSlotType === "extras") {
+    if (newSlotType === "extras" && pkgKey === "freeform") {
       sel.extras.push(dishId);
     } else if (sel.slots[newSlotType] !== undefined) {
       sel.slots[newSlotType].push(dishId);
-    } else {
+    } else if (pkgKey === "freeform") {
       sel.extras.push(dishId);
+    } else {
+      // Structured event fallback: put in first slot
+      const fallbackSlot = Object.keys(sel.slots)[0];
+      if (fallbackSlot) sel.slots[fallbackSlot].push(dishId);
     }
 
     invalidateCache();
@@ -807,7 +845,9 @@
         if (ids.includes(dishId)) return slotType;
       }
     }
-    if (sel.extras && sel.extras.includes(dishId)) return "extras";
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
+    if (pkgKey === "freeform" && sel.extras && sel.extras.includes(dishId))
+      return "extras";
     return null;
   }
 
@@ -918,14 +958,19 @@
     const draftSelections = {};
 
     for (const [evId, template] of Object.entries(DRAFT_MENU_TEMPLATE)) {
+      const pkgKey = EVENT_PACKAGE_MAP[evId] || "freeform";
       const slots = {};
       if (template.slots) {
         for (const [slotType, dishIds] of Object.entries(template.slots)) {
           slots[slotType] = dishIds.filter((id) => validIds.has(id));
         }
       }
-      const extras = (template.extras || []).filter((id) => validIds.has(id));
-      draftSelections[evId] = { slots, extras };
+      if (pkgKey === "freeform") {
+        const extras = (template.extras || []).filter((id) => validIds.has(id));
+        draftSelections[evId] = { slots, extras };
+      } else {
+        draftSelections[evId] = { slots };
+      }
     }
 
     // Fill in any missing events
@@ -1398,11 +1443,10 @@
         .join("");
     }
 
-    // Build slot dropdown options for reassignment
-    const slotOptions =
-      template
-        .map((s) => `<option value="${s.type}">${s.label}</option>`)
-        .join("") + '<option value="extras">Extra Picks</option>';
+    // Build slot dropdown options for reassignment (no extras for structured)
+    const slotOptions = template
+      .map((s) => `<option value="${s.type}">${s.label}</option>`)
+      .join("");
 
     // Render each slot section
     template.forEach((slotDef) => {
@@ -1451,43 +1495,6 @@
 
       html += "</div>";
     });
-
-    // Extra Picks section
-    const extras = sel.extras || [];
-    html += `<div class="course-section extras-section">
-      <div class="course-title extras-title">Extra Picks (${extras.length})</div>`;
-
-    if (extras.length === 0) {
-      html += `<div class="slot-empty">Dishes that overflow their slot appear here</div>`;
-    } else {
-      extras.forEach((dishId) => {
-        const dish = getDishById(dishId);
-        if (!dish) return;
-        const otherEvents = getDishEvents(dish.id).filter(
-          (e) => e.id !== ev.id,
-        );
-        const repWarning =
-          otherEvents.length > 0
-            ? `<span class="repetition-warning">Also in: ${otherEvents.map((e) => e.name.split(" ")[0]).join(", ")}</span>`
-            : "";
-
-        html += `<div class="planner-dish-item">
-          <div class="planner-dish-info">
-            <div class="planner-dish-name">${escapeHtml(dish.name)}</div>
-            <div class="planner-dish-meta">${formatLabel(dish.category)} &bull; ${(dish.cuisine_region || []).map(formatLabel).join(", ")}</div>
-          </div>
-          <div class="planner-dish-actions">
-            ${repWarning}
-            <select class="slot-reassign" data-event-id="${ev.id}" data-dish-id="${dish.id}">
-              ${slotOptions.replace('value="extras"', 'value="extras" selected')}
-            </select>
-            <button class="btn-remove" data-event-id="${ev.id}" data-dish-id="${dish.id}">Remove</button>
-          </div>
-        </div>`;
-      });
-    }
-
-    html += "</div>";
 
     dishesEl.innerHTML = html;
   }
@@ -1877,6 +1884,7 @@
             data.eventSelections || {},
           )) {
             if (evData && typeof evData === "object" && evData.slots) {
+              const pkgKey = EVENT_PACKAGE_MAP[evId] || "freeform";
               const slots = {};
               for (const [slotType, dishIds] of Object.entries(
                 evData.slots || {},
@@ -1885,10 +1893,25 @@
                   validIds.has(id),
                 );
               }
-              const extras = (evData.extras || []).filter((id) =>
+              const rawExtras = (evData.extras || []).filter((id) =>
                 validIds.has(id),
               );
-              cleanSelections[evId] = { slots, extras };
+              if (pkgKey === "freeform") {
+                cleanSelections[evId] = { slots, extras: rawExtras };
+              } else {
+                // Migrate extras to proper slots for structured events
+                rawExtras.forEach((dishId) => {
+                  const dish = getDishById(dishId);
+                  const suggestedSlot = getSuggestedSlotType(dish, pkgKey);
+                  if (suggestedSlot && slots[suggestedSlot] !== undefined) {
+                    slots[suggestedSlot].push(dishId);
+                  } else {
+                    const fallbackSlot = Object.keys(slots)[0];
+                    if (fallbackSlot) slots[fallbackSlot].push(dishId);
+                  }
+                });
+                cleanSelections[evId] = { slots };
+              }
             } else {
               cleanSelections[evId] = initEventSelections(evId);
             }
@@ -2069,23 +2092,27 @@
       }
     });
 
-    // Check if any event has extras, add Extra Pick rows
+    // Check if any freeform event has extras, add Extra Pick rows only for those
+    const freeformEventIds = events
+      .filter((ev) => EVENT_PACKAGE_MAP[ev.id] === "freeform")
+      .map((ev) => ev.id);
     const maxExtras = Math.max(
-      ...events.map((ev) => {
-        const sel = eventSelections[ev.id];
+      ...freeformEventIds.map((evId) => {
+        const sel = eventSelections[evId];
         return sel && sel.extras ? sel.extras.length : 0;
       }),
       0,
     );
-    const extrasToShow = Math.max(maxExtras, 3);
-    for (let i = 0; i < extrasToShow; i++) {
-      rows.push({
-        key: `extra_${i}`,
-        label: `Extra Pick ${i + 1}`,
-        slotType: "extras",
-        index: i,
-        isOverflow: false,
-      });
+    if (maxExtras > 0) {
+      for (let i = 0; i < maxExtras; i++) {
+        rows.push({
+          key: `extra_${i}`,
+          label: `Extra Pick ${i + 1}`,
+          slotType: "extras",
+          index: i,
+          isOverflow: false,
+        });
+      }
     }
 
     // Group events by day for column headers
@@ -2621,16 +2648,8 @@
       // Add
       const ev = events.find((e) => e.id === eventId);
       const dish = getDishById(dishId);
-      const result = addDishToEvent(eventId, dishId);
-      if (result.overflow && result.fullSlotLabel) {
-        showToast(
-          `Added ${dish ? dish.name : ""} to ${ev ? ev.name : "event"} (${result.fullSlotLabel} full \u2192 Extra Picks)`,
-        );
-      } else {
-        showToast(
-          `Added ${dish ? dish.name : ""} to ${ev ? ev.name : "event"}`,
-        );
-      }
+      addDishToEvent(eventId, dishId);
+      showToast(`Added ${dish ? dish.name : ""} to ${ev ? ev.name : "event"}`);
     }
 
     saveState();
@@ -2655,6 +2674,7 @@
   function removeDishFromEventSilent(eventId, dishId) {
     const sel = eventSelections[eventId];
     if (!sel) return;
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
 
     // Search slots first
     if (sel.slots) {
@@ -2668,8 +2688,8 @@
       }
     }
 
-    // Then search extras
-    if (sel.extras) {
+    // Search extras only for freeform events
+    if (pkgKey === "freeform" && sel.extras) {
       const idx = sel.extras.indexOf(dishId);
       if (idx >= 0) {
         sel.extras.splice(idx, 1);

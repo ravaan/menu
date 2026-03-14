@@ -1484,21 +1484,6 @@ kbd {
   opacity: 1;
 }
 
-/* Extra Picks Section */
-.extras-section {
-  border-top: 2px dashed var(--border);
-  margin-top: 0.75rem;
-  padding-top: 0.5rem;
-  background: var(--bg-secondary);
-  border-radius: 0 0 var(--radius) var(--radius);
-  padding: 0.5rem;
-}
-
-.extras-title {
-  color: var(--text-muted) !important;
-  font-size: 0.82rem;
-}
-
 /* FAB - New Dish Button */
 .fab-new-dish {
   position: fixed;
@@ -1722,19 +1707,6 @@ kbd {
 
 .na-cell {
   background: #f5f5f5;
-}
-
-.extra-row {
-  background: #f0faf0;
-}
-
-.extra-row .row-label {
-  background: #f0faf0;
-  color: var(--text-muted);
-}
-
-.extra-cell {
-  color: var(--text-secondary);
 }
 
 .freeform-cell {
@@ -2060,13 +2032,6 @@ kbd {
   }
 
   .day-header {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .extra-row,
-  .extra-row .row-label {
-    background: #f0faf0 !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
