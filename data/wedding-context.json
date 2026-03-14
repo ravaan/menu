@@ -63,6 +63,7 @@
       "day": 1,
       "time": "afternoon",
       "type": "lunch",
+      "theme": "Sindhi + Marwari specials",
       "guidance": "Lean Sindhi. Hands in mehndi — spoon-friendly/bite-sized food only. Lighter than wedding dinner.",
       "selected_dishes": []
     },
@@ -72,6 +73,7 @@
       "day": 1,
       "time": "afternoon",
       "type": "hi_tea",
+      "theme": "Welcome to Nashik",
       "guidance": "Finger food, small elegant portions, sweet + savory mix. Tea/coffee is the anchor.",
       "selected_dishes": []
     },
@@ -81,6 +83,7 @@
       "day": 1,
       "time": "night",
       "type": "dinner",
+      "theme": "Western focus",
       "guidance": "Festive, high-energy. Fun street food counters. Avoid repeating Wedding Dinner dishes.",
       "selected_dishes": []
     },
@@ -99,6 +102,7 @@
       "day": 2,
       "time": "afternoon",
       "type": "lunch",
+      "theme": "Light and bright",
       "guidance": "Haldi ceremony lunch. Keep it moderate — guests have breakfast behind them and grand dinner ahead.",
       "selected_dishes": []
     },
@@ -108,6 +112,7 @@
       "day": 2,
       "time": "evening",
       "type": "hi_tea",
+      "theme": "Up your energy!",
       "guidance": "Light finger food and snacks between Haldi Lunch and Grand Wedding Dinner. Tea/coffee anchor.",
       "selected_dishes": []
     },
@@ -117,6 +122,7 @@
       "day": 2,
       "time": "evening",
       "type": "dinner",
+      "theme": "Traditional",
       "guidance": "THE event. Signature dishes from both sides. Full course with live stations. Showstopper desserts.",
       "selected_dishes": []
     },

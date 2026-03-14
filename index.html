@@ -198,6 +198,53 @@
       </div>
     </div>
 
+    <!-- FAB: NEW DISH -->
+    <button class="fab-new-dish" id="fab-new-dish">+ New Dish</button>
+
+    <!-- CUSTOM DISH MODAL -->
+    <div class="modal-overlay" id="custom-dish-overlay">
+      <div class="modal" id="custom-dish-modal">
+        <div class="modal-header">
+          <h3>Add Custom Dish</h3>
+          <button class="modal-close" id="custom-dish-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="custom-dish-form">
+            <div class="form-group">
+              <label for="custom-dish-name">Dish Name</label>
+              <input
+                type="text"
+                id="custom-dish-name"
+                required
+                placeholder="e.g. Paneer Lababdar"
+                autocomplete="off"
+              />
+            </div>
+            <div class="form-group">
+              <label for="custom-dish-category">Category</label>
+              <select id="custom-dish-category" required>
+                <option value="snack">Snack</option>
+                <option value="chaat">Chaat</option>
+                <option value="soup">Soup</option>
+                <option value="salad">Salad</option>
+                <option value="main_course">Main Course</option>
+                <option value="dal">Dal</option>
+                <option value="vegetable">Vegetable</option>
+                <option value="rice">Rice</option>
+                <option value="bread">Bread</option>
+                <option value="dessert">Dessert</option>
+                <option value="beverage">Beverage</option>
+                <option value="live_station">Live Station</option>
+                <option value="hi_tea">Hi-Tea</option>
+                <option value="accompaniment">Accompaniment</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-create-dish">Create Dish</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <!-- TOAST -->
     <div class="toast" id="toast"></div>
 

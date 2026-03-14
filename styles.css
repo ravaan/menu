@@ -1380,6 +1380,219 @@ kbd {
    PRINT
    ============================================ */
 
+/* ============================================
+   V3: SLOT SYSTEM, FAB, CUSTOM DISH MODAL
+   ============================================ */
+
+/* Event Theme Banner */
+.event-theme {
+  font-style: italic;
+  color: var(--accent);
+  background: var(--accent-pale);
+  border-left: 3px solid var(--accent);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius);
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* Freeform Banner */
+.freeform-banner {
+  font-style: italic;
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+  border-left: 3px solid var(--border);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius);
+  margin-bottom: 0.75rem;
+  font-size: 0.82rem;
+}
+
+/* Package Overview Chip Bar */
+.package-overview {
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
+  mask-image: linear-gradient(to right, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 92%, transparent 100%);
+}
+
+.slot-chip {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.slot-chip.slot-full {
+  background: #e8f5e9;
+  color: var(--success);
+  border-color: #c8e6c9;
+}
+
+.slot-chip.slot-over {
+  background: #fff3e0;
+  color: var(--warning);
+  border-color: #ffe0b2;
+}
+
+/* Slot Progress in Course Headers */
+.slot-progress-full {
+  color: var(--success);
+}
+
+.slot-progress-over {
+  color: var(--warning);
+}
+
+/* Slot Section */
+.slot-section {
+  position: relative;
+}
+
+.slot-empty {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 0.25rem 0 0.5rem 0.5rem;
+}
+
+/* Slot Reassignment Dropdown */
+.slot-reassign {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.planner-dish-item:hover .slot-reassign {
+  opacity: 1;
+}
+
+/* Extra Picks Section */
+.extras-section {
+  border-top: 2px dashed var(--border);
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  background: var(--bg-secondary);
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 0.5rem;
+}
+
+.extras-title {
+  color: var(--text-muted) !important;
+  font-size: 0.82rem;
+}
+
+/* FAB - New Dish Button */
+.fab-new-dish {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 250;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 0.65rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+.fab-new-dish:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+}
+
+.fab-new-dish:active {
+  transform: translateY(0);
+}
+
+/* Custom Dish Modal */
+#custom-dish-modal .modal-body {
+  padding: 1rem;
+}
+
+.form-group {
+  margin-bottom: 0.85rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.form-group input[type="text"],
+.form-group select {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-pale);
+}
+
+.btn-create-dish {
+  width: 100%;
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-create-dish:hover {
+  background: var(--accent-light);
+}
+
+/* User-created dish badge */
+.badge-dot.user {
+  color: var(--accent);
+  font-size: 0.7rem;
+}
+
+.user-dish {
+  border-left: 2px solid var(--accent-soft);
+}
+
 @media print {
   .app-header,
   .filter-bar,

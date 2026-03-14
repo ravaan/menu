@@ -1,5 +1,6 @@
 /* ============================================
    Wedding Menu Planner - Application Logic
+   V3: Slot-based Event Package System
    ============================================ */
 (function () {
   "use strict";
@@ -9,8 +10,9 @@
   // ==========================================
   let allDishes = [];
   let events = [];
-  let eventSelections = {}; // { eventId: [dishId, ...] }
+  let eventSelections = {}; // V3: { eventId: { slots: { slotType: [dishId,...] }, extras: [] } }
   let eventNotes = {}; // { eventId: "string" }
+  let customDishes = []; // user-created dishes
   let activeFilters = {
     search: "",
     source: [],
@@ -29,6 +31,10 @@
   let menuLibrary = {};
   let activeMenuId = null;
   let menuDropdownOpen = false;
+
+  // Cache for getAllDishIdsForEvent
+  let _cacheGen = 0;
+  let _dishEventCache = {};
 
   // Pairing groups
   const PAIRING_MAP = {
@@ -97,6 +103,182 @@
   };
 
   // ==========================================
+  // V3 SLOT SYSTEM CONSTANTS
+  // ==========================================
+  const SLOT_TEMPLATE = {
+    full_meal: [
+      { type: "welcome_drink", label: "Welcome Drinks", count: 2 },
+      { type: "soup", label: "Soups", count: 1 },
+      { type: "salad", label: "Salads", count: 3 },
+      { type: "starter", label: "Starters", count: 3 },
+      { type: "main_course", label: "Main Courses", count: 3 },
+      { type: "dal", label: "Dal", count: 1 },
+      { type: "rice", label: "Rice", count: 1 },
+      { type: "bread", label: "Breads", count: 2 },
+      { type: "curd", label: "Curd/Raita", count: 1 },
+      { type: "dessert", label: "Desserts", count: 2 },
+      { type: "ice_cream", label: "Ice Cream", count: 1 },
+      { type: "live_counter", label: "Live Counter", count: 1 },
+    ],
+    hi_tea: [
+      { type: "drink", label: "Drinks", count: 2 },
+      { type: "starter", label: "Starters", count: 3 },
+      { type: "dessert", label: "Desserts", count: 1 },
+    ],
+    freeform: [],
+  };
+
+  const EVENT_PACKAGE_MAP = {
+    mehndi_lunch: "full_meal",
+    sangeet_dinner: "full_meal",
+    haldi_lunch: "full_meal",
+    wedding_dinner: "full_meal",
+    hi_tea: "hi_tea",
+    pre_wedding_hi_tea: "hi_tea",
+    breakfast: "freeform",
+    checkout_breakfast: "freeform",
+    supper: "freeform",
+  };
+
+  const SLOT_LABELS = {
+    welcome_drink: "Welcome Drinks",
+    soup: "Soups",
+    salad: "Salads",
+    starter: "Starters",
+    main_course: "Main Courses",
+    dal: "Dal",
+    rice: "Rice",
+    bread: "Breads",
+    curd: "Curd/Raita",
+    dessert: "Desserts",
+    ice_cream: "Ice Cream",
+    live_counter: "Live Counter",
+    drink: "Drinks",
+  };
+
+  // ==========================================
+  // DRAFT MENU TEMPLATE
+  // ==========================================
+  const DRAFT_MENU_TEMPLATE = {
+    mehndi_lunch: {
+      slots: {
+        welcome_drink: ["jaljeera", "roohafza"],
+        soup: ["tomato-pudina-shorba"],
+        salad: [
+          "lachhedar-pyaaz-salad",
+          "bean-sprouts-and-pepper-salad",
+          "kachumber-salad",
+        ],
+        starter: [
+          "hariyali-bharwan-paneer-tikka",
+          "hare-mutter-ki-shammi",
+          "mini-kota-kachori",
+        ],
+        main_course: ["gatte-ki-subzi", "paneer-kofta-anarkali", "kadai-subzi"],
+        dal: ["sindhi-kadhi"],
+        rice: ["steamed-rice"],
+        bread: [],
+        curd: [],
+        dessert: ["gulab-jamun", "moong-dal-halwa"],
+        ice_cream: [],
+        live_counter: [],
+      },
+      extras: ["dahi-bhalla"],
+    },
+    hi_tea: {
+      slots: {
+        drink: [],
+        starter: ["vada-pav", "ragda-pattice", "kothimbir-vadi"],
+        dessert: ["puran-poli"],
+      },
+      extras: [],
+    },
+    sangeet_dinner: {
+      slots: {
+        welcome_drink: ["virgin-mojito", "virgin-strawberry-margarita"],
+        soup: ["cream-of-mushroom-soup"],
+        salad: [
+          "cucumber-tomato-and-mint-salad",
+          "tabouleh",
+          "garden-green-salad",
+        ],
+        starter: ["jalapeno-munchers", "falafel", "paneer-manchurian"],
+        main_course: [
+          "oriental-chilli-garlic-paneer",
+          "subz-kali-mirch",
+          "melanzane-parmigianna",
+        ],
+        dal: ["dhungeri-dal"],
+        rice: ["mushroom-parsley-rice"],
+        bread: [],
+        curd: [],
+        dessert: ["tiramisu", "orange-mousse-cake"],
+        ice_cream: [],
+        live_counter: ["live-chaat-station"],
+      },
+      extras: ["live-pasta-station", "baked-ras-malai"],
+    },
+    breakfast: {
+      slots: {},
+      extras: ["dal-pakwan"],
+    },
+    haldi_lunch: {
+      slots: {
+        welcome_drink: ["citruz-fuzz", "sauf-ka-sharbat"],
+        soup: ["lemon-coriander-vegetable-soup"],
+        salad: ["tossed-vegetable-salad", "thai-papaya-and-chives-salad"],
+        starter: ["phaldari-kabab"],
+        main_course: [],
+        dal: [],
+        rice: [],
+        bread: [],
+        curd: ["boondi-phudina-raita"],
+        dessert: [],
+        ice_cream: [],
+        live_counter: ["live-chaat-station"],
+      },
+      extras: ["aloo-pudina-chaat"],
+    },
+    pre_wedding_hi_tea: {
+      slots: {
+        drink: [],
+        starter: ["dhokla", "vegetable-samosa", "fruit-chaat"],
+        dessert: ["date-and-almond-energy-bites"],
+      },
+      extras: [],
+    },
+    wedding_dinner: {
+      slots: {
+        welcome_drink: ["aam-panna"],
+        soup: ["minestrone-country-soup"],
+        salad: [],
+        starter: ["hara-bhara-kabab"],
+        main_course: [
+          "baigan-ka-salan",
+          "paneer-methi-malai",
+          "subz-diwani-handi",
+        ],
+        dal: ["dal-makhani"],
+        rice: ["jeera-pulao"],
+        bread: [],
+        curd: [],
+        dessert: [],
+        ice_cream: [],
+        live_counter: [],
+      },
+      extras: [],
+    },
+    supper: {
+      slots: {},
+      extras: [],
+    },
+    checkout_breakfast: {
+      slots: {},
+      extras: [],
+    },
+  };
+
+  // ==========================================
   // DATA LOADING
   // ==========================================
   async function loadData() {
@@ -112,10 +294,13 @@
       const contextData = await contextRes.json();
 
       const tajDishes = menuData.dishes || menuData;
-      const customDishes = customData.dishes || customData;
+      const customSuggestions = customData.dishes || customData;
 
-      allDishes = [...tajDishes, ...customDishes];
+      allDishes = [...tajDishes, ...customSuggestions];
       events = contextData.wedding ? contextData.events : contextData.events;
+
+      // Load user-created custom dishes and merge into allDishes
+      loadCustomDishes();
 
       // Load saved state
       loadState();
@@ -144,6 +329,8 @@
   // ==========================================
   const STORAGE_KEY = "wedding-menu-planner";
   const STORAGE_KEY_V2 = "wedding-menu-planner-v2";
+  const STORAGE_KEY_V3 = "wedding-menu-planner-v3";
+  const STORAGE_KEY_CUSTOM_DISHES = "wedding-menu-custom-dishes";
 
   function saveState() {
     if (!activeMenuId || !menuLibrary[activeMenuId]) return;
@@ -152,13 +339,14 @@
     menu.eventNotes = JSON.parse(JSON.stringify(eventNotes));
     menu.updatedAt = new Date().toISOString();
     const fullState = {
-      version: 2,
+      version: 3,
       activeMenuId,
       menus: menuLibrary,
+      customDishes: customDishes,
       uiState: { currentEventId, currentView },
     };
     try {
-      localStorage.setItem(STORAGE_KEY_V2, JSON.stringify(fullState));
+      localStorage.setItem(STORAGE_KEY_V3, JSON.stringify(fullState));
     } catch (e) {
       console.warn("Could not save state:", e);
       showToast("Storage full - could not save");
@@ -167,12 +355,21 @@
 
   function loadState() {
     try {
-      const v2 = localStorage.getItem(STORAGE_KEY_V2);
-      if (v2) {
-        const state = JSON.parse(v2);
+      // Try V3 first
+      const v3 = localStorage.getItem(STORAGE_KEY_V3);
+      if (v3) {
+        const state = JSON.parse(v3);
         menuLibrary = state.menus || {};
         activeMenuId = state.activeMenuId;
-        // Load selections BEFORE switchView (which calls saveState)
+        if (state.customDishes && Array.isArray(state.customDishes)) {
+          customDishes = state.customDishes;
+          // Merge into allDishes (avoid duplicates)
+          customDishes.forEach((cd) => {
+            if (!allDishes.find((d) => d.id === cd.id)) {
+              allDishes.push(cd);
+            }
+          });
+        }
         if (activeMenuId && menuLibrary[activeMenuId]) {
           eventSelections = JSON.parse(
             JSON.stringify(menuLibrary[activeMenuId].eventSelections || {}),
@@ -190,11 +387,53 @@
           }
         }
       } else {
-        const v1 = localStorage.getItem(STORAGE_KEY);
-        if (v1) {
-          migrateFromV1(JSON.parse(v1));
+        // Try V2 (flat arrays) and migrate
+        const v2 = localStorage.getItem(STORAGE_KEY_V2);
+        if (v2) {
+          const state = JSON.parse(v2);
+          // Back up V2 data
+          try {
+            localStorage.setItem("wedding-menu-planner-v2-backup", v2);
+          } catch (_) {
+            // ignore backup failure
+          }
+          menuLibrary = state.menus || {};
+          activeMenuId = state.activeMenuId;
+          // Migrate all menus from V2 flat arrays to V3 slot structure
+          for (const menu of Object.values(menuLibrary)) {
+            if (menu.eventSelections) {
+              menu.eventSelections = migrateV2SelectionsToV3(
+                menu.eventSelections,
+              );
+            }
+          }
+          if (activeMenuId && menuLibrary[activeMenuId]) {
+            eventSelections = JSON.parse(
+              JSON.stringify(menuLibrary[activeMenuId].eventSelections || {}),
+            );
+            eventNotes = JSON.parse(
+              JSON.stringify(menuLibrary[activeMenuId].eventNotes || {}),
+            );
+          }
+          if (state.uiState) {
+            if (state.uiState.currentEventId)
+              currentEventId = state.uiState.currentEventId;
+            if (state.uiState.currentView) {
+              currentView = state.uiState.currentView;
+              switchView(currentView);
+            }
+          }
+          showToast("Menus upgraded to new format");
         } else {
-          createNewMenu("My Menu", true);
+          // Try V1
+          const v1 = localStorage.getItem(STORAGE_KEY);
+          if (v1) {
+            migrateFromV1(JSON.parse(v1));
+          } else {
+            // First load: create default menu + draft menu
+            createNewMenu("My Menu", true);
+            createDraftMenu();
+          }
         }
       }
     } catch (e) {
@@ -211,11 +450,59 @@
       if (menu.eventNotes) migrateEventIds(menu.eventNotes);
     }
 
-    // Ensure all events have selections arrays
+    // Ensure all events have V3 selections structure
     events.forEach((ev) => {
-      if (!eventSelections[ev.id]) eventSelections[ev.id] = [];
+      if (!eventSelections[ev.id] || !eventSelections[ev.id].slots) {
+        eventSelections[ev.id] = initEventSelections(ev.id);
+      }
       if (!eventNotes[ev.id]) eventNotes[ev.id] = "";
     });
+
+    invalidateCache();
+  }
+
+  function migrateV2SelectionsToV3(v2Selections) {
+    const v3Selections = {};
+    for (const [evId, dishes] of Object.entries(v2Selections)) {
+      if (Array.isArray(dishes)) {
+        // Flat array - migrate to V3
+        const pkgKey = EVENT_PACKAGE_MAP[evId] || "freeform";
+        const template = SLOT_TEMPLATE[pkgKey];
+        const slots = {};
+        template.forEach((s) => {
+          slots[s.type] = [];
+        });
+        const slotMaxes = {};
+        template.forEach((s) => {
+          slotMaxes[s.type] = s.count;
+        });
+        const extras = [];
+        dishes.forEach((dishId) => {
+          const dish = getDishById(dishId);
+          if (!dish) {
+            extras.push(dishId);
+            return;
+          }
+          const suggestedSlot = getSuggestedSlotType(dish, pkgKey);
+          if (
+            suggestedSlot &&
+            slots[suggestedSlot] !== undefined &&
+            slots[suggestedSlot].length < (slotMaxes[suggestedSlot] || 0)
+          ) {
+            slots[suggestedSlot].push(dishId);
+          } else {
+            extras.push(dishId);
+          }
+        });
+        v3Selections[evId] = { slots, extras };
+      } else if (dishes && typeof dishes === "object" && dishes.slots) {
+        // Already V3
+        v3Selections[evId] = dishes;
+      } else {
+        v3Selections[evId] = initEventSelections(evId);
+      }
+    }
+    return v3Selections;
   }
 
   function migrateEventIds(obj) {
@@ -223,10 +510,38 @@
       if (obj[oldId] !== undefined) {
         if (!obj[newId]) {
           obj[newId] = obj[oldId];
-        } else if (Array.isArray(obj[oldId]) && Array.isArray(obj[newId])) {
-          // Merge arrays, deduplicate
-          const merged = new Set([...obj[newId], ...obj[oldId]]);
-          obj[newId] = [...merged];
+        } else {
+          const oldVal = obj[oldId];
+          const newVal = obj[newId];
+          // Handle V3 objects (slots + extras)
+          if (
+            oldVal &&
+            typeof oldVal === "object" &&
+            oldVal.slots &&
+            newVal &&
+            typeof newVal === "object" &&
+            newVal.slots
+          ) {
+            // Merge slots
+            for (const [slotType, dishIds] of Object.entries(oldVal.slots)) {
+              if (!newVal.slots[slotType]) {
+                newVal.slots[slotType] = dishIds;
+              } else {
+                const merged = new Set([...newVal.slots[slotType], ...dishIds]);
+                newVal.slots[slotType] = [...merged];
+              }
+            }
+            // Merge extras
+            const mergedExtras = new Set([
+              ...(newVal.extras || []),
+              ...(oldVal.extras || []),
+            ]);
+            newVal.extras = [...mergedExtras];
+          } else if (Array.isArray(oldVal) && Array.isArray(newVal)) {
+            // V2 flat array fallback
+            const merged = new Set([...newVal, ...oldVal]);
+            obj[newId] = [...merged];
+          }
         }
         delete obj[oldId];
       }
@@ -235,12 +550,14 @@
 
   function migrateFromV1(v1State) {
     const menuId = "menu_" + Date.now();
+    const v2Selections = v1State.eventSelections || {};
+    const v3Selections = migrateV2SelectionsToV3(v2Selections);
     menuLibrary[menuId] = {
       id: menuId,
       name: "My Menu",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      eventSelections: v1State.eventSelections || {},
+      eventSelections: v3Selections,
       eventNotes: v1State.eventNotes || {},
     };
     activeMenuId = menuId;
@@ -257,6 +574,331 @@
   }
 
   // ==========================================
+  // V3 HELPERS
+  // ==========================================
+  function initEventSelections(eventId) {
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
+    const template = SLOT_TEMPLATE[pkgKey];
+    const slots = {};
+    template.forEach((s) => {
+      slots[s.type] = [];
+    });
+    return { slots, extras: [] };
+  }
+
+  function getAllDishIdsForEvent(eventId) {
+    const sel = eventSelections[eventId];
+    if (!sel) return [];
+    // Check cache
+    if (
+      _dishEventCache[eventId] &&
+      _dishEventCache[eventId].gen === _cacheGen
+    ) {
+      return _dishEventCache[eventId].ids;
+    }
+    const ids = [];
+    if (sel.slots) {
+      for (const arr of Object.values(sel.slots)) {
+        ids.push(...arr);
+      }
+    }
+    if (sel.extras) {
+      ids.push(...sel.extras);
+    }
+    _dishEventCache[eventId] = { gen: _cacheGen, ids };
+    return ids;
+  }
+
+  function invalidateCache() {
+    _cacheGen++;
+  }
+
+  function getSuggestedSlotType(dish, packageKey) {
+    if (!dish) return null;
+    const cat = dish.category;
+    if (packageKey === "full_meal") {
+      const map = {
+        beverage: "welcome_drink",
+        soup: "soup",
+        salad: "salad",
+        snack: "starter",
+        chaat: "starter",
+        main_course: "main_course",
+        vegetable: "main_course",
+        dal: "dal",
+        rice: "rice",
+        bread: "bread",
+        live_station: "live_counter",
+      };
+      if (map[cat]) return map[cat];
+      // Special cases
+      if (cat === "dessert") {
+        if (
+          dish.sub_category === "ice_cream" ||
+          /kulfi|ice cream/i.test(dish.name)
+        )
+          return "ice_cream";
+        return "dessert";
+      }
+      if (cat === "accompaniment" || dish.sub_category === "raita")
+        return "curd";
+      // hi_tea/breakfast dishes in a full_meal -> use course_type fallback
+      if (dish.course_type === "starter") return "starter";
+      if (dish.course_type === "dessert") return "dessert";
+      if (dish.course_type === "beverage") return "welcome_drink";
+      return null; // -> extras
+    }
+    if (packageKey === "hi_tea") {
+      if (cat === "beverage" || dish.course_type === "beverage") return "drink";
+      if (cat === "dessert" || dish.course_type === "dessert") return "dessert";
+      return "starter"; // everything else
+    }
+    return null; // freeform -> extras
+  }
+
+  function getSlotFill(eventId, slotType) {
+    const sel = eventSelections[eventId];
+    if (!sel || !sel.slots || !sel.slots[slotType])
+      return { current: 0, max: 0 };
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
+    const template = SLOT_TEMPLATE[pkgKey];
+    const slotDef = template.find((s) => s.type === slotType);
+    return {
+      current: sel.slots[slotType].length,
+      max: slotDef ? slotDef.count : 0,
+    };
+  }
+
+  function addDishToEvent(eventId, dishId) {
+    if (!eventSelections[eventId]) {
+      eventSelections[eventId] = initEventSelections(eventId);
+    }
+    const sel = eventSelections[eventId];
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
+    const dish = getDishById(dishId);
+
+    if (pkgKey === "freeform") {
+      sel.extras.push(dishId);
+      invalidateCache();
+      return { slot: null, overflow: false };
+    }
+
+    const suggestedSlot = getSuggestedSlotType(dish, pkgKey);
+    if (suggestedSlot && sel.slots[suggestedSlot] !== undefined) {
+      const fill = getSlotFill(eventId, suggestedSlot);
+      if (fill.current < fill.max) {
+        sel.slots[suggestedSlot].push(dishId);
+        invalidateCache();
+        return { slot: suggestedSlot, overflow: false };
+      }
+    }
+
+    // Overflow to extras
+    sel.extras.push(dishId);
+    invalidateCache();
+    const slotLabel = suggestedSlot
+      ? SLOT_LABELS[suggestedSlot] || suggestedSlot
+      : null;
+    return { slot: null, overflow: true, fullSlotLabel: slotLabel };
+  }
+
+  function removeDishFromEvent(eventId, dishId) {
+    const sel = eventSelections[eventId];
+    if (!sel) return;
+
+    // Search slots first
+    if (sel.slots) {
+      for (const slotType of Object.keys(sel.slots)) {
+        const idx = sel.slots[slotType].indexOf(dishId);
+        if (idx >= 0) {
+          sel.slots[slotType].splice(idx, 1);
+          invalidateCache();
+          saveState();
+          renderEventTabs();
+          renderEventContent();
+          renderDishGrid();
+          showToast("Dish removed");
+          return;
+        }
+      }
+    }
+
+    // Then search extras
+    if (sel.extras) {
+      const idx = sel.extras.indexOf(dishId);
+      if (idx >= 0) {
+        sel.extras.splice(idx, 1);
+        invalidateCache();
+        saveState();
+        renderEventTabs();
+        renderEventContent();
+        renderDishGrid();
+        showToast("Dish removed");
+        return;
+      }
+    }
+  }
+
+  function moveDishToSlot(eventId, dishId, newSlotType) {
+    const sel = eventSelections[eventId];
+    if (!sel) return;
+
+    // Remove from current location
+    if (sel.slots) {
+      for (const slotType of Object.keys(sel.slots)) {
+        const idx = sel.slots[slotType].indexOf(dishId);
+        if (idx >= 0) {
+          sel.slots[slotType].splice(idx, 1);
+          break;
+        }
+      }
+    }
+    if (sel.extras) {
+      const idx = sel.extras.indexOf(dishId);
+      if (idx >= 0) {
+        sel.extras.splice(idx, 1);
+      }
+    }
+
+    // Add to new location
+    if (newSlotType === "extras") {
+      sel.extras.push(dishId);
+    } else if (sel.slots[newSlotType] !== undefined) {
+      sel.slots[newSlotType].push(dishId);
+    } else {
+      sel.extras.push(dishId);
+    }
+
+    invalidateCache();
+    saveState();
+    renderEventTabs();
+    renderEventContent();
+  }
+
+  function getDishSlotInEvent(eventId, dishId) {
+    const sel = eventSelections[eventId];
+    if (!sel) return null;
+    if (sel.slots) {
+      for (const [slotType, ids] of Object.entries(sel.slots)) {
+        if (ids.includes(dishId)) return slotType;
+      }
+    }
+    if (sel.extras && sel.extras.includes(dishId)) return "extras";
+    return null;
+  }
+
+  // ==========================================
+  // CUSTOM DISH MANAGEMENT
+  // ==========================================
+  function createCustomDish(name, category) {
+    const id = `user_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+    const dish = {
+      id,
+      name: name.trim(),
+      category,
+      source: "user_created",
+      course_type:
+        category === "beverage"
+          ? "beverage"
+          : category === "dessert"
+            ? "dessert"
+            : category === "soup"
+              ? "soup"
+              : category === "salad"
+                ? "salad"
+                : category === "bread"
+                  ? "bread"
+                  : category === "rice"
+                    ? "rice"
+                    : category === "dal"
+                      ? "dal"
+                      : "starter",
+      cuisine_region: [],
+      cultural_relevance: [],
+      description: "",
+    };
+    customDishes.push(dish);
+    allDishes.push(dish);
+    saveCustomDishes();
+    saveState();
+    return dish;
+  }
+
+  function saveCustomDishes() {
+    try {
+      localStorage.setItem(
+        STORAGE_KEY_CUSTOM_DISHES,
+        JSON.stringify(customDishes),
+      );
+    } catch (e) {
+      console.warn("Could not save custom dishes:", e);
+    }
+  }
+
+  function loadCustomDishes() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY_CUSTOM_DISHES);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          customDishes = parsed;
+          customDishes.forEach((cd) => {
+            if (!allDishes.find((d) => d.id === cd.id)) {
+              allDishes.push(cd);
+            }
+          });
+        }
+      }
+    } catch (e) {
+      console.warn("Could not load custom dishes:", e);
+    }
+  }
+
+  // ==========================================
+  // DRAFT MENU
+  // ==========================================
+  function createDraftMenu() {
+    const menuId = "menu_" + (Date.now() + 1);
+    const validIds = new Set(allDishes.map((d) => d.id));
+    const draftSelections = {};
+
+    for (const [evId, template] of Object.entries(DRAFT_MENU_TEMPLATE)) {
+      const slots = {};
+      if (template.slots) {
+        for (const [slotType, dishIds] of Object.entries(template.slots)) {
+          slots[slotType] = dishIds.filter((id) => validIds.has(id));
+        }
+      }
+      const extras = (template.extras || []).filter((id) => validIds.has(id));
+      draftSelections[evId] = { slots, extras };
+    }
+
+    // Fill in any missing events
+    events.forEach((ev) => {
+      if (!draftSelections[ev.id]) {
+        draftSelections[ev.id] = initEventSelections(ev.id);
+      }
+    });
+
+    menuLibrary[menuId] = {
+      id: menuId,
+      name: "Draft Menu v1",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      eventSelections: draftSelections,
+      eventNotes: {},
+    };
+
+    // Initialize notes for all events
+    events.forEach((ev) => {
+      menuLibrary[menuId].eventNotes[ev.id] = "";
+    });
+
+    saveState();
+    updateMenuUI();
+  }
+
+  // ==========================================
   // HELPERS
   // ==========================================
   function getDishById(id) {
@@ -265,8 +907,9 @@
 
   function getDishEvents(dishId) {
     const evts = [];
-    for (const [evId, dishes] of Object.entries(eventSelections)) {
-      if (dishes.includes(dishId)) {
+    for (const evId of Object.keys(eventSelections)) {
+      const ids = getAllDishIdsForEvent(evId);
+      if (ids.includes(dishId)) {
         const ev = events.find((e) => e.id === evId);
         if (ev) evts.push(ev);
       }
@@ -484,7 +1127,13 @@
     const grid = document.getElementById("dish-grid");
     const stats = document.getElementById("browser-stats");
 
-    const selectedCount = new Set(Object.values(eventSelections).flat()).size;
+    // Collect all unique dish IDs across events using V3 helper
+    const allSelectedSet = new Set();
+    for (const evId of Object.keys(eventSelections)) {
+      getAllDishIdsForEvent(evId).forEach((id) => allSelectedSet.add(id));
+    }
+    const selectedCount = allSelectedSet.size;
+
     stats.innerHTML =
       `<span>${filtered.length} / ${allDishes.length} dishes</span>` +
       (selectedCount > 0
@@ -500,6 +1149,7 @@
     grid.innerHTML = filtered
       .map((dish) => {
         const isCustom = dish.source === "custom_suggestion";
+        const isUserCreated = dish.source === "user_created";
         const dishEvents = getDishEvents(dish.id);
         const hasEvents = dishEvents.length > 0;
         const cuisineStr = (dish.cuisine_region || [])
@@ -517,11 +1167,12 @@
           )
           .join("");
 
-        return `<div class="dish-card cat-${dish.category} ${hasEvents ? "dish-selected" : ""} ${isCustom ? "custom-dish" : ""}" data-dish-id="${dish.id}">
+        return `<div class="dish-card cat-${dish.category} ${hasEvents ? "dish-selected" : ""} ${isCustom ? "custom-dish" : ""} ${isUserCreated ? "user-dish" : ""}" data-dish-id="${dish.id}">
           <div class="dish-card-top">
             <span class="dish-name">${escapeHtml(dish.name)}</span>
             ${dish.is_signature ? '<span class="badge-dot sig" title="Signature">\u2605</span>' : ""}
             ${isCustom ? '<span class="badge-dot cust" title="Custom">\u25c6</span>' : ""}
+            ${isUserCreated ? '<span class="badge-dot user" title="Your dish">\u270e</span>' : ""}
           </div>
           <div class="dish-subtitle">${subtitle}</div>
           ${eventDots ? `<div class="dish-event-dots">${eventDots}</div>` : ""}
@@ -549,7 +1200,7 @@
     const container = document.getElementById("event-tabs");
     container.innerHTML = events
       .map((ev) => {
-        const count = (eventSelections[ev.id] || []).length;
+        const count = getAllDishIdsForEvent(ev.id).length;
         return `<button class="event-tab ${ev.id === currentEventId ? "active" : ""}" data-event-id="${ev.id}">
         ${ev.name}
         ${count > 0 ? `<span class="tab-count">${count}</span>` : ""}
@@ -564,47 +1215,161 @@
 
     // Header
     const headerEl = document.getElementById("event-header");
+    const theme = ev.theme || "";
     headerEl.innerHTML = `
       <h2>${ev.name}</h2>
       <div class="event-timing">${EVENT_TIMING[ev.id] || ""} &bull; ${formatLabel(ev.type || "")}</div>
       <div class="event-guidance">${escapeHtml(ev.guidance || "")}</div>
+      ${theme ? `<div class="event-theme">${escapeHtml(theme)}</div>` : ""}
     `;
 
-    // Dishes grouped by course
     const dishesEl = document.getElementById("event-dishes");
-    const selectedIds = eventSelections[ev.id] || [];
+    const pkgKey = EVENT_PACKAGE_MAP[ev.id] || "freeform";
+    const allIds = getAllDishIdsForEvent(ev.id);
 
-    if (selectedIds.length === 0) {
-      dishesEl.innerHTML =
-        '<div class="event-empty">No dishes added yet. Go to Dish Browser to add dishes to this event.</div>';
+    if (pkgKey === "freeform") {
+      // Freeform rendering - same as old grouped-by-course
+      renderFreeformEventContent(ev, dishesEl, allIds);
     } else {
-      const grouped = {};
-      selectedIds.forEach((id) => {
-        const dish = getDishById(id);
-        if (!dish) return;
-        const course = getCourseType(dish);
-        if (!grouped[course]) grouped[course] = [];
-        grouped[course].push(dish);
+      // Structured slot-based rendering
+      renderStructuredEventContent(ev, dishesEl, pkgKey);
+    }
+
+    // Notes
+    const notesEl = document.getElementById("event-notes");
+    notesEl.value = eventNotes[ev.id] || "";
+  }
+
+  function renderFreeformEventContent(ev, dishesEl, allIds) {
+    if (allIds.length === 0) {
+      dishesEl.innerHTML =
+        '<div class="freeform-banner">Flexible menu -- add dishes freely</div>' +
+        '<div class="event-empty">No dishes added yet. Go to Dish Browser to add dishes to this event.</div>';
+      return;
+    }
+
+    let html =
+      '<div class="freeform-banner">Flexible menu -- add dishes freely</div>';
+
+    // Pairing suggestions
+    const suggestions = getPairingSuggestions(ev.id);
+    if (suggestions.length > 0) {
+      html += suggestions
+        .map((s) => `<div class="pairing-suggestion">${s}</div>`)
+        .join("");
+    }
+
+    const grouped = {};
+    allIds.forEach((id) => {
+      const dish = getDishById(id);
+      if (!dish) return;
+      const course = getCourseType(dish);
+      if (!grouped[course]) grouped[course] = [];
+      grouped[course].push(dish);
+    });
+
+    const sortedCourses = COURSE_ORDER.filter((c) => grouped[c]);
+
+    sortedCourses.forEach((course) => {
+      html += `<div class="course-section">
+        <div class="course-title">${COURSE_LABELS[course] || formatLabel(course)} (${grouped[course].length})</div>`;
+
+      grouped[course].forEach((dish) => {
+        const otherEvents = getDishEvents(dish.id).filter(
+          (e) => e.id !== ev.id,
+        );
+        const repWarning =
+          otherEvents.length > 0
+            ? `<span class="repetition-warning">Also in: ${otherEvents.map((e) => e.name.split(" ")[0]).join(", ")}</span>`
+            : "";
+
+        html += `<div class="planner-dish-item">
+          <div class="planner-dish-info">
+            <div class="planner-dish-name">${escapeHtml(dish.name)}</div>
+            <div class="planner-dish-meta">${formatLabel(dish.category)} &bull; ${(dish.cuisine_region || []).map(formatLabel).join(", ")}</div>
+          </div>
+          <div class="planner-dish-actions">
+            ${repWarning}
+            <button class="btn-remove" data-event-id="${ev.id}" data-dish-id="${dish.id}">Remove</button>
+          </div>
+        </div>`;
       });
 
-      // Sort by course order
-      const sortedCourses = COURSE_ORDER.filter((c) => grouped[c]);
+      html += "</div>";
+    });
 
-      let html = "";
+    dishesEl.innerHTML = html;
+  }
 
-      // Pairing suggestions
-      const suggestions = getPairingSuggestions(ev.id);
-      if (suggestions.length > 0) {
-        html += suggestions
-          .map((s) => `<div class="pairing-suggestion">${s}</div>`)
-          .join("");
-      }
+  function renderStructuredEventContent(ev, dishesEl, pkgKey) {
+    const sel = eventSelections[ev.id];
+    if (!sel) return;
+    const template = SLOT_TEMPLATE[pkgKey];
+    const allIds = getAllDishIdsForEvent(ev.id);
 
-      sortedCourses.forEach((course) => {
-        html += `<div class="course-section">
-          <div class="course-title">${COURSE_LABELS[course] || formatLabel(course)} (${grouped[course].length})</div>`;
+    let html = "";
 
-        grouped[course].forEach((dish) => {
+    // Package overview chip bar
+    html += '<div class="package-overview">';
+    template.forEach((slotDef) => {
+      const fill = getSlotFill(ev.id, slotDef.type);
+      const isFull = fill.current >= fill.max;
+      const isOver = fill.current > fill.max;
+      const chipClass = isFull
+        ? isOver
+          ? "slot-chip slot-over"
+          : "slot-chip slot-full"
+        : "slot-chip";
+      const shortLabel = slotDef.label
+        .replace(/Welcome /, "WD ")
+        .replace(/Main Courses/, "Main")
+        .replace(/Live Counter/, "Live");
+      html += `<span class="${chipClass}">${shortLabel} ${fill.current}/${fill.max}${isFull && !isOver ? " \u2713" : ""}</span>`;
+    });
+    html += "</div>";
+
+    if (allIds.length === 0) {
+      html +=
+        '<div class="event-empty">No dishes added yet. Go to Dish Browser to add dishes to this event.</div>';
+      dishesEl.innerHTML = html;
+      return;
+    }
+
+    // Pairing suggestions
+    const suggestions = getPairingSuggestions(ev.id);
+    if (suggestions.length > 0) {
+      html += suggestions
+        .map((s) => `<div class="pairing-suggestion">${s}</div>`)
+        .join("");
+    }
+
+    // Build slot dropdown options for reassignment
+    const slotOptions =
+      template
+        .map((s) => `<option value="${s.type}">${s.label}</option>`)
+        .join("") + '<option value="extras">Extra Picks</option>';
+
+    // Render each slot section
+    template.forEach((slotDef) => {
+      const slotDishes = sel.slots[slotDef.type] || [];
+      const fill = getSlotFill(ev.id, slotDef.type);
+      const isFull = fill.current >= fill.max;
+      const isOver = fill.current > fill.max;
+      const progressClass = isOver
+        ? "slot-progress-over"
+        : isFull
+          ? "slot-progress-full"
+          : "";
+
+      html += `<div class="course-section slot-section">
+        <div class="course-title ${progressClass}">${slotDef.label} (${fill.current}/${fill.max})${isFull && !isOver ? " \u2713" : ""}</div>`;
+
+      if (slotDishes.length === 0) {
+        html += `<div class="slot-empty">No dishes in this slot</div>`;
+      } else {
+        slotDishes.forEach((dishId) => {
+          const dish = getDishById(dishId);
+          if (!dish) return;
           const otherEvents = getDishEvents(dish.id).filter(
             (e) => e.id !== ev.id,
           );
@@ -620,24 +1385,60 @@
             </div>
             <div class="planner-dish-actions">
               ${repWarning}
+              <select class="slot-reassign" data-event-id="${ev.id}" data-dish-id="${dish.id}">
+                ${slotOptions.replace(`value="${slotDef.type}"`, `value="${slotDef.type}" selected`)}
+              </select>
               <button class="btn-remove" data-event-id="${ev.id}" data-dish-id="${dish.id}">Remove</button>
             </div>
           </div>`;
         });
+      }
 
-        html += "</div>";
+      html += "</div>";
+    });
+
+    // Extra Picks section
+    const extras = sel.extras || [];
+    html += `<div class="course-section extras-section">
+      <div class="course-title extras-title">Extra Picks (${extras.length})</div>`;
+
+    if (extras.length === 0) {
+      html += `<div class="slot-empty">Dishes that overflow their slot appear here</div>`;
+    } else {
+      extras.forEach((dishId) => {
+        const dish = getDishById(dishId);
+        if (!dish) return;
+        const otherEvents = getDishEvents(dish.id).filter(
+          (e) => e.id !== ev.id,
+        );
+        const repWarning =
+          otherEvents.length > 0
+            ? `<span class="repetition-warning">Also in: ${otherEvents.map((e) => e.name.split(" ")[0]).join(", ")}</span>`
+            : "";
+
+        html += `<div class="planner-dish-item">
+          <div class="planner-dish-info">
+            <div class="planner-dish-name">${escapeHtml(dish.name)}</div>
+            <div class="planner-dish-meta">${formatLabel(dish.category)} &bull; ${(dish.cuisine_region || []).map(formatLabel).join(", ")}</div>
+          </div>
+          <div class="planner-dish-actions">
+            ${repWarning}
+            <select class="slot-reassign" data-event-id="${ev.id}" data-dish-id="${dish.id}">
+              ${slotOptions.replace('value="extras"', 'value="extras" selected')}
+            </select>
+            <button class="btn-remove" data-event-id="${ev.id}" data-dish-id="${dish.id}">Remove</button>
+          </div>
+        </div>`;
       });
-
-      dishesEl.innerHTML = html;
     }
 
-    // Notes
-    const notesEl = document.getElementById("event-notes");
-    notesEl.value = eventNotes[ev.id] || "";
+    html += "</div>";
+
+    dishesEl.innerHTML = html;
   }
 
   function getPairingSuggestions(eventId) {
-    const selectedIds = new Set(eventSelections[eventId] || []);
+    const selectedIds = new Set(getAllDishIdsForEvent(eventId));
     const suggestions = [];
 
     // Check for dishes with pairing groups
@@ -672,7 +1473,7 @@
     const allSelectedIds = new Set();
     let totalAssignments = 0;
     events.forEach((ev) => {
-      (eventSelections[ev.id] || []).forEach((id) => {
+      getAllDishIdsForEvent(ev.id).forEach((id) => {
         allSelectedIds.add(id);
         totalAssignments++;
       });
@@ -690,7 +1491,7 @@
     const eventsEl = document.getElementById("summary-events");
     eventsEl.innerHTML = events
       .map((ev) => {
-        const selectedIds = eventSelections[ev.id] || [];
+        const selectedIds = getAllDishIdsForEvent(ev.id);
 
         if (selectedIds.length === 0) {
           return `<div class="summary-event">
@@ -741,7 +1542,7 @@
   function renderRepetitionReport() {
     const dishEventCount = {};
     events.forEach((ev) => {
-      (eventSelections[ev.id] || []).forEach((id) => {
+      getAllDishIdsForEvent(ev.id).forEach((id) => {
         if (!dishEventCount[id]) dishEventCount[id] = [];
         dishEventCount[id].push(ev.name);
       });
@@ -779,7 +1580,7 @@
     text += "Taj Gateway Nashik | 23 April 2026\n\n";
 
     events.forEach((ev) => {
-      const selectedIds = eventSelections[ev.id] || [];
+      const selectedIds = getAllDishIdsForEvent(ev.id);
       text += `--- ${ev.name.toUpperCase()} ---\n`;
       text += `${EVENT_TIMING[ev.id] || ""}\n`;
 
@@ -836,22 +1637,25 @@
     if (!safeName) return null;
     const uniqueName = getUniqueName(safeName);
     const menuId = "menu_" + Date.now();
+    const newEventSelections = {};
+    const newEventNotes = {};
+    events.forEach((ev) => {
+      newEventSelections[ev.id] = initEventSelections(ev.id);
+      newEventNotes[ev.id] = "";
+    });
     menuLibrary[menuId] = {
       id: menuId,
       name: uniqueName,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      eventSelections: {},
-      eventNotes: {},
+      eventSelections: newEventSelections,
+      eventNotes: newEventNotes,
     };
     if (setActive) {
       activeMenuId = menuId;
-      eventSelections = {};
-      eventNotes = {};
-      events.forEach((ev) => {
-        eventSelections[ev.id] = [];
-        eventNotes[ev.id] = "";
-      });
+      eventSelections = JSON.parse(JSON.stringify(newEventSelections));
+      eventNotes = JSON.parse(JSON.stringify(newEventNotes));
+      invalidateCache();
     }
     saveState();
     updateMenuUI();
@@ -887,9 +1691,12 @@
     eventSelections = JSON.parse(JSON.stringify(menu.eventSelections || {}));
     eventNotes = JSON.parse(JSON.stringify(menu.eventNotes || {}));
     events.forEach((ev) => {
-      if (!eventSelections[ev.id]) eventSelections[ev.id] = [];
+      if (!eventSelections[ev.id] || !eventSelections[ev.id].slots) {
+        eventSelections[ev.id] = initEventSelections(ev.id);
+      }
       if (!eventNotes[ev.id]) eventNotes[ev.id] = "";
     });
+    invalidateCache();
     saveState();
     renderDishGrid();
     renderEventTabs();
@@ -947,11 +1754,12 @@
     const menu = menuLibrary[activeMenuId];
     const exportData = {
       _format: "wedding-menu-planner",
-      _version: 1,
+      _version: 2,
       name: menu.name,
       exportedAt: new Date().toISOString(),
       eventSelections: menu.eventSelections,
       eventNotes: menu.eventNotes,
+      customDishes: customDishes,
     };
     const blob = new Blob([JSON.stringify(exportData, null, 2)], {
       type: "application/json",
@@ -976,15 +1784,62 @@
           showToast("Invalid menu file");
           return;
         }
+
         const validIds = new Set(allDishes.map((d) => d.id));
-        const cleanSelections = {};
-        for (const [evId, dishes] of Object.entries(
-          data.eventSelections || {},
-        )) {
-          cleanSelections[evId] = (dishes || []).filter((id) =>
-            validIds.has(id),
-          );
+
+        // Import custom dishes if present
+        if (data.customDishes && Array.isArray(data.customDishes)) {
+          data.customDishes.forEach((cd) => {
+            if (!customDishes.find((d) => d.id === cd.id)) {
+              customDishes.push(cd);
+              if (!allDishes.find((d) => d.id === cd.id)) {
+                allDishes.push(cd);
+                validIds.add(cd.id);
+              }
+            }
+          });
+          saveCustomDishes();
         }
+
+        let cleanSelections = {};
+
+        // Check if V2 (flat array) or V3 (slots/extras)
+        const isV2Import = isV2SelectionsFormat(data.eventSelections);
+        if (isV2Import) {
+          // Migrate V2 flat arrays to V3
+          const v2Selections = {};
+          for (const [evId, dishes] of Object.entries(
+            data.eventSelections || {},
+          )) {
+            v2Selections[evId] = (dishes || []).filter((id) =>
+              validIds.has(id),
+            );
+          }
+          cleanSelections = migrateV2SelectionsToV3(v2Selections);
+        } else {
+          // V3 format - clean dish IDs
+          for (const [evId, evData] of Object.entries(
+            data.eventSelections || {},
+          )) {
+            if (evData && typeof evData === "object" && evData.slots) {
+              const slots = {};
+              for (const [slotType, dishIds] of Object.entries(
+                evData.slots || {},
+              )) {
+                slots[slotType] = (dishIds || []).filter((id) =>
+                  validIds.has(id),
+                );
+              }
+              const extras = (evData.extras || []).filter((id) =>
+                validIds.has(id),
+              );
+              cleanSelections[evId] = { slots, extras };
+            } else {
+              cleanSelections[evId] = initEventSelections(evId);
+            }
+          }
+        }
+
         const menuId = "menu_" + Date.now();
         const name = getUniqueName(data.name || "Imported Menu");
         menuLibrary[menuId] = {
@@ -1006,13 +1861,26 @@
     reader.readAsText(file);
   }
 
+  function isV2SelectionsFormat(selections) {
+    if (!selections || typeof selections !== "object") return false;
+    for (const val of Object.values(selections)) {
+      if (Array.isArray(val)) return true;
+      if (val && typeof val === "object" && val.slots) return false;
+    }
+    return false;
+  }
+
   function validateImport(data) {
     if (!data || typeof data !== "object") return false;
     if (data._format !== "wedding-menu-planner") return false;
     if (!data.eventSelections || typeof data.eventSelections !== "object")
       return false;
     for (const val of Object.values(data.eventSelections)) {
-      if (!Array.isArray(val)) return false;
+      // Accept V2 arrays
+      if (Array.isArray(val)) continue;
+      // Accept V3 objects with slots
+      if (val && typeof val === "object" && val.slots) continue;
+      return false;
     }
     return true;
   }
@@ -1055,8 +1923,17 @@
 
   function getDishCountForMenu(menu) {
     const ids = new Set();
-    for (const dishes of Object.values(menu.eventSelections || {})) {
-      (dishes || []).forEach((id) => ids.add(id));
+    for (const evData of Object.values(menu.eventSelections || {})) {
+      if (evData && typeof evData === "object" && evData.slots) {
+        // V3 format
+        for (const arr of Object.values(evData.slots || {})) {
+          (arr || []).forEach((id) => ids.add(id));
+        }
+        (evData.extras || []).forEach((id) => ids.add(id));
+      } else if (Array.isArray(evData)) {
+        // V2 fallback
+        evData.forEach((id) => ids.add(id));
+      }
     }
     return ids.size;
   }
@@ -1114,7 +1991,7 @@
     // Event toggle buttons
     document.getElementById("popover-events").innerHTML = events
       .map((ev) => {
-        const isAdded = (eventSelections[ev.id] || []).includes(dishId);
+        const isAdded = getAllDishIdsForEvent(ev.id).includes(dishId);
         return `<button class="popover-event-btn ${isAdded ? "event-active" : ""}" data-event-id="${ev.id}">
           <span>${escapeHtml(ev.name)}</span>
           <span>${isAdded ? "\u2713" : "+"}</span>
@@ -1172,16 +2049,25 @@
   }
 
   function toggleDishInEvent(eventId, dishId) {
-    if (!eventSelections[eventId]) eventSelections[eventId] = [];
-    const idx = eventSelections[eventId].indexOf(dishId);
-
-    if (idx >= 0) {
-      eventSelections[eventId].splice(idx, 1);
+    const currentIds = getAllDishIdsForEvent(eventId);
+    if (currentIds.includes(dishId)) {
+      // Remove
+      removeDishFromEventSilent(eventId, dishId);
       showToast("Removed from event");
     } else {
-      eventSelections[eventId].push(dishId);
+      // Add
+      const ev = events.find((e) => e.id === eventId);
       const dish = getDishById(dishId);
-      showToast(`Added ${dish ? dish.name : ""} to event`);
+      const result = addDishToEvent(eventId, dishId);
+      if (result.overflow && result.fullSlotLabel) {
+        showToast(
+          `Added ${dish ? dish.name : ""} to ${ev ? ev.name : "event"} (${result.fullSlotLabel} full \u2192 Extra Picks)`,
+        );
+      } else {
+        showToast(
+          `Added ${dish ? dish.name : ""} to ${ev ? ev.name : "event"}`,
+        );
+      }
     }
 
     saveState();
@@ -1203,16 +2089,30 @@
     }
   }
 
-  function removeDishFromEvent(eventId, dishId) {
-    if (!eventSelections[eventId]) return;
-    const idx = eventSelections[eventId].indexOf(dishId);
-    if (idx >= 0) {
-      eventSelections[eventId].splice(idx, 1);
-      saveState();
-      renderEventTabs();
-      renderEventContent();
-      renderDishGrid();
-      showToast("Dish removed");
+  function removeDishFromEventSilent(eventId, dishId) {
+    const sel = eventSelections[eventId];
+    if (!sel) return;
+
+    // Search slots first
+    if (sel.slots) {
+      for (const slotType of Object.keys(sel.slots)) {
+        const idx = sel.slots[slotType].indexOf(dishId);
+        if (idx >= 0) {
+          sel.slots[slotType].splice(idx, 1);
+          invalidateCache();
+          return;
+        }
+      }
+    }
+
+    // Then search extras
+    if (sel.extras) {
+      const idx = sel.extras.indexOf(dishId);
+      if (idx >= 0) {
+        sel.extras.splice(idx, 1);
+        invalidateCache();
+        return;
+      }
     }
   }
 
@@ -1349,11 +2249,23 @@
       }
     });
 
-    // Remove dish from event
+    // Remove dish from event + slot reassignment
     document.getElementById("event-dishes").addEventListener("click", (e) => {
       const btn = e.target.closest(".btn-remove");
       if (btn) {
         removeDishFromEvent(btn.dataset.eventId, btn.dataset.dishId);
+      }
+    });
+
+    // Slot reassignment dropdown
+    document.getElementById("event-dishes").addEventListener("change", (e) => {
+      const select = e.target.closest(".slot-reassign");
+      if (select) {
+        moveDishToSlot(
+          select.dataset.eventId,
+          select.dataset.dishId,
+          select.value,
+        );
       }
     });
 
@@ -1433,6 +2345,70 @@
         e.target.value = "";
       }
     });
+
+    // FAB - custom dish button
+    const fab = document.getElementById("fab-new-dish");
+    if (fab) {
+      fab.addEventListener("click", () => {
+        const modal = document.getElementById("custom-dish-overlay");
+        if (modal) modal.classList.add("active");
+      });
+    }
+
+    // Custom dish modal close
+    const customDishClose = document.getElementById("custom-dish-close");
+    if (customDishClose) {
+      customDishClose.addEventListener("click", () => {
+        document
+          .getElementById("custom-dish-overlay")
+          .classList.remove("active");
+      });
+    }
+    const customDishOverlay = document.getElementById("custom-dish-overlay");
+    if (customDishOverlay) {
+      customDishOverlay.addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) {
+          customDishOverlay.classList.remove("active");
+        }
+      });
+    }
+
+    // Custom dish form submit
+    const customDishForm = document.getElementById("custom-dish-form");
+    if (customDishForm) {
+      customDishForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nameInput = document.getElementById("custom-dish-name");
+        const categorySelect = document.getElementById("custom-dish-category");
+        const dishName = (nameInput.value || "").trim();
+        const category = categorySelect.value;
+        if (!dishName) return;
+
+        const dish = createCustomDish(dishName, category);
+        nameInput.value = "";
+
+        // Close modal
+        document
+          .getElementById("custom-dish-overlay")
+          .classList.remove("active");
+
+        // Rebuild filters and grid
+        buildFilterOptions();
+        renderDishGrid();
+
+        showToast(`Created "${dish.name}"`);
+
+        // Auto-open popover for immediate assignment
+        setTimeout(() => {
+          const card = document.querySelector(
+            `.dish-card[data-dish-id="${dish.id}"]`,
+          );
+          if (card) {
+            openPopover(dish.id, card);
+          }
+        }, 100);
+      });
+    }
 
     // Keyboard shortcuts
     document.addEventListener("keydown", (e) => {
