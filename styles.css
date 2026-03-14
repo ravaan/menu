@@ -1025,6 +1025,28 @@ body {
   line-height: 1.45;
 }
 
+.expand-collapse-bar {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.btn-ec {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.65rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.btn-ec:hover {
+  border-color: var(--accent-soft);
+  color: var(--accent);
+}
+
 /* Category cards */
 .planner-category-card {
   border-bottom: 1px solid var(--border);

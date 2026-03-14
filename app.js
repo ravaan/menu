@@ -1348,6 +1348,10 @@
       <div class="event-meta">${metaParts}</div>
       ${theme ? `<div class="event-theme">${escapeHtml(theme)}</div>` : ""}
       ${ev.guidance ? `<div class="event-guidance">${escapeHtml(ev.guidance)}</div>` : ""}
+      <div class="expand-collapse-bar">
+        <button class="btn-ec" id="btn-expand-all">Expand All</button>
+        <button class="btn-ec" id="btn-collapse-all">Collapse All</button>
+      </div>
     `;
 
     const dishesEl = document.getElementById("event-dishes");
@@ -2938,6 +2942,24 @@
       });
 
     // Remove dish from event (supports both old .btn-remove and new .btn-dish-remove)
+    // Expand/Collapse all
+    document.getElementById("event-header").addEventListener("click", (e) => {
+      if (
+        e.target.id === "btn-expand-all" ||
+        e.target.id === "btn-collapse-all"
+      ) {
+        const expand = e.target.id === "btn-expand-all";
+        document
+          .querySelectorAll("#event-dishes .planner-category-body")
+          .forEach((body) => {
+            body.style.display = expand ? "" : "none";
+          });
+        document.querySelectorAll("#event-dishes .cat-toggle").forEach((t) => {
+          t.textContent = expand ? "\u25BC" : "\u25B6";
+        });
+      }
+    });
+
     document.getElementById("event-dishes").addEventListener("click", (e) => {
       // Collapse/expand category
       const catHeader = e.target.closest(
