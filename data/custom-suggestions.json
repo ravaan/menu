@@ -7,21 +7,11 @@
       "category": "main_course",
       "sub_category": "rajasthani_special",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "baked"
-      ],
-      "primary_ingredients": [
-        "bread",
-        "dal"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["baked"],
+      "primary_ingredients": ["bread", "dal"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "rich",
@@ -30,14 +20,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": "dal-baati-churma",
       "is_signature": true,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Must-have signature dish. Needs specialist Rajasthani cook."
     },
     {
@@ -47,21 +32,11 @@
       "category": "rice",
       "sub_category": "rajasthani_special",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "sauteed",
-        "steamed"
-      ],
-      "primary_ingredients": [
-        "rice",
-        "besan"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["sauteed", "steamed"],
+      "primary_ingredients": ["rice", "besan"],
       "spice_level": "medium",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "rice",
       "serving_temp": "hot",
       "richness": "medium",
@@ -70,14 +45,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": ""
     },
     {
@@ -87,19 +57,11 @@
       "category": "vegetable",
       "sub_category": "rajasthani_special",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "sauteed"
-      ],
-      "primary_ingredients": [
-        "mixed_veg"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["sauteed"],
+      "primary_ingredients": ["mixed_veg"],
       "spice_level": "spicy",
-      "texture": [
-        "dry"
-      ],
+      "texture": ["dry"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "light",
@@ -108,14 +70,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Needs sourcing of dried ker-sangri from Rajasthan"
     },
     {
@@ -125,19 +82,11 @@
       "category": "vegetable",
       "sub_category": "rajasthani_special",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "sauteed"
-      ],
-      "primary_ingredients": [
-        "yogurt"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["sauteed"],
+      "primary_ingredients": ["yogurt"],
       "spice_level": "medium",
-      "texture": [
-        "gravy"
-      ],
+      "texture": ["gravy"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "light",
@@ -146,15 +95,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner",
-        "sangeet_dinner"
-      ],
+      "suggested_events": ["wedding_dinner", "sangeet_dinner"],
       "notes": "Unique conversation-starter dish"
     },
     {
@@ -164,19 +107,11 @@
       "category": "bread",
       "sub_category": "millet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "tawa"
-      ],
-      "primary_ingredients": [
-        "bread"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["tawa"],
+      "primary_ingredients": ["bread"],
       "spice_level": "medium",
-      "texture": [
-        "dry"
-      ],
+      "texture": ["dry"],
       "course_type": "bread",
       "serving_temp": "hot",
       "richness": "light",
@@ -185,14 +120,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": ""
     },
     {
@@ -202,20 +132,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "bread",
-        "nuts"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["bread", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "dessert",
       "serving_temp": "room_temp",
       "richness": "rich",
@@ -224,14 +145,9 @@
       "prep_complexity": "standard",
       "pairing_group": "dal-baati-churma",
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Part of the Dal-Baati-Churma trio"
     },
     {
@@ -241,21 +157,11 @@
       "category": "snack",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "cream",
-        "nuts"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["cream", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "starter",
       "serving_temp": "hot",
       "richness": "rich",
@@ -264,15 +170,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "hi_tea",
-        "sangeet_dinner"
-      ],
+      "suggested_events": ["hi_tea", "sangeet_dinner"],
       "notes": "Jodhpuri specialty sweet"
     },
     {
@@ -282,19 +182,11 @@
       "category": "snack",
       "sub_category": "savory",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "onion"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["onion"],
       "spice_level": "spicy",
-      "texture": [
-        "crispy"
-      ],
+      "texture": ["crispy"],
       "course_type": "starter",
       "serving_temp": "hot",
       "richness": "medium",
@@ -303,16 +195,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "hi_tea",
-        "breakfast",
-        "sangeet_dinner"
-      ],
+      "suggested_events": ["hi_tea", "breakfast", "sangeet_dinner"],
       "notes": "Jodhpuri street food classic"
     },
     {
@@ -322,20 +207,11 @@
       "category": "snack",
       "sub_category": "street_food",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "potato"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["potato"],
       "spice_level": "spicy",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "starter",
       "serving_temp": "hot",
       "richness": "medium",
@@ -344,15 +220,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "supper"
-      ],
+      "suggested_events": ["sangeet_dinner", "supper"],
       "notes": "Jodhpuri street food - great for late night"
     },
     {
@@ -362,20 +232,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "bread",
-        "cream"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["bread", "cream"],
       "spice_level": "mild",
-      "texture": [
-        "crispy"
-      ],
+      "texture": ["crispy"],
       "course_type": "dessert",
       "serving_temp": "room_temp",
       "richness": "rich",
@@ -384,14 +245,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": true,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Needs specialist. Check seasonal availability for April."
     },
     {
@@ -401,20 +257,11 @@
       "category": "dessert",
       "sub_category": "halwa",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "slow_cooked"
-      ],
-      "primary_ingredients": [
-        "dal",
-        "nuts"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["slow_cooked"],
+      "primary_ingredients": ["dal", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "dessert",
       "serving_temp": "hot",
       "richness": "rich",
@@ -423,14 +270,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": true,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Very labor-intensive. Mark of a proper Marwari wedding feast."
     },
     {
@@ -440,20 +282,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "slow_cooked"
-      ],
-      "primary_ingredients": [
-        "besan",
-        "nuts"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["slow_cooked"],
+      "primary_ingredients": ["besan", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "dessert",
       "serving_temp": "room_temp",
       "richness": "rich",
@@ -462,14 +295,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": ""
     },
     {
@@ -479,19 +307,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "slow_cooked"
-      ],
-      "primary_ingredients": [
-        "besan"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["slow_cooked"],
+      "primary_ingredients": ["besan"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "dessert",
       "serving_temp": "room_temp",
       "richness": "rich",
@@ -500,14 +320,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": ""
     },
     {
@@ -517,21 +332,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "north_indian",
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "bread"
-      ],
+      "cuisine_region": ["north_indian", "rajasthani"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["bread"],
       "spice_level": "mild",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "dessert",
       "serving_temp": "room_temp",
       "richness": "rich",
@@ -540,14 +345,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": ""
     },
     {
@@ -557,21 +357,11 @@
       "category": "accompaniment",
       "sub_category": "raita",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "yogurt",
-        "besan"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["yogurt", "besan"],
       "spice_level": "mild",
-      "texture": [
-        "creamy",
-        "crunchy"
-      ],
+      "texture": ["creamy", "crunchy"],
       "course_type": "accompaniment",
       "serving_temp": "cold",
       "richness": "light",
@@ -580,15 +370,9 @@
       "prep_complexity": "standard",
       "pairing_group": "dal-baati-churma",
       "is_signature": false,
-      "cultural_relevance": [
-        "marwari",
-        "rajasthani"
-      ],
+      "cultural_relevance": ["marwari", "rajasthani"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner",
-        "sangeet_dinner"
-      ],
+      "suggested_events": ["wedding_dinner", "sangeet_dinner"],
       "notes": "Essential accompaniment with Dal Baati"
     },
     {
@@ -598,21 +382,11 @@
       "category": "main_course",
       "sub_category": "sindhi_special",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "slow_cooked"
-      ],
-      "primary_ingredients": [
-        "besan",
-        "bhindi",
-        "mixed_veg"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["slow_cooked"],
+      "primary_ingredients": ["besan", "bhindi", "mixed_veg"],
       "spice_level": "medium",
-      "texture": [
-        "gravy"
-      ],
+      "texture": ["gravy"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "medium",
@@ -621,14 +395,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": "sindhi-kadhi-chawal",
       "is_signature": true,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch",
-        "wedding_dinner"
-      ],
+      "suggested_events": ["mehndi_lunch", "wedding_dinner"],
       "notes": "Signature Sindhi dish. Needs specialist who knows Sindhi kadhi."
     },
     {
@@ -638,21 +407,11 @@
       "category": "main_course",
       "sub_category": "sindhi_special",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "slow_cooked"
-      ],
-      "primary_ingredients": [
-        "spinach",
-        "dal",
-        "mixed_veg"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["slow_cooked"],
+      "primary_ingredients": ["spinach", "dal", "mixed_veg"],
       "spice_level": "medium",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "medium",
@@ -661,13 +420,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": true,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch"
-      ],
+      "suggested_events": ["mehndi_lunch"],
       "notes": "Comfort food that every Sindhi guest will appreciate"
     },
     {
@@ -677,20 +432,11 @@
       "category": "bread",
       "sub_category": "sindhi_bread",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "tawa"
-      ],
-      "primary_ingredients": [
-        "bread",
-        "onion"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["tawa"],
+      "primary_ingredients": ["bread", "onion"],
       "spice_level": "medium",
-      "texture": [
-        "crispy"
-      ],
+      "texture": ["crispy"],
       "course_type": "bread",
       "serving_temp": "hot",
       "richness": "medium",
@@ -699,14 +445,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast",
-        "hi_tea"
-      ],
+      "suggested_events": ["breakfast", "hi_tea"],
       "notes": "Sindhi specialist needed"
     },
     {
@@ -716,22 +457,11 @@
       "category": "breakfast",
       "sub_category": "sindhi_special",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "deep_fried",
-        "boiled"
-      ],
-      "primary_ingredients": [
-        "dal",
-        "bread"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["deep_fried", "boiled"],
+      "primary_ingredients": ["dal", "bread"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "medium",
@@ -740,13 +470,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": "dal-pakwan",
       "is_signature": true,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast"
-      ],
+      "suggested_events": ["breakfast"],
       "notes": "THE Sindhi breakfast. Must-have for morning event."
     },
     {
@@ -756,20 +482,11 @@
       "category": "snack",
       "sub_category": "potato",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "potato"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["potato"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "starter",
       "serving_temp": "hot",
       "richness": "medium",
@@ -778,14 +495,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch",
-        "breakfast"
-      ],
+      "suggested_events": ["mehndi_lunch", "breakfast"],
       "notes": "Sindhi signature - crowd pleaser"
     },
     {
@@ -795,22 +507,11 @@
       "category": "breakfast",
       "sub_category": "sindhi_special",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "sauteed"
-      ],
-      "primary_ingredients": [
-        "bread",
-        "tomato",
-        "onion"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["sauteed"],
+      "primary_ingredients": ["bread", "tomato", "onion"],
       "spice_level": "medium",
-      "texture": [
-        "soft",
-        "gravy"
-      ],
+      "texture": ["soft", "gravy"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "medium",
@@ -819,14 +520,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast",
-        "supper"
-      ],
+      "suggested_events": ["breakfast", "supper"],
       "notes": "Great comfort food for late night supper"
     },
     {
@@ -836,22 +532,11 @@
       "category": "rice",
       "sub_category": "sweet_rice",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "sauteed",
-        "steamed"
-      ],
-      "primary_ingredients": [
-        "rice",
-        "potato",
-        "nuts"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["sauteed", "steamed"],
+      "primary_ingredients": ["rice", "potato", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "rice",
       "serving_temp": "hot",
       "richness": "medium",
@@ -860,14 +545,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch",
-        "wedding_dinner"
-      ],
+      "suggested_events": ["mehndi_lunch", "wedding_dinner"],
       "notes": "Festive sweet rice"
     },
     {
@@ -877,19 +557,11 @@
       "category": "snack",
       "sub_category": "samosa",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "potato"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["potato"],
       "spice_level": "medium",
-      "texture": [
-        "crispy"
-      ],
+      "texture": ["crispy"],
       "course_type": "starter",
       "serving_temp": "hot",
       "richness": "medium",
@@ -898,14 +570,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "hi_tea",
-        "sangeet_dinner"
-      ],
+      "suggested_events": ["hi_tea", "sangeet_dinner"],
       "notes": ""
     },
     {
@@ -915,20 +582,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "slow_cooked"
-      ],
-      "primary_ingredients": [
-        "cream",
-        "nuts"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["slow_cooked"],
+      "primary_ingredients": ["cream", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "dessert",
       "serving_temp": "cold",
       "richness": "medium",
@@ -937,14 +595,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch",
-        "wedding_dinner"
-      ],
+      "suggested_events": ["mehndi_lunch", "wedding_dinner"],
       "notes": "Traditional Sindhi wedding dessert"
     },
     {
@@ -954,19 +607,11 @@
       "category": "vegetable",
       "sub_category": "potato",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "sauteed"
-      ],
-      "primary_ingredients": [
-        "potato"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["sauteed"],
+      "primary_ingredients": ["potato"],
       "spice_level": "medium",
-      "texture": [
-        "gravy"
-      ],
+      "texture": ["gravy"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "light",
@@ -975,13 +620,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch"
-      ],
+      "suggested_events": ["mehndi_lunch"],
       "notes": "Light curry, good complement to heavier dishes"
     },
     {
@@ -991,19 +632,11 @@
       "category": "bread",
       "sub_category": "sweet_bread",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "tawa"
-      ],
-      "primary_ingredients": [
-        "bread"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["tawa"],
+      "primary_ingredients": ["bread"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "dessert",
       "serving_temp": "hot",
       "richness": "medium",
@@ -1012,13 +645,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch"
-      ],
+      "suggested_events": ["mehndi_lunch"],
       "notes": "Sweet bread unique to Sindhi cuisine"
     },
     {
@@ -1028,20 +657,11 @@
       "category": "dessert",
       "sub_category": "kulfi",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "sindhi"
-      ],
-      "cooking_method": [
-        "raw"
-      ],
-      "primary_ingredients": [
-        "cream",
-        "nuts"
-      ],
+      "cuisine_region": ["sindhi"],
+      "cooking_method": ["raw"],
+      "primary_ingredients": ["cream", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "smooth"
-      ],
+      "texture": ["smooth"],
       "course_type": "dessert",
       "serving_temp": "cold",
       "richness": "rich",
@@ -1050,13 +670,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "sindhi"
-      ],
+      "cultural_relevance": ["sindhi"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch"
-      ],
+      "suggested_events": ["mehndi_lunch"],
       "notes": "Perfect for April heat"
     },
     {
@@ -1066,21 +682,11 @@
       "category": "snack",
       "sub_category": "street_food",
       "cuisine_type": "street_food",
-      "cuisine_region": [
-        "maharashtrian"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "potato",
-        "bread"
-      ],
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["potato", "bread"],
       "spice_level": "spicy",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "starter",
       "serving_temp": "hot",
       "richness": "medium",
@@ -1089,15 +695,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": true,
-      "cultural_relevance": [
-        "mumbai_street",
-        "maharashtrian"
-      ],
+      "cultural_relevance": ["mumbai_street", "maharashtrian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "supper"
-      ],
+      "suggested_events": ["sangeet_dinner", "supper"],
       "notes": "Brides favorite! Must-have."
     },
     {
@@ -1107,20 +707,11 @@
       "category": "main_course",
       "sub_category": "street_food",
       "cuisine_type": "street_food",
-      "cuisine_region": [
-        "maharashtrian"
-      ],
-      "cooking_method": [
-        "tawa"
-      ],
-      "primary_ingredients": [
-        "mixed_veg",
-        "bread"
-      ],
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["tawa"],
+      "primary_ingredients": ["mixed_veg", "bread"],
       "spice_level": "medium",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "medium",
@@ -1129,15 +720,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street",
-        "maharashtrian"
-      ],
+      "cultural_relevance": ["mumbai_street", "maharashtrian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "supper"
-      ],
+      "suggested_events": ["sangeet_dinner", "supper"],
       "notes": "Great for live counter"
     },
     {
@@ -1147,19 +732,11 @@
       "category": "chaat",
       "sub_category": "street_food",
       "cuisine_type": "street_food",
-      "cuisine_region": [
-        "maharashtrian"
-      ],
-      "cooking_method": [
-        "raw"
-      ],
-      "primary_ingredients": [
-        "rice"
-      ],
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["raw"],
+      "primary_ingredients": ["rice"],
       "spice_level": "medium",
-      "texture": [
-        "crunchy"
-      ],
+      "texture": ["crunchy"],
       "course_type": "starter",
       "serving_temp": "room_temp",
       "richness": "light",
@@ -1168,13 +745,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street"
-      ],
+      "cultural_relevance": ["mumbai_street"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner"
-      ],
+      "suggested_events": ["sangeet_dinner"],
       "notes": "Light and refreshing"
     },
     {
@@ -1184,20 +757,11 @@
       "category": "chaat",
       "sub_category": "street_food",
       "cuisine_type": "street_food",
-      "cuisine_region": [
-        "maharashtrian"
-      ],
-      "cooking_method": [
-        "raw"
-      ],
-      "primary_ingredients": [
-        "potato"
-      ],
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["raw"],
+      "primary_ingredients": ["potato"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "crunchy"
-      ],
+      "texture": ["crispy", "crunchy"],
       "course_type": "starter",
       "serving_temp": "room_temp",
       "richness": "light",
@@ -1206,13 +770,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street"
-      ],
+      "cultural_relevance": ["mumbai_street"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner"
-      ],
+      "suggested_events": ["sangeet_dinner"],
       "notes": ""
     },
     {
@@ -1222,21 +782,11 @@
       "category": "main_course",
       "sub_category": "street_food",
       "cuisine_type": "street_food",
-      "cuisine_region": [
-        "maharashtrian"
-      ],
-      "cooking_method": [
-        "sauteed"
-      ],
-      "primary_ingredients": [
-        "dal",
-        "bread"
-      ],
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["sauteed"],
+      "primary_ingredients": ["dal", "bread"],
       "spice_level": "spicy",
-      "texture": [
-        "gravy",
-        "crunchy"
-      ],
+      "texture": ["gravy", "crunchy"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "medium",
@@ -1245,14 +795,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street",
-        "maharashtrian"
-      ],
+      "cultural_relevance": ["mumbai_street", "maharashtrian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner"
-      ],
+      "suggested_events": ["sangeet_dinner"],
       "notes": "Nashik is famous for misal - local connection!"
     },
     {
@@ -1262,21 +807,11 @@
       "category": "snack",
       "sub_category": "street_food",
       "cuisine_type": "street_food",
-      "cuisine_region": [
-        "gujarati"
-      ],
-      "cooking_method": [
-        "tawa"
-      ],
-      "primary_ingredients": [
-        "potato",
-        "bread",
-        "nuts"
-      ],
+      "cuisine_region": ["gujarati"],
+      "cooking_method": ["tawa"],
+      "primary_ingredients": ["potato", "bread", "nuts"],
       "spice_level": "medium",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "starter",
       "serving_temp": "hot",
       "richness": "medium",
@@ -1285,14 +820,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street"
-      ],
+      "cultural_relevance": ["mumbai_street"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "supper"
-      ],
+      "suggested_events": ["sangeet_dinner", "supper"],
       "notes": "Gujarati-Mumbai crossover"
     },
     {
@@ -1302,21 +832,11 @@
       "category": "breakfast",
       "sub_category": "savory",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "maharashtrian"
-      ],
-      "cooking_method": [
-        "sauteed"
-      ],
-      "primary_ingredients": [
-        "rice",
-        "onion",
-        "nuts"
-      ],
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["sauteed"],
+      "primary_ingredients": ["rice", "onion", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "light",
@@ -1325,14 +845,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street",
-        "maharashtrian"
-      ],
+      "cultural_relevance": ["mumbai_street", "maharashtrian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast"
-      ],
+      "suggested_events": ["breakfast"],
       "notes": "Mumbai breakfast classic"
     },
     {
@@ -1342,20 +857,11 @@
       "category": "rice",
       "sub_category": "street_food",
       "cuisine_type": "street_food",
-      "cuisine_region": [
-        "maharashtrian"
-      ],
-      "cooking_method": [
-        "tawa"
-      ],
-      "primary_ingredients": [
-        "rice",
-        "mixed_veg"
-      ],
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["tawa"],
+      "primary_ingredients": ["rice", "mixed_veg"],
       "spice_level": "medium",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "rice",
       "serving_temp": "hot",
       "richness": "medium",
@@ -1364,14 +870,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street",
-        "maharashtrian"
-      ],
+      "cultural_relevance": ["mumbai_street", "maharashtrian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner"
-      ],
+      "suggested_events": ["sangeet_dinner"],
       "notes": ""
     },
     {
@@ -1381,22 +882,11 @@
       "category": "main_course",
       "sub_category": "bihari_special",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "bihari"
-      ],
-      "cooking_method": [
-        "baked"
-      ],
-      "primary_ingredients": [
-        "bread",
-        "potato",
-        "eggplant"
-      ],
+      "cuisine_region": ["bihari"],
+      "cooking_method": ["baked"],
+      "primary_ingredients": ["bread", "potato", "eggplant"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "medium",
@@ -1405,14 +895,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": true,
-      "cultural_relevance": [
-        "bihari"
-      ],
+      "cultural_relevance": ["bihari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "supper"
-      ],
+      "suggested_events": ["sangeet_dinner", "supper"],
       "notes": "Honours grooms maternal Bihar connection"
     },
     {
@@ -1422,21 +907,11 @@
       "category": "bread",
       "sub_category": "stuffed_bread",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "bihari"
-      ],
-      "cooking_method": [
-        "tawa"
-      ],
-      "primary_ingredients": [
-        "bread",
-        "besan"
-      ],
+      "cuisine_region": ["bihari"],
+      "cooking_method": ["tawa"],
+      "primary_ingredients": ["bread", "besan"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "bread",
       "serving_temp": "hot",
       "richness": "medium",
@@ -1445,13 +920,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "bihari"
-      ],
+      "cultural_relevance": ["bihari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast"
-      ],
+      "suggested_events": ["breakfast"],
       "notes": "Bihari breakfast staple"
     },
     {
@@ -1461,19 +932,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "bihari"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "bread"
-      ],
+      "cuisine_region": ["bihari"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["bread"],
       "spice_level": "mild",
-      "texture": [
-        "crispy"
-      ],
+      "texture": ["crispy"],
       "course_type": "dessert",
       "serving_temp": "room_temp",
       "richness": "medium",
@@ -1482,13 +945,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "bihari"
-      ],
+      "cultural_relevance": ["bihari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Traditional Chhath Puja sweet"
     },
     {
@@ -1498,21 +957,11 @@
       "category": "dessert",
       "sub_category": "kheer",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "bihari"
-      ],
-      "cooking_method": [
-        "slow_cooked"
-      ],
-      "primary_ingredients": [
-        "nuts",
-        "cream"
-      ],
+      "cuisine_region": ["bihari"],
+      "cooking_method": ["slow_cooked"],
+      "primary_ingredients": ["nuts", "cream"],
       "spice_level": "mild",
-      "texture": [
-        "soft",
-        "creamy"
-      ],
+      "texture": ["soft", "creamy"],
       "course_type": "dessert",
       "serving_temp": "cold",
       "richness": "medium",
@@ -1521,13 +970,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "bihari"
-      ],
+      "cultural_relevance": ["bihari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Light and cooling - good for April"
     },
     {
@@ -1537,20 +982,11 @@
       "category": "breakfast",
       "sub_category": "savory",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "bihari"
-      ],
-      "cooking_method": [
-        "sauteed"
-      ],
-      "primary_ingredients": [
-        "rice",
-        "peas"
-      ],
+      "cuisine_region": ["bihari"],
+      "cooking_method": ["sauteed"],
+      "primary_ingredients": ["rice", "peas"],
       "spice_level": "medium",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "light",
@@ -1559,13 +995,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "bihari"
-      ],
+      "cultural_relevance": ["bihari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast"
-      ],
+      "suggested_events": ["breakfast"],
       "notes": "Bihari comfort breakfast"
     },
     {
@@ -1575,20 +1007,11 @@
       "category": "breakfast",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "bihari"
-      ],
-      "cooking_method": [
-        "raw"
-      ],
-      "primary_ingredients": [
-        "rice",
-        "yogurt"
-      ],
+      "cuisine_region": ["bihari"],
+      "cooking_method": ["raw"],
+      "primary_ingredients": ["rice", "yogurt"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "main",
       "serving_temp": "cold",
       "richness": "light",
@@ -1597,13 +1020,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "bihari"
-      ],
+      "cultural_relevance": ["bihari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast"
-      ],
+      "suggested_events": ["breakfast"],
       "notes": "Light and cooling"
     },
     {
@@ -1613,19 +1032,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "bihari"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "bread"
-      ],
+      "cuisine_region": ["bihari"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["bread"],
       "spice_level": "mild",
-      "texture": [
-        "crispy"
-      ],
+      "texture": ["crispy"],
       "course_type": "dessert",
       "serving_temp": "room_temp",
       "richness": "rich",
@@ -1634,13 +1045,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "bihari"
-      ],
+      "cultural_relevance": ["bihari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Famous Silao ke Khaja"
     },
     {
@@ -1650,21 +1057,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "bihari"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "cream",
-        "nuts"
-      ],
+      "cuisine_region": ["bihari"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["cream", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "dessert",
       "serving_temp": "room_temp",
       "richness": "rich",
@@ -1673,13 +1070,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "bihari"
-      ],
+      "cultural_relevance": ["bihari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Wedding-appropriate Bihari sweet"
     },
     {
@@ -1689,19 +1082,11 @@
       "category": "vegetable",
       "sub_category": "potato",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "bihari"
-      ],
-      "cooking_method": [
-        "sauteed"
-      ],
-      "primary_ingredients": [
-        "potato"
-      ],
+      "cuisine_region": ["bihari"],
+      "cooking_method": ["sauteed"],
+      "primary_ingredients": ["potato"],
       "spice_level": "medium",
-      "texture": [
-        "gravy"
-      ],
+      "texture": ["gravy"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "light",
@@ -1710,13 +1095,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "bihari"
-      ],
+      "cultural_relevance": ["bihari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast"
-      ],
+      "suggested_events": ["breakfast"],
       "notes": "Perfect with puri for breakfast"
     },
     {
@@ -1726,19 +1107,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "up"
-      ],
-      "cooking_method": [
-        "slow_cooked"
-      ],
-      "primary_ingredients": [
-        "cream"
-      ],
+      "cuisine_region": ["up"],
+      "cooking_method": ["slow_cooked"],
+      "primary_ingredients": ["cream"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "dessert",
       "serving_temp": "room_temp",
       "richness": "rich",
@@ -1747,14 +1120,9 @@
       "prep_complexity": "external_vendor",
       "pairing_group": null,
       "is_signature": true,
-      "cultural_relevance": [
-        "vrindavan",
-        "up"
-      ],
+      "cultural_relevance": ["vrindavan", "up"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Source from Mathura if possible for authenticity"
     },
     {
@@ -1764,19 +1132,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "up"
-      ],
-      "cooking_method": [
-        "boiled"
-      ],
-      "primary_ingredients": [
-        "mixed_veg"
-      ],
+      "cuisine_region": ["up"],
+      "cooking_method": ["boiled"],
+      "primary_ingredients": ["mixed_veg"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "dessert",
       "serving_temp": "room_temp",
       "richness": "medium",
@@ -1785,13 +1145,9 @@
       "prep_complexity": "external_vendor",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "up"
-      ],
+      "cultural_relevance": ["up"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Source from Agra"
     },
     {
@@ -1801,22 +1157,11 @@
       "category": "breakfast",
       "sub_category": "puri_sabzi",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "up"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "bread",
-        "dal",
-        "potato"
-      ],
+      "cuisine_region": ["up"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["bread", "dal", "potato"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "gravy"
-      ],
+      "texture": ["crispy", "gravy"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "medium",
@@ -1825,14 +1170,9 @@
       "prep_complexity": "standard",
       "pairing_group": "bedmi-puri-aloo",
       "is_signature": false,
-      "cultural_relevance": [
-        "up",
-        "vrindavan"
-      ],
+      "cultural_relevance": ["up", "vrindavan"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast"
-      ],
+      "suggested_events": ["breakfast"],
       "notes": "Classic UP breakfast"
     },
     {
@@ -1842,21 +1182,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "up"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "bread",
-        "cream"
-      ],
+      "cuisine_region": ["up"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["bread", "cream"],
       "spice_level": "mild",
-      "texture": [
-        "crispy",
-        "creamy"
-      ],
+      "texture": ["crispy", "creamy"],
       "course_type": "dessert",
       "serving_temp": "hot",
       "richness": "rich",
@@ -1865,15 +1195,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "vrindavan",
-        "up"
-      ],
+      "cultural_relevance": ["vrindavan", "up"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner",
-        "supper"
-      ],
+      "suggested_events": ["wedding_dinner", "supper"],
       "notes": "Vrindavan specialty - great for late night"
     },
     {
@@ -1883,20 +1207,11 @@
       "category": "beverage",
       "sub_category": "drink",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "up"
-      ],
-      "cooking_method": [
-        "raw"
-      ],
-      "primary_ingredients": [
-        "cream",
-        "nuts"
-      ],
+      "cuisine_region": ["up"],
+      "cooking_method": ["raw"],
+      "primary_ingredients": ["cream", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "smooth"
-      ],
+      "texture": ["smooth"],
       "course_type": "beverage",
       "serving_temp": "cold",
       "richness": "medium",
@@ -1905,15 +1220,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": true,
-      "cultural_relevance": [
-        "vrindavan",
-        "up"
-      ],
+      "cultural_relevance": ["vrindavan", "up"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner",
-        "sangeet_dinner"
-      ],
+      "suggested_events": ["wedding_dinner", "sangeet_dinner"],
       "notes": "THE Vrindavan drink. Must-have for welcome."
     },
     {
@@ -1923,20 +1232,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "south_indian"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "besan",
-        "nuts"
-      ],
+      "cuisine_region": ["south_indian"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["besan", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "dessert",
       "serving_temp": "room_temp",
       "richness": "rich",
@@ -1945,13 +1245,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "south_indian"
-      ],
+      "cultural_relevance": ["south_indian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": ""
     },
     {
@@ -1961,21 +1257,11 @@
       "category": "rice",
       "sub_category": "one_pot",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "south_indian"
-      ],
-      "cooking_method": [
-        "slow_cooked"
-      ],
-      "primary_ingredients": [
-        "rice",
-        "dal",
-        "mixed_veg"
-      ],
+      "cuisine_region": ["south_indian"],
+      "cooking_method": ["slow_cooked"],
+      "primary_ingredients": ["rice", "dal", "mixed_veg"],
       "spice_level": "spicy",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "medium",
@@ -1984,13 +1270,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "south_indian"
-      ],
+      "cultural_relevance": ["south_indian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast"
-      ],
+      "suggested_events": ["breakfast"],
       "notes": "Hearty and wholesome"
     },
     {
@@ -2000,19 +1282,11 @@
       "category": "beverage",
       "sub_category": "coffee",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "south_indian"
-      ],
-      "cooking_method": [
-        "boiled"
-      ],
-      "primary_ingredients": [
-        "cream"
-      ],
+      "cuisine_region": ["south_indian"],
+      "cooking_method": ["boiled"],
+      "primary_ingredients": ["cream"],
       "spice_level": "mild",
-      "texture": [
-        "smooth"
-      ],
+      "texture": ["smooth"],
       "course_type": "beverage",
       "serving_temp": "hot",
       "richness": "light",
@@ -2021,15 +1295,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "south_indian"
-      ],
+      "cultural_relevance": ["south_indian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast",
-        "hi_tea",
-        "supper"
-      ],
+      "suggested_events": ["breakfast", "hi_tea", "supper"],
       "notes": "Essential. Both lived in Bangalore."
     },
     {
@@ -2039,19 +1307,11 @@
       "category": "breakfast",
       "sub_category": "steamed",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "south_indian"
-      ],
-      "cooking_method": [
-        "steamed"
-      ],
-      "primary_ingredients": [
-        "rice"
-      ],
+      "cuisine_region": ["south_indian"],
+      "cooking_method": ["steamed"],
+      "primary_ingredients": ["rice"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "light",
@@ -2060,13 +1320,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "south_indian"
-      ],
+      "cultural_relevance": ["south_indian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast"
-      ],
+      "suggested_events": ["breakfast"],
       "notes": "Light and easy"
     },
     {
@@ -2076,22 +1332,11 @@
       "category": "breakfast",
       "sub_category": "dosa",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "south_indian"
-      ],
-      "cooking_method": [
-        "tawa"
-      ],
-      "primary_ingredients": [
-        "rice",
-        "dal",
-        "potato"
-      ],
+      "cuisine_region": ["south_indian"],
+      "cooking_method": ["tawa"],
+      "primary_ingredients": ["rice", "dal", "potato"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "main",
       "serving_temp": "hot",
       "richness": "light",
@@ -2100,13 +1345,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "south_indian"
-      ],
+      "cultural_relevance": ["south_indian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast"
-      ],
+      "suggested_events": ["breakfast"],
       "notes": "Universal favorite"
     },
     {
@@ -2116,20 +1357,11 @@
       "category": "salad",
       "sub_category": "dip",
       "cuisine_type": "international",
-      "cuisine_region": [
-        "middle_eastern"
-      ],
-      "cooking_method": [
-        "boiled"
-      ],
-      "primary_ingredients": [
-        "dal"
-      ],
+      "cuisine_region": ["middle_eastern"],
+      "cooking_method": ["boiled"],
+      "primary_ingredients": ["dal"],
       "spice_level": "mild",
-      "texture": [
-        "smooth",
-        "creamy"
-      ],
+      "texture": ["smooth", "creamy"],
       "course_type": "starter",
       "serving_temp": "cold",
       "richness": "light",
@@ -2138,13 +1370,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "middle_eastern"
-      ],
+      "cultural_relevance": ["middle_eastern"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "haldi_lunch"
-      ],
+      "suggested_events": ["haldi_lunch"],
       "notes": "Brides UAE connection"
     },
     {
@@ -2154,19 +1382,11 @@
       "category": "snack",
       "sub_category": "savory",
       "cuisine_type": "international",
-      "cuisine_region": [
-        "middle_eastern"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "dal"
-      ],
+      "cuisine_region": ["middle_eastern"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["dal"],
       "spice_level": "medium",
-      "texture": [
-        "crispy"
-      ],
+      "texture": ["crispy"],
       "course_type": "starter",
       "serving_temp": "hot",
       "richness": "light",
@@ -2175,13 +1395,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "middle_eastern"
-      ],
+      "cultural_relevance": ["middle_eastern"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "haldi_lunch"
-      ],
+      "suggested_events": ["haldi_lunch"],
       "notes": ""
     },
     {
@@ -2191,22 +1407,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "international",
-      "cuisine_region": [
-        "middle_eastern"
-      ],
-      "cooking_method": [
-        "baked"
-      ],
-      "primary_ingredients": [
-        "cheese",
-        "cream",
-        "nuts"
-      ],
+      "cuisine_region": ["middle_eastern"],
+      "cooking_method": ["baked"],
+      "primary_ingredients": ["cheese", "cream", "nuts"],
       "spice_level": "mild",
-      "texture": [
-        "crispy",
-        "creamy"
-      ],
+      "texture": ["crispy", "creamy"],
       "course_type": "dessert",
       "serving_temp": "hot",
       "richness": "rich",
@@ -2215,14 +1420,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "middle_eastern",
-        "emirati"
-      ],
+      "cultural_relevance": ["middle_eastern", "emirati"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner"
-      ],
+      "suggested_events": ["wedding_dinner"],
       "notes": "Showstopper Middle Eastern dessert"
     },
     {
@@ -2232,20 +1432,11 @@
       "category": "dessert",
       "sub_category": "sweet",
       "cuisine_type": "international",
-      "cuisine_region": [
-        "emirati"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "bread"
-      ],
+      "cuisine_region": ["emirati"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["bread"],
       "spice_level": "mild",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "dessert",
       "serving_temp": "hot",
       "richness": "medium",
@@ -2254,15 +1445,9 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "emirati",
-        "middle_eastern"
-      ],
+      "cultural_relevance": ["emirati", "middle_eastern"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "haldi_lunch",
-        "wedding_dinner"
-      ],
+      "suggested_events": ["haldi_lunch", "wedding_dinner"],
       "notes": "Directly connected to UAE"
     },
     {
@@ -2272,19 +1457,11 @@
       "category": "bread",
       "sub_category": "flatbread",
       "cuisine_type": "international",
-      "cuisine_region": [
-        "middle_eastern"
-      ],
-      "cooking_method": [
-        "baked"
-      ],
-      "primary_ingredients": [
-        "bread"
-      ],
+      "cuisine_region": ["middle_eastern"],
+      "cooking_method": ["baked"],
+      "primary_ingredients": ["bread"],
       "spice_level": "mild",
-      "texture": [
-        "crispy"
-      ],
+      "texture": ["crispy"],
       "course_type": "bread",
       "serving_temp": "hot",
       "richness": "light",
@@ -2293,13 +1470,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "middle_eastern"
-      ],
+      "cultural_relevance": ["middle_eastern"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "haldi_lunch"
-      ],
+      "suggested_events": ["haldi_lunch"],
       "notes": ""
     },
     {
@@ -2309,19 +1482,11 @@
       "category": "beverage",
       "sub_category": "tea",
       "cuisine_type": "international",
-      "cuisine_region": [
-        "emirati"
-      ],
-      "cooking_method": [
-        "boiled"
-      ],
-      "primary_ingredients": [
-        "cream"
-      ],
+      "cuisine_region": ["emirati"],
+      "cooking_method": ["boiled"],
+      "primary_ingredients": ["cream"],
       "spice_level": "mild",
-      "texture": [
-        "smooth"
-      ],
+      "texture": ["smooth"],
       "course_type": "beverage",
       "serving_temp": "hot",
       "richness": "medium",
@@ -2330,14 +1495,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "emirati",
-        "middle_eastern"
-      ],
+      "cultural_relevance": ["emirati", "middle_eastern"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "haldi_lunch"
-      ],
+      "suggested_events": ["haldi_lunch"],
       "notes": "Gulf nostalgia for the bride"
     },
     {
@@ -2347,19 +1507,11 @@
       "category": "beverage",
       "sub_category": "drink",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "north_indian"
-      ],
-      "cooking_method": [
-        "boiled"
-      ],
-      "primary_ingredients": [
-        "fruits"
-      ],
+      "cuisine_region": ["north_indian"],
+      "cooking_method": ["boiled"],
+      "primary_ingredients": ["fruits"],
       "spice_level": "mild",
-      "texture": [
-        "smooth"
-      ],
+      "texture": ["smooth"],
       "course_type": "beverage",
       "serving_temp": "cold",
       "richness": "light",
@@ -2370,10 +1522,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch",
-        "haldi_lunch"
-      ],
+      "suggested_events": ["mehndi_lunch", "haldi_lunch"],
       "notes": "Perfect for April heat in Nashik"
     },
     {
@@ -2383,19 +1532,11 @@
       "category": "beverage",
       "sub_category": "drink",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "north_indian"
-      ],
-      "cooking_method": [
-        "raw"
-      ],
-      "primary_ingredients": [
-        "mixed_veg"
-      ],
+      "cuisine_region": ["north_indian"],
+      "cooking_method": ["raw"],
+      "primary_ingredients": ["mixed_veg"],
       "spice_level": "medium",
-      "texture": [
-        "smooth"
-      ],
+      "texture": ["smooth"],
       "course_type": "beverage",
       "serving_temp": "cold",
       "richness": "light",
@@ -2406,11 +1547,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch",
-        "sangeet_dinner",
-        "wedding_dinner"
-      ],
+      "suggested_events": ["mehndi_lunch", "sangeet_dinner", "wedding_dinner"],
       "notes": "Great as welcome drink"
     },
     {
@@ -2420,19 +1557,11 @@
       "category": "beverage",
       "sub_category": "drink",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani"
-      ],
-      "cooking_method": [
-        "raw"
-      ],
-      "primary_ingredients": [
-        "yogurt"
-      ],
+      "cuisine_region": ["rajasthani"],
+      "cooking_method": ["raw"],
+      "primary_ingredients": ["yogurt"],
       "spice_level": "mild",
-      "texture": [
-        "smooth"
-      ],
+      "texture": ["smooth"],
       "course_type": "beverage",
       "serving_temp": "cold",
       "richness": "light",
@@ -2441,15 +1570,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "rajasthani",
-        "marwari"
-      ],
+      "cultural_relevance": ["rajasthani", "marwari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch",
-        "haldi_lunch"
-      ],
+      "suggested_events": ["mehndi_lunch", "haldi_lunch"],
       "notes": "Rajasthani classic cooler"
     },
     {
@@ -2459,19 +1582,11 @@
       "category": "beverage",
       "sub_category": "drink",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "bihari"
-      ],
-      "cooking_method": [
-        "raw"
-      ],
-      "primary_ingredients": [
-        "besan"
-      ],
+      "cuisine_region": ["bihari"],
+      "cooking_method": ["raw"],
+      "primary_ingredients": ["besan"],
       "spice_level": "mild",
-      "texture": [
-        "smooth"
-      ],
+      "texture": ["smooth"],
       "course_type": "beverage",
       "serving_temp": "cold",
       "richness": "light",
@@ -2480,14 +1595,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "bihari"
-      ],
+      "cultural_relevance": ["bihari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "breakfast",
-        "haldi_lunch"
-      ],
+      "suggested_events": ["breakfast", "haldi_lunch"],
       "notes": "Very cooling, Bihar heritage"
     },
     {
@@ -2497,19 +1607,11 @@
       "category": "beverage",
       "sub_category": "drink",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "maharashtrian"
-      ],
-      "cooking_method": [
-        "raw"
-      ],
-      "primary_ingredients": [
-        "fruits"
-      ],
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["raw"],
+      "primary_ingredients": ["fruits"],
       "spice_level": "mild",
-      "texture": [
-        "smooth"
-      ],
+      "texture": ["smooth"],
       "course_type": "beverage",
       "serving_temp": "cold",
       "richness": "light",
@@ -2518,13 +1620,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "maharashtrian"
-      ],
+      "cultural_relevance": ["maharashtrian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner"
-      ],
+      "suggested_events": ["sangeet_dinner"],
       "notes": "Nashik/Maharashtra local connection"
     },
     {
@@ -2534,19 +1632,11 @@
       "category": "beverage",
       "sub_category": "drink",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "north_indian"
-      ],
-      "cooking_method": [
-        "raw"
-      ],
-      "primary_ingredients": [
-        "fruits"
-      ],
+      "cuisine_region": ["north_indian"],
+      "cooking_method": ["raw"],
+      "primary_ingredients": ["fruits"],
       "spice_level": "mild",
-      "texture": [
-        "smooth"
-      ],
+      "texture": ["smooth"],
       "course_type": "beverage",
       "serving_temp": "cold",
       "richness": "light",
@@ -2557,10 +1647,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "mehndi_lunch",
-        "wedding_dinner"
-      ],
+      "suggested_events": ["mehndi_lunch", "wedding_dinner"],
       "notes": "Classic Indian wedding welcome drink"
     },
     {
@@ -2570,21 +1657,11 @@
       "category": "chaat",
       "sub_category": "bhel",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "mumbai_street"
-      ],
-      "cooking_method": [
-        "raw"
-      ],
-      "primary_ingredients": [
-        "puffed_rice",
-        "yogurt"
-      ],
+      "cuisine_region": ["mumbai_street"],
+      "cooking_method": ["raw"],
+      "primary_ingredients": ["puffed_rice", "yogurt"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "crunchy"
-      ],
+      "texture": ["crispy", "crunchy"],
       "course_type": "starter",
       "serving_temp": "cold",
       "richness": "light",
@@ -2593,14 +1670,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street"
-      ],
+      "cultural_relevance": ["mumbai_street"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "hi_tea",
-        "pre_wedding_hi_tea"
-      ],
+      "suggested_events": ["hi_tea", "pre_wedding_hi_tea"],
       "notes": "Great for hi-tea, refreshing cold chaat perfect for April weather"
     },
     {
@@ -2610,22 +1682,11 @@
       "category": "chaat",
       "sub_category": "potato",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "mumbai_street"
-      ],
-      "cooking_method": [
-        "deep_fried",
-        "boiled"
-      ],
-      "primary_ingredients": [
-        "potato",
-        "peas"
-      ],
+      "cuisine_region": ["mumbai_street"],
+      "cooking_method": ["deep_fried", "boiled"],
+      "primary_ingredients": ["potato", "peas"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "starter",
       "serving_temp": "hot",
       "richness": "medium",
@@ -2634,15 +1695,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street"
-      ],
+      "cultural_relevance": ["mumbai_street"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "hi_tea",
-        "pre_wedding_hi_tea"
-      ],
+      "suggested_events": ["sangeet_dinner", "hi_tea", "pre_wedding_hi_tea"],
       "notes": "Classic Mumbai street food, great for live chaat station"
     },
     {
@@ -2652,23 +1707,11 @@
       "category": "chaat",
       "sub_category": "samosa",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "north_indian",
-        "mumbai_street"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "potato",
-        "dal",
-        "yogurt"
-      ],
+      "cuisine_region": ["north_indian", "mumbai_street"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["potato", "dal", "yogurt"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "starter",
       "serving_temp": "hot",
       "richness": "medium",
@@ -2677,15 +1720,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street"
-      ],
+      "cultural_relevance": ["mumbai_street"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "hi_tea",
-        "pre_wedding_hi_tea"
-      ],
+      "suggested_events": ["sangeet_dinner", "hi_tea", "pre_wedding_hi_tea"],
       "notes": "Crowd favourite chaat, works at any event"
     },
     {
@@ -2695,23 +1732,11 @@
       "category": "chaat",
       "sub_category": "kachori",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "rajasthani",
-        "north_indian"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "potato",
-        "yogurt"
-      ],
+      "cuisine_region": ["rajasthani", "north_indian"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["potato", "yogurt"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "soft",
-        "creamy"
-      ],
+      "texture": ["crispy", "soft", "creamy"],
       "course_type": "starter",
       "serving_temp": "room_temp",
       "richness": "medium",
@@ -2720,16 +1745,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "rajasthani",
-        "marwari"
-      ],
+      "cultural_relevance": ["rajasthani", "marwari"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "hi_tea",
-        "pre_wedding_hi_tea"
-      ],
+      "suggested_events": ["sangeet_dinner", "hi_tea", "pre_wedding_hi_tea"],
       "notes": "Showstopper chaat, Rajasthani connection"
     },
     {
@@ -2739,21 +1757,11 @@
       "category": "chaat",
       "sub_category": "puri",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "mumbai_street",
-        "north_indian"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "potato",
-        "dal"
-      ],
+      "cuisine_region": ["mumbai_street", "north_indian"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["potato", "dal"],
       "spice_level": "spicy",
-      "texture": [
-        "crispy"
-      ],
+      "texture": ["crispy"],
       "course_type": "starter",
       "serving_temp": "room_temp",
       "richness": "light",
@@ -2762,14 +1770,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street"
-      ],
+      "cultural_relevance": ["mumbai_street"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "mehndi_lunch"
-      ],
+      "suggested_events": ["sangeet_dinner", "mehndi_lunch"],
       "notes": "Best as live station, always a crowd hit"
     },
     {
@@ -2779,21 +1782,11 @@
       "category": "chaat",
       "sub_category": "puri",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "mumbai_street"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "potato",
-        "yogurt"
-      ],
+      "cuisine_region": ["mumbai_street"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["potato", "yogurt"],
       "spice_level": "mild",
-      "texture": [
-        "crispy",
-        "creamy"
-      ],
+      "texture": ["crispy", "creamy"],
       "course_type": "starter",
       "serving_temp": "cold",
       "richness": "medium",
@@ -2802,14 +1795,9 @@
       "prep_complexity": "standard",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "mumbai_street"
-      ],
+      "cultural_relevance": ["mumbai_street"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "mehndi_lunch"
-      ],
+      "suggested_events": ["sangeet_dinner", "mehndi_lunch"],
       "notes": "Classic Mumbai chaat"
     },
     {
@@ -2819,22 +1807,11 @@
       "category": "chaat",
       "sub_category": "potato",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "north_indian"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "potato",
-        "yogurt",
-        "dal"
-      ],
+      "cuisine_region": ["north_indian"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["potato", "yogurt", "dal"],
       "spice_level": "medium",
-      "texture": [
-        "crispy",
-        "soft"
-      ],
+      "texture": ["crispy", "soft"],
       "course_type": "starter",
       "serving_temp": "hot",
       "richness": "medium",
@@ -2845,10 +1822,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "hi_tea"
-      ],
+      "suggested_events": ["sangeet_dinner", "hi_tea"],
       "notes": "North Indian chaat staple"
     },
     {
@@ -2858,21 +1832,11 @@
       "category": "chaat",
       "sub_category": "mixed",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "north_indian"
-      ],
-      "cooking_method": [
-        "deep_fried"
-      ],
-      "primary_ingredients": [
-        "potato",
-        "yogurt"
-      ],
+      "cuisine_region": ["north_indian"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["potato", "yogurt"],
       "spice_level": "mild",
-      "texture": [
-        "crispy",
-        "creamy"
-      ],
+      "texture": ["crispy", "creamy"],
       "course_type": "starter",
       "serving_temp": "room_temp",
       "richness": "medium",
@@ -2883,10 +1847,7 @@
       "is_signature": false,
       "cultural_relevance": [],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "sangeet_dinner",
-        "wedding_dinner"
-      ],
+      "suggested_events": ["sangeet_dinner", "wedding_dinner"],
       "notes": "Elegant presentation chaat, great for wedding"
     },
     {
@@ -2896,20 +1857,11 @@
       "category": "dessert",
       "sub_category": "maharashtrian_special",
       "cuisine_type": "indian",
-      "cuisine_region": [
-        "maharashtrian"
-      ],
-      "cooking_method": [
-        "tawa"
-      ],
-      "primary_ingredients": [
-        "dal",
-        "flour"
-      ],
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["tawa"],
+      "primary_ingredients": ["dal", "flour"],
       "spice_level": "mild",
-      "texture": [
-        "soft"
-      ],
+      "texture": ["soft"],
       "course_type": "dessert",
       "serving_temp": "hot",
       "richness": "rich",
@@ -2918,15 +1870,110 @@
       "prep_complexity": "needs_specialist",
       "pairing_group": null,
       "is_signature": false,
-      "cultural_relevance": [
-        "maharashtrian"
-      ],
+      "cultural_relevance": ["maharashtrian"],
       "source": "custom_suggestion",
-      "suggested_events": [
-        "wedding_dinner",
-        "mehndi_lunch"
-      ],
+      "suggested_events": ["wedding_dinner", "mehndi_lunch"],
       "notes": "Classic Maharashtrian sweet, great cultural touch for a Nashik wedding"
+    },
+    {
+      "id": "kothimbir-vadi",
+      "name": "Kothimbir Vadi",
+      "description": "Crispy steamed and fried coriander leaf fritters with besan — classic Maharashtrian snack",
+      "category": "snack",
+      "sub_category": "maharashtrian_special",
+      "cuisine_type": "indian",
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["steamed", "deep_fried"],
+      "primary_ingredients": ["coriander", "besan"],
+      "spice_level": "medium",
+      "texture": ["crispy"],
+      "course_type": "starter",
+      "serving_temp": "hot",
+      "richness": "light",
+      "crowd_appeal": "regional",
+      "season_appropriateness": "all_season",
+      "prep_complexity": "standard",
+      "pairing_group": null,
+      "is_signature": false,
+      "cultural_relevance": ["maharashtrian"],
+      "source": "custom_suggestion",
+      "suggested_events": ["sangeet_dinner", "hi_tea", "pre_wedding_hi_tea"],
+      "notes": "Perfect Maharashtrian touch for a Nashik wedding"
+    },
+    {
+      "id": "sabudana-vada",
+      "name": "Sabudana Vada",
+      "description": "Crispy deep-fried tapioca and potato patties with peanuts — popular Maharashtrian fasting snack",
+      "category": "snack",
+      "sub_category": "maharashtrian_special",
+      "cuisine_type": "indian",
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["tapioca", "potato", "peanuts"],
+      "spice_level": "mild",
+      "texture": ["crispy", "soft"],
+      "course_type": "starter",
+      "serving_temp": "hot",
+      "richness": "medium",
+      "crowd_appeal": "universal",
+      "season_appropriateness": "all_season",
+      "prep_complexity": "standard",
+      "pairing_group": null,
+      "is_signature": false,
+      "cultural_relevance": ["maharashtrian"],
+      "source": "custom_suggestion",
+      "suggested_events": ["sangeet_dinner", "hi_tea", "pre_wedding_hi_tea"],
+      "notes": "Crowd-pleaser Maharashtrian snack, pairs well with green chutney"
+    },
+    {
+      "id": "thalipeeth",
+      "name": "Thalipeeth",
+      "description": "Multi-grain spiced flatbread made with bhajani flour — traditional Maharashtrian staple",
+      "category": "bread",
+      "sub_category": "maharashtrian_special",
+      "cuisine_type": "indian",
+      "cuisine_region": ["maharashtrian"],
+      "cooking_method": ["tawa"],
+      "primary_ingredients": ["multi_grain_flour"],
+      "spice_level": "medium",
+      "texture": ["crispy"],
+      "course_type": "main",
+      "serving_temp": "hot",
+      "richness": "medium",
+      "crowd_appeal": "regional",
+      "season_appropriateness": "all_season",
+      "prep_complexity": "standard",
+      "pairing_group": null,
+      "is_signature": false,
+      "cultural_relevance": ["maharashtrian"],
+      "source": "custom_suggestion",
+      "suggested_events": ["breakfast", "checkout_breakfast"],
+      "notes": "Great for breakfast, authentic Maharashtrian touch"
+    },
+    {
+      "id": "batata-vada",
+      "name": "Batata Vada",
+      "description": "Spiced potato fritters coated in besan batter and deep fried — the soul of vada pav",
+      "category": "snack",
+      "sub_category": "maharashtrian_special",
+      "cuisine_type": "indian",
+      "cuisine_region": ["maharashtrian", "mumbai_street"],
+      "cooking_method": ["deep_fried"],
+      "primary_ingredients": ["potato", "besan"],
+      "spice_level": "medium",
+      "texture": ["crispy", "soft"],
+      "course_type": "starter",
+      "serving_temp": "hot",
+      "richness": "medium",
+      "crowd_appeal": "universal",
+      "season_appropriateness": "all_season",
+      "prep_complexity": "standard",
+      "pairing_group": null,
+      "is_signature": false,
+      "cultural_relevance": ["maharashtrian", "mumbai_street"],
+      "source": "custom_suggestion",
+      "suggested_events": ["sangeet_dinner", "supper"],
+      "notes": "Standalone snack or with pav; bride's favourite vada pav connection"
     }
   ]
 }
