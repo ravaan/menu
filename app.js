@@ -243,10 +243,10 @@
     haldi_lunch: {
       slots: {
         welcome_drink: ["citruz-fuzz", "sauf-ka-sharbat"],
-        soup: ["lemon-coriander-vegetable-soup"],
+        soup: ["lemon-coriander-veg-soup"],
         salad: [
-          "tossed-vegetable-salad",
-          "thai-papaya-and-chives-salad",
+          "tossed-veg-salad",
+          "thai-papaya-chives-salad",
           "aloo-pudina-chaat",
         ],
         starter: ["phaldari-kabab"],
