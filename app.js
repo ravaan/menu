@@ -31,6 +31,10 @@
   let menuLibrary = {};
   let activeMenuId = null;
   let menuDropdownOpen = false;
+  let slotConfig = {};
+  let cellColors = {};
+  let cellSearchPopoverOpen = false;
+  let cellSearchTarget = null; // { eventId, slotType, slotIndex }
 
   // Cache for getAllDishIdsForEvent
   let _cacheGen = 0;
@@ -154,6 +158,22 @@
     ice_cream: "Ice Cream",
     live_counter: "Live Counter",
     drink: "Drinks",
+  };
+
+  const SLOT_TO_CATEGORIES = {
+    welcome_drink: ["beverage"],
+    soup: ["soup"],
+    salad: ["salad"],
+    starter: ["snack", "chaat"],
+    main_course: ["main_course", "vegetable"],
+    dal: ["dal"],
+    rice: ["rice"],
+    bread: ["bread"],
+    curd: ["accompaniment"],
+    dessert: ["dessert"],
+    ice_cream: ["dessert"],
+    live_counter: ["live_station"],
+    drink: ["beverage"],
   };
 
   // ==========================================
@@ -343,6 +363,8 @@
       activeMenuId,
       menus: menuLibrary,
       customDishes: customDishes,
+      slotConfig: slotConfig,
+      cellColors: cellColors,
       uiState: { currentEventId, currentView },
     };
     try {
@@ -378,6 +400,8 @@
             JSON.stringify(menuLibrary[activeMenuId].eventNotes || {}),
           );
         }
+        loadSlotConfig(state);
+        loadCellColors(state);
         if (state.uiState) {
           if (state.uiState.currentEventId)
             currentEventId = state.uiState.currentEventId;
@@ -665,7 +689,7 @@
     const slotDef = template.find((s) => s.type === slotType);
     return {
       current: sel.slots[slotType].length,
-      max: slotDef ? slotDef.count : 0,
+      max: slotDef ? getEffectiveSlotCount(pkgKey, slotType) : 0,
     };
   }
 
@@ -785,6 +809,37 @@
     }
     if (sel.extras && sel.extras.includes(dishId)) return "extras";
     return null;
+  }
+
+  // ==========================================
+  // SLOT CONFIG HELPERS
+  // ==========================================
+  function getEffectiveSlotCount(packageKey, slotType) {
+    if (
+      slotConfig[packageKey] &&
+      slotConfig[packageKey][slotType] !== undefined
+    ) {
+      return slotConfig[packageKey][slotType];
+    }
+    const template = SLOT_TEMPLATE[packageKey] || [];
+    const slotDef = template.find((s) => s.type === slotType);
+    return slotDef ? slotDef.count : 0;
+  }
+
+  function saveSlotConfig() {
+    // Persisted as part of V3 state via saveState
+  }
+
+  function loadSlotConfig(state) {
+    if (state && state.slotConfig) {
+      slotConfig = state.slotConfig;
+    }
+  }
+
+  function loadCellColors(state) {
+    if (state && state.cellColors) {
+      cellColors = state.cellColors;
+    }
   }
 
   // ==========================================
@@ -1986,11 +2041,22 @@
     // Theme row
     rows.push({ key: "theme", label: "Theme", slotType: null, index: 0 });
 
-    // Expand each slot by its count
+    // Expand each slot by effective count (considering overrides and overflow)
     fullMealSlots.forEach((slot) => {
-      for (let i = 0; i < slot.count; i++) {
+      const effectiveCount = getEffectiveSlotCount("full_meal", slot.type);
+      // Also check actual dishes across events for overflow
+      const actualCount = Math.max(
+        effectiveCount,
+        ...events.map((ev) => {
+          const sel = eventSelections[ev.id];
+          return sel && sel.slots && sel.slots[slot.type]
+            ? sel.slots[slot.type].length
+            : 0;
+        }),
+      );
+      for (let i = 0; i < actualCount; i++) {
         const label =
-          slot.count > 1
+          actualCount > 1
             ? `${slot.label.replace(/s$/, "")} ${i + 1}`
             : slot.label;
         rows.push({
@@ -1998,6 +2064,7 @@
           label,
           slotType: slot.type,
           index: i,
+          isOverflow: i >= effectiveCount,
         });
       }
     });
@@ -2017,6 +2084,7 @@
         label: `Extra Pick ${i + 1}`,
         slotType: "extras",
         index: i,
+        isOverflow: false,
       });
     }
 
@@ -2039,7 +2107,6 @@
         const dish = getDishById(id);
         if (!dish) return;
         const course = getCourseType(dish);
-        // Map course type to best-matching slot type
         const courseToSlot = {
           beverage: "welcome_drink",
           starter: "starter",
@@ -2083,7 +2150,13 @@
     rows.forEach((row) => {
       const isTheme = row.key === "theme";
       const isExtra = row.slotType === "extras";
-      const rowClass = isTheme ? "theme-row" : isExtra ? "extra-row" : "";
+      const rowClass = isTheme
+        ? "theme-row"
+        : isExtra
+          ? "extra-row"
+          : row.isOverflow
+            ? "overflow-row"
+            : "";
 
       html += `<tr class="${rowClass}">`;
       html += `<td class="row-label">${escapeHtml(row.label)}</td>`;
@@ -2102,17 +2175,24 @@
           const extras = sel && sel.extras ? sel.extras : [];
           const dishId = extras[row.index];
           const dish = dishId ? getDishById(dishId) : null;
-          html += `<td class="dish-cell extra-cell">${dish ? escapeHtml(dish.name) : ""}</td>`;
+          const colorKey = `${ev.id}_extras_${row.index}`;
+          const colorClass = cellColors[colorKey]
+            ? `cell-${cellColors[colorKey]}`
+            : "";
+          html += `<td class="dish-cell extra-cell ${colorClass}" data-event-id="${ev.id}" data-slot-type="extras" data-slot-index="${row.index}">${dish ? escapeHtml(dish.name) : ""}</td>`;
           return;
         }
 
         // Regular slot row
         if (pkgKey === "freeform") {
-          // Use pre-computed freeform mapping
           const mapping = freeformMapping[ev.id] || {};
           const dishes = mapping[row.slotType] || [];
           const dishName = dishes[row.index] || "";
-          html += `<td class="dish-cell freeform-cell">${escapeHtml(dishName)}</td>`;
+          const colorKey = `${ev.id}_${row.slotType}_${row.index}`;
+          const colorClass = cellColors[colorKey]
+            ? `cell-${cellColors[colorKey]}`
+            : "";
+          html += `<td class="dish-cell freeform-cell ${colorClass}" data-event-id="${ev.id}" data-slot-type="${row.slotType}" data-slot-index="${row.index}">${escapeHtml(dishName)}</td>`;
           return;
         }
 
@@ -2125,15 +2205,22 @@
         // Check if this slot type exists in this event's package
         const template = SLOT_TEMPLATE[pkgKey] || [];
         const slotDef = template.find((s) => s.type === row.slotType);
-        const isAvailable = slotDef && row.index < slotDef.count;
+        const effectiveMax = slotDef
+          ? getEffectiveSlotCount(pkgKey, row.slotType)
+          : 0;
+        const isAvailable = slotDef && row.index < effectiveMax;
         const isNA = !slotDef;
 
         if (isNA) {
           html += '<td class="dish-cell na-cell"></td>';
-        } else if (!isAvailable) {
+        } else if (!isAvailable && !dish) {
           html += '<td class="dish-cell na-cell"></td>';
         } else {
-          html += `<td class="dish-cell">${dish ? escapeHtml(dish.name) : ""}</td>`;
+          const colorKey = `${ev.id}_${row.slotType}_${row.index}`;
+          const colorClass = cellColors[colorKey]
+            ? `cell-${cellColors[colorKey]}`
+            : "";
+          html += `<td class="dish-cell ${colorClass}" data-event-id="${ev.id}" data-slot-type="${row.slotType}" data-slot-index="${row.index}">${dish ? escapeHtml(dish.name) : ""}</td>`;
         }
       });
 
@@ -2142,6 +2229,290 @@
 
     html += "</tbody></table>";
     wrapper.innerHTML = html;
+
+    // Render add-row dropdown
+    renderAddRowDropdown();
+  }
+
+  // ==========================================
+  // SETTINGS MODAL
+  // ==========================================
+  function openSettingsModal() {
+    const body = document.getElementById("settings-body");
+    let html = "";
+
+    const packages = [
+      { key: "full_meal", label: "Full Meal Package" },
+      { key: "hi_tea", label: "Hi-Tea Package" },
+    ];
+
+    packages.forEach((pkg) => {
+      const template = SLOT_TEMPLATE[pkg.key];
+      html += `<div class="settings-package-section">`;
+      html += `<div class="settings-package-title">${pkg.label}</div>`;
+      template.forEach((slot) => {
+        const count = getEffectiveSlotCount(pkg.key, slot.type);
+        html += `<div class="settings-slot-row">
+          <span class="settings-slot-label">${slot.label}</span>
+          <div class="settings-slot-controls">
+            <button class="settings-btn" data-pkg="${pkg.key}" data-slot="${slot.type}" data-action="dec">-</button>
+            <span class="settings-slot-count" id="slot-count-${pkg.key}-${slot.type}">${count}</span>
+            <button class="settings-btn" data-pkg="${pkg.key}" data-slot="${slot.type}" data-action="inc">+</button>
+          </div>
+        </div>`;
+      });
+      html += `</div>`;
+    });
+
+    body.innerHTML = html;
+    document.getElementById("settings-overlay").classList.add("active");
+  }
+
+  function closeSettingsModal() {
+    document.getElementById("settings-overlay").classList.remove("active");
+  }
+
+  function handleSettingsClick(e) {
+    const btn = e.target.closest(".settings-btn");
+    if (!btn) return;
+    const pkg = btn.dataset.pkg;
+    const slot = btn.dataset.slot;
+    const action = btn.dataset.action;
+
+    if (!slotConfig[pkg]) slotConfig[pkg] = {};
+    const current = getEffectiveSlotCount(pkg, slot);
+    const newCount = action === "inc" ? current + 1 : Math.max(0, current - 1);
+    slotConfig[pkg][slot] = newCount;
+
+    // Update display
+    const countEl = document.getElementById(`slot-count-${pkg}-${slot}`);
+    if (countEl) countEl.textContent = newCount;
+
+    saveState();
+    renderMenuView();
+  }
+
+  // ==========================================
+  // CELL SEARCH POPOVER
+  // ==========================================
+  function openCellSearchPopover(td) {
+    const eventId = td.dataset.eventId;
+    const slotType = td.dataset.slotType;
+    const slotIndex = parseInt(td.dataset.slotIndex, 10);
+
+    cellSearchTarget = { eventId, slotType, slotIndex };
+    cellSearchPopoverOpen = true;
+
+    const popover = document.getElementById("cell-search-popover");
+    const input = document.getElementById("cell-search-input");
+    const results = document.getElementById("cell-search-results");
+
+    // Position popover near the cell
+    const rect = td.getBoundingClientRect();
+    let top = rect.bottom + 2;
+    let left = rect.left;
+
+    if (top + 250 > window.innerHeight) {
+      top = rect.top - 250;
+      if (top < 0) top = 4;
+    }
+    if (left + 240 > window.innerWidth) {
+      left = window.innerWidth - 244;
+    }
+    if (left < 4) left = 4;
+
+    popover.style.top = top + "px";
+    popover.style.left = left + "px";
+    popover.classList.add("active");
+
+    input.value = "";
+    input.focus();
+    renderCellSearchResults("");
+  }
+
+  function closeCellSearchPopover() {
+    cellSearchPopoverOpen = false;
+    cellSearchTarget = null;
+    const popover = document.getElementById("cell-search-popover");
+    popover.classList.remove("active");
+  }
+
+  function renderCellSearchResults(query) {
+    if (!cellSearchTarget) return;
+    const results = document.getElementById("cell-search-results");
+    const { eventId, slotType, slotIndex } = cellSearchTarget;
+
+    // Get current dish in cell
+    const sel = eventSelections[eventId];
+    let currentDishId = null;
+    if (slotType === "extras") {
+      currentDishId =
+        sel && sel.extras && sel.extras[slotIndex]
+          ? sel.extras[slotIndex]
+          : null;
+    } else if (sel && sel.slots && sel.slots[slotType]) {
+      currentDishId = sel.slots[slotType][slotIndex] || null;
+    }
+
+    // Filter dishes by category matching slotType
+    const categories = SLOT_TO_CATEGORIES[slotType] || [];
+    const q = query.toLowerCase();
+    const filtered = allDishes
+      .filter((d) => {
+        if (categories.length > 0 && !categories.includes(d.category))
+          return false;
+        if (q && !d.name.toLowerCase().includes(q)) return false;
+        return true;
+      })
+      .slice(0, 8);
+
+    let html = "";
+
+    // Remove option if cell has a dish
+    if (currentDishId) {
+      const currentDish = getDishById(currentDishId);
+      html += `<div class="cell-search-item remove-item" data-action="remove">Remove: ${currentDish ? escapeHtml(currentDish.name) : "dish"}</div>`;
+    }
+
+    filtered.forEach((dish) => {
+      html += `<div class="cell-search-item" data-dish-id="${dish.id}">${escapeHtml(dish.name)}</div>`;
+    });
+
+    if (filtered.length === 0 && !currentDishId) {
+      html =
+        '<div class="cell-search-item" style="color:var(--text-muted);cursor:default">No matches</div>';
+    }
+
+    results.innerHTML = html;
+  }
+
+  function handleCellSearchSelect(dishId) {
+    if (!cellSearchTarget) return;
+    const { eventId, slotType, slotIndex } = cellSearchTarget;
+    const sel = eventSelections[eventId];
+    if (!sel) return;
+
+    if (slotType === "extras") {
+      // Replace or add at index
+      if (!sel.extras) sel.extras = [];
+      while (sel.extras.length <= slotIndex) sel.extras.push(null);
+      sel.extras[slotIndex] = dishId;
+      // Clean up nulls at end
+      while (sel.extras.length > 0 && !sel.extras[sel.extras.length - 1]) {
+        sel.extras.pop();
+      }
+    } else {
+      if (!sel.slots[slotType]) sel.slots[slotType] = [];
+      while (sel.slots[slotType].length <= slotIndex)
+        sel.slots[slotType].push(null);
+      sel.slots[slotType][slotIndex] = dishId;
+      // Clean up nulls at end
+      while (
+        sel.slots[slotType].length > 0 &&
+        !sel.slots[slotType][sel.slots[slotType].length - 1]
+      ) {
+        sel.slots[slotType].pop();
+      }
+    }
+
+    invalidateCache();
+    saveState();
+    closeCellSearchPopover();
+    renderMenuView();
+    renderDishGrid();
+    renderEventTabs();
+    if (currentView === "planner") renderEventContent();
+    showToast("Dish added");
+  }
+
+  function handleCellSearchRemove() {
+    if (!cellSearchTarget) return;
+    const { eventId, slotType, slotIndex } = cellSearchTarget;
+    const sel = eventSelections[eventId];
+    if (!sel) return;
+
+    if (slotType === "extras") {
+      if (sel.extras && sel.extras[slotIndex]) {
+        sel.extras.splice(slotIndex, 1);
+      }
+    } else {
+      if (sel.slots[slotType] && sel.slots[slotType][slotIndex]) {
+        sel.slots[slotType].splice(slotIndex, 1);
+      }
+    }
+
+    invalidateCache();
+    saveState();
+    closeCellSearchPopover();
+    renderMenuView();
+    renderDishGrid();
+    renderEventTabs();
+    if (currentView === "planner") renderEventContent();
+    showToast("Dish removed");
+  }
+
+  // ==========================================
+  // CELL COLOR TOGGLE
+  // ==========================================
+  function toggleCellColor(td) {
+    const eventId = td.dataset.eventId;
+    const slotType = td.dataset.slotType;
+    const slotIndex = td.dataset.slotIndex;
+    if (!eventId || !slotType) return;
+
+    const colorKey = `${eventId}_${slotType}_${slotIndex}`;
+    const current = cellColors[colorKey] || null;
+
+    if (!current) {
+      cellColors[colorKey] = "green";
+    } else if (current === "green") {
+      cellColors[colorKey] = "red";
+    } else {
+      delete cellColors[colorKey];
+    }
+
+    // Apply class directly without full re-render
+    td.classList.remove("cell-green", "cell-red");
+    if (cellColors[colorKey]) {
+      td.classList.add(`cell-${cellColors[colorKey]}`);
+    }
+
+    saveState();
+  }
+
+  // ==========================================
+  // ADD ROW
+  // ==========================================
+  function renderAddRowDropdown() {
+    const dropdown = document.getElementById("add-row-dropdown");
+    if (!dropdown) return;
+    const slots = SLOT_TEMPLATE.full_meal;
+    dropdown.innerHTML = slots
+      .map(
+        (slot) =>
+          `<button class="add-row-option" data-slot-type="${slot.type}">${slot.label}</button>`,
+      )
+      .join("");
+  }
+
+  function handleAddRow(slotType) {
+    // Increment the slot count for full_meal (primary package)
+    if (!slotConfig.full_meal) slotConfig.full_meal = {};
+    const current = getEffectiveSlotCount("full_meal", slotType);
+    slotConfig.full_meal[slotType] = current + 1;
+
+    // Also increment for hi_tea if slot exists there
+    const hiTeaSlot = SLOT_TEMPLATE.hi_tea.find((s) => s.type === slotType);
+    if (hiTeaSlot) {
+      if (!slotConfig.hi_tea) slotConfig.hi_tea = {};
+      const hiTeaCurrent = getEffectiveSlotCount("hi_tea", slotType);
+      slotConfig.hi_tea[slotType] = hiTeaCurrent + 1;
+    }
+
+    saveState();
+    renderMenuView();
+    const slotDef = SLOT_TEMPLATE.full_meal.find((s) => s.type === slotType);
+    showToast(`Added ${slotDef ? slotDef.label : slotType} row`);
   }
 
   // ==========================================
@@ -2607,12 +2978,112 @@
       });
     }
 
+    // Settings modal
+    document
+      .getElementById("btn-settings")
+      .addEventListener("click", openSettingsModal);
+    document
+      .getElementById("settings-close")
+      .addEventListener("click", closeSettingsModal);
+    document
+      .getElementById("settings-overlay")
+      .addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) closeSettingsModal();
+      });
+    document
+      .getElementById("settings-body")
+      .addEventListener("click", handleSettingsClick);
+
+    // Cell click-to-search in menu table
+    document
+      .getElementById("menu-table-wrapper")
+      .addEventListener("click", (e) => {
+        const td = e.target.closest("td.dish-cell");
+        if (!td || !td.dataset.eventId) return;
+        openCellSearchPopover(td);
+      });
+
+    // Cell right-click color toggle
+    document
+      .getElementById("menu-table-wrapper")
+      .addEventListener("contextmenu", (e) => {
+        const td = e.target.closest("td.dish-cell");
+        if (!td || !td.dataset.eventId) return;
+        e.preventDefault();
+        toggleCellColor(td);
+      });
+
+    // Cell search popover input
+    document
+      .getElementById("cell-search-input")
+      .addEventListener("input", (e) => {
+        renderCellSearchResults(e.target.value.trim());
+      });
+
+    // Cell search popover result selection
+    document
+      .getElementById("cell-search-results")
+      .addEventListener("click", (e) => {
+        const item = e.target.closest(".cell-search-item");
+        if (!item) return;
+        if (item.dataset.action === "remove") {
+          handleCellSearchRemove();
+        } else if (item.dataset.dishId) {
+          handleCellSearchSelect(item.dataset.dishId);
+        }
+      });
+
+    // Close cell search popover on click outside
+    document.addEventListener("click", (e) => {
+      if (!cellSearchPopoverOpen) return;
+      const popover = document.getElementById("cell-search-popover");
+      if (popover.contains(e.target)) return;
+      const td = e.target.closest("td.dish-cell");
+      if (td && td.dataset.eventId) return;
+      closeCellSearchPopover();
+    });
+
+    // Close cell search on Escape
+    document
+      .getElementById("cell-search-input")
+      .addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeCellSearchPopover();
+        }
+      });
+
+    // Add Row button
+    document.getElementById("btn-add-row").addEventListener("click", (e) => {
+      e.stopPropagation();
+      const dropdown = document.getElementById("add-row-dropdown");
+      dropdown.classList.toggle("active");
+    });
+
+    // Add Row dropdown selection
+    document
+      .getElementById("add-row-dropdown")
+      .addEventListener("click", (e) => {
+        const option = e.target.closest(".add-row-option");
+        if (!option) return;
+        handleAddRow(option.dataset.slotType);
+        document.getElementById("add-row-dropdown").classList.remove("active");
+      });
+
+    // Close add-row dropdown on outside click
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".add-row-section")) {
+        const dropdown = document.getElementById("add-row-dropdown");
+        if (dropdown) dropdown.classList.remove("active");
+      }
+    });
+
     // Keyboard shortcuts
     document.addEventListener("keydown", (e) => {
       // Don't capture when typing in input/textarea
       if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
         if (e.key === "Escape") {
           e.target.blur();
+          if (cellSearchPopoverOpen) closeCellSearchPopover();
         }
         return;
       }
@@ -2636,10 +3107,18 @@
           document.getElementById("help-overlay").classList.add("active");
           break;
         case "Escape":
-          if (popoverDishId) {
+          if (cellSearchPopoverOpen) {
+            closeCellSearchPopover();
+          } else if (popoverDishId) {
             closePopover();
           } else if (menuDropdownOpen) {
             toggleMenuDropdown(false);
+          } else if (
+            document
+              .getElementById("settings-overlay")
+              .classList.contains("active")
+          ) {
+            closeSettingsModal();
           } else {
             closeHelpModal();
           }

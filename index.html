@@ -164,6 +164,13 @@
             </div>
           </div>
           <div class="menu-view-actions">
+            <button
+              class="btn-settings"
+              id="btn-settings"
+              title="Slot Settings"
+            >
+              &#9881;
+            </button>
             <button class="btn-copy" id="btn-copy-text">Copy as Text</button>
             <button class="btn-print" id="btn-print-menu">
               Print / Save PDF
@@ -172,6 +179,10 @@
         </div>
         <div class="summary-stats" id="summary-stats"></div>
         <div class="menu-table-wrapper" id="menu-table-wrapper"></div>
+        <div class="add-row-section" id="add-row-section">
+          <button class="btn-add-row" id="btn-add-row">+ Add Row</button>
+          <div class="add-row-dropdown" id="add-row-dropdown"></div>
+        </div>
         <div class="repetition-report" id="repetition-report"></div>
       </div>
     </main>
@@ -249,6 +260,29 @@
           </form>
         </div>
       </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div class="modal-overlay" id="settings-overlay">
+      <div class="modal" id="settings-modal">
+        <div class="modal-header">
+          <h3>Slot Settings</h3>
+          <button class="modal-close" id="settings-close">&times;</button>
+        </div>
+        <div class="modal-body" id="settings-body"></div>
+      </div>
+    </div>
+
+    <!-- CELL SEARCH POPOVER -->
+    <div class="cell-search-popover" id="cell-search-popover">
+      <input
+        type="text"
+        class="cell-search-input"
+        id="cell-search-input"
+        placeholder="Search dishes..."
+        autocomplete="off"
+      />
+      <div class="cell-search-results" id="cell-search-results"></div>
     </div>
 
     <!-- TOAST -->
