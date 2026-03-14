@@ -1360,9 +1360,7 @@
       renderStructuredEventContent(ev, dishesEl, pkgKey);
     }
 
-    // Notes
-    const notesEl = document.getElementById("event-notes");
-    notesEl.value = eventNotes[ev.id] || "";
+    // Notes (now in right panel, rendered by renderNotesPanel)
   }
 
   function renderFreeformEventContent(ev, dishesEl, allIds) {
