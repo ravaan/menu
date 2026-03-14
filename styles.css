@@ -1620,6 +1620,12 @@ kbd {
   margin-top: 0.15rem;
 }
 
+.menu-view-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .btn-print {
   padding: 0.45rem 1.2rem;
   background: var(--accent);
@@ -1753,7 +1759,10 @@ kbd {
   .fab-new-dish,
   .btn-print,
   .package-overview,
-  .slot-reassign {
+  .slot-reassign,
+  .summary-stats,
+  .repetition-report,
+  .menu-view-actions {
     display: none !important;
   }
 

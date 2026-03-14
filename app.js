@@ -315,7 +315,7 @@
       renderDishGrid();
       renderEventTabs();
       renderEventContent();
-      renderSummary();
+      if (currentView === "menu") renderMenuView();
       updateMenuUI();
     } catch (err) {
       console.error("Failed to load data:", err);
@@ -1701,7 +1701,7 @@
     renderDishGrid();
     renderEventTabs();
     renderEventContent();
-    renderSummary();
+    if (currentView === "menu") renderMenuView();
     updateMenuUI();
     toggleMenuDropdown(false);
     showToast(`Switched to "${menu.name}"`);
@@ -1956,6 +1956,27 @@
   // VIEW 4: MENU TABLE
   // ==========================================
   function renderMenuView() {
+    // Render stats cards
+    const allSelectedIds = new Set();
+    let totalAssignments = 0;
+    events.forEach((ev) => {
+      getAllDishIdsForEvent(ev.id).forEach((id) => {
+        allSelectedIds.add(id);
+        totalAssignments++;
+      });
+    });
+    const statsEl = document.getElementById("summary-stats");
+    statsEl.innerHTML = `
+      <div class="stat-card"><div class="stat-number">${allSelectedIds.size}</div><div class="stat-label">Unique Dishes</div></div>
+      <div class="stat-card"><div class="stat-number">${totalAssignments}</div><div class="stat-label">Total Assignments</div></div>
+      <div class="stat-card"><div class="stat-number">${events.length}</div><div class="stat-label">Events</div></div>
+      <div class="stat-card"><div class="stat-number">${allDishes.length}</div><div class="stat-label">Available Dishes</div></div>
+    `;
+
+    // Render repetition report
+    renderRepetitionReport();
+
+    // Render table
     const wrapper = document.getElementById("menu-table-wrapper");
 
     // Build row definitions from full_meal template (superset of all slots)
@@ -2145,9 +2166,6 @@
       renderEventTabs();
       renderEventContent();
     }
-    if (view === "summary") {
-      renderSummary();
-    }
     if (view === "menu") {
       renderMenuView();
     }
@@ -2248,7 +2266,7 @@
     renderDishGrid();
     renderEventTabs();
     if (currentView === "planner") renderEventContent();
-    if (currentView === "summary") renderSummary();
+    if (currentView === "menu") renderMenuView();
 
     // Re-sync popover after grid re-render
     if (popoverDishId) {
@@ -2503,7 +2521,7 @@
         renderDishGrid();
         renderEventTabs();
         renderEventContent();
-        renderSummary();
+        if (currentView === "menu") renderMenuView();
         toggleMenuDropdown(false);
         showToast(`Created "${menuLibrary[activeMenuId].name}"`);
       }
@@ -2612,9 +2630,6 @@
           switchView("planner");
           break;
         case "3":
-          switchView("summary");
-          break;
-        case "4":
           switchView("menu");
           break;
         case "?":
