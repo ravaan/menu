@@ -12,6 +12,7 @@
   let events = [];
   let eventSelections = {}; // V3: { eventId: { slots: { slotType: [dishId,...] }, extras?: [] } } (extras only for freeform)
   let eventNotes = {}; // { eventId: "string" }
+  let categoryNotes = {}; // { "eventId_slotType": "note text" }
   let customDishes = []; // user-created dishes
   let activeFilters = {
     search: "",
@@ -242,10 +243,10 @@
     haldi_lunch: {
       slots: {
         welcome_drink: ["citruz-fuzz", "sauf-ka-sharbat"],
-        soup: ["lemon-coriander-vegetable-soup"],
+        soup: ["lemon-coriander-veg-soup"],
         salad: [
-          "tossed-vegetable-salad",
-          "thai-papaya-and-chives-salad",
+          "tossed-veg-salad",
+          "thai-papaya-chives-salad",
           "aloo-pudina-chaat",
         ],
         starter: ["phaldari-kabab"],
@@ -355,6 +356,7 @@
     const menu = menuLibrary[activeMenuId];
     menu.eventSelections = JSON.parse(JSON.stringify(eventSelections));
     menu.eventNotes = JSON.parse(JSON.stringify(eventNotes));
+    menu.categoryNotes = JSON.parse(JSON.stringify(categoryNotes));
     menu.updatedAt = new Date().toISOString();
     const fullState = {
       version: 3,
@@ -396,6 +398,9 @@
           );
           eventNotes = JSON.parse(
             JSON.stringify(menuLibrary[activeMenuId].eventNotes || {}),
+          );
+          categoryNotes = JSON.parse(
+            JSON.stringify(menuLibrary[activeMenuId].categoryNotes || {}),
           );
         }
         loadSlotConfig(state);
@@ -1297,16 +1302,35 @@
   // VIEW 2: EVENT PLANNER RENDERING
   // ==========================================
   function renderEventTabs() {
-    const container = document.getElementById("event-tabs");
-    container.innerHTML = events
-      .map((ev) => {
+    const container = document.getElementById("planner-sidebar");
+    if (!container) return;
+
+    // Group events by day
+    const byDay = {};
+    events.forEach((ev) => {
+      const day = ev.day || 1;
+      if (!byDay[day]) byDay[day] = [];
+      byDay[day].push(ev);
+    });
+
+    let html = "";
+    const sortedDays = Object.keys(byDay)
+      .map(Number)
+      .sort((a, b) => a - b);
+
+    sortedDays.forEach((day) => {
+      html += `<div class="planner-day-label">Day ${day}</div>`;
+      byDay[day].forEach((ev) => {
         const count = getAllDishIdsForEvent(ev.id).length;
-        return `<button class="event-tab ${ev.id === currentEventId ? "active" : ""}" data-event-id="${ev.id}">
-        ${ev.name}
-        ${count > 0 ? `<span class="tab-count">${count}</span>` : ""}
-      </button>`;
-      })
-      .join("");
+        const isActive = ev.id === currentEventId;
+        html += `<div class="planner-event-item${isActive ? " active" : ""}" data-event-id="${ev.id}">
+          <span class="planner-event-name">${escapeHtml(ev.name)}</span>
+          <span class="planner-event-count">${count}</span>
+        </div>`;
+      });
+    });
+
+    container.innerHTML = html;
   }
 
   function renderEventContent() {
@@ -1316,11 +1340,14 @@
     // Header
     const headerEl = document.getElementById("event-header");
     const theme = ev.theme || "";
+    const timing = EVENT_TIMING[ev.id] || "";
+    const typePart = ev.type ? formatLabel(ev.type) : "";
+    const metaParts = [timing, typePart].filter(Boolean).join(" \u00b7 ");
     headerEl.innerHTML = `
-      <h2>${ev.name}</h2>
-      <div class="event-timing">${EVENT_TIMING[ev.id] || ""} &bull; ${formatLabel(ev.type || "")}</div>
-      <div class="event-guidance">${escapeHtml(ev.guidance || "")}</div>
+      <h2>${escapeHtml(ev.name)}</h2>
+      <div class="event-meta">${metaParts}</div>
       ${theme ? `<div class="event-theme">${escapeHtml(theme)}</div>` : ""}
+      ${ev.guidance ? `<div class="event-guidance">${escapeHtml(ev.guidance)}</div>` : ""}
     `;
 
     const dishesEl = document.getElementById("event-dishes");
@@ -1328,10 +1355,8 @@
     const allIds = getAllDishIdsForEvent(ev.id);
 
     if (pkgKey === "freeform") {
-      // Freeform rendering - same as old grouped-by-course
       renderFreeformEventContent(ev, dishesEl, allIds);
     } else {
-      // Structured slot-based rendering
       renderStructuredEventContent(ev, dishesEl, pkgKey);
     }
 
@@ -1341,15 +1366,15 @@
   }
 
   function renderFreeformEventContent(ev, dishesEl, allIds) {
-    if (allIds.length === 0) {
-      dishesEl.innerHTML =
-        '<div class="freeform-banner">Flexible menu -- add dishes freely</div>' +
-        '<div class="event-empty">No dishes added yet. Go to Dish Browser to add dishes to this event.</div>';
-      return;
-    }
-
     let html =
       '<div class="freeform-banner">Flexible menu -- add dishes freely</div>';
+
+    if (allIds.length === 0) {
+      html +=
+        '<div class="event-empty">No dishes added yet. Go to Dish Browser to add dishes to this event.</div>';
+      dishesEl.innerHTML = html;
+      return;
+    }
 
     // Pairing suggestions
     const suggestions = getPairingSuggestions(ev.id);
@@ -1371,8 +1396,19 @@
     const sortedCourses = COURSE_ORDER.filter((c) => grouped[c]);
 
     sortedCourses.forEach((course) => {
-      html += `<div class="course-section">
-        <div class="course-title">${COURSE_LABELS[course] || formatLabel(course)} (${grouped[course].length})</div>`;
+      const courseLabel = COURSE_LABELS[course] || formatLabel(course);
+      const count = grouped[course].length;
+      const noteKey = `${ev.id}_${course}`;
+      const noteVal = categoryNotes[noteKey] || "";
+
+      html += `<div class="planner-category-card">
+        <div class="planner-category-header" data-toggle-cat="${course}">
+          <span class="cat-toggle">\u25BC</span>
+          <span class="cat-label">${courseLabel}</span>
+          <span class="cat-progress">${count}</span>
+        </div>
+        <div class="planner-category-body">
+          <div class="cat-dishes-col">`;
 
       grouped[course].forEach((dish) => {
         const otherEvents = getDishEvents(dish.id).filter(
@@ -1383,19 +1419,21 @@
             ? `<span class="repetition-warning">Also in: ${otherEvents.map((e) => e.name.split(" ")[0]).join(", ")}</span>`
             : "";
 
-        html += `<div class="planner-dish-item">
-          <div class="planner-dish-info">
-            <div class="planner-dish-name">${escapeHtml(dish.name)}</div>
-            <div class="planner-dish-meta">${formatLabel(dish.category)} &bull; ${(dish.cuisine_region || []).map(formatLabel).join(", ")}</div>
-          </div>
-          <div class="planner-dish-actions">
+        html += `<div class="planner-dish-row">
+          <span class="dish-name">${escapeHtml(dish.name)}</span>
+          <span class="dish-actions">
             ${repWarning}
-            <button class="btn-remove" data-event-id="${ev.id}" data-dish-id="${dish.id}">Remove</button>
-          </div>
+            <button class="btn-dish-remove" data-event-id="${ev.id}" data-dish-id="${dish.id}">&times;</button>
+          </span>
         </div>`;
       });
 
-      html += "</div>";
+      html += `</div>
+          <div class="cat-note-col">
+            <textarea class="category-note-input" data-event-id="${ev.id}" data-slot-type="${course}" placeholder="Add note...">${escapeHtml(noteVal)}</textarea>
+          </div>
+        </div>
+      </div>`;
     });
 
     dishesEl.innerHTML = html;
@@ -1405,35 +1443,8 @@
     const sel = eventSelections[ev.id];
     if (!sel) return;
     const template = SLOT_TEMPLATE[pkgKey];
-    const allIds = getAllDishIdsForEvent(ev.id);
 
     let html = "";
-
-    // Package overview chip bar
-    html += '<div class="package-overview">';
-    template.forEach((slotDef) => {
-      const fill = getSlotFill(ev.id, slotDef.type);
-      const isFull = fill.current >= fill.max;
-      const isOver = fill.current > fill.max;
-      const chipClass = isFull
-        ? isOver
-          ? "slot-chip slot-over"
-          : "slot-chip slot-full"
-        : "slot-chip";
-      const shortLabel = slotDef.label
-        .replace(/Welcome /, "WD ")
-        .replace(/Main Courses/, "Main")
-        .replace(/Live Counter/, "Live");
-      html += `<span class="${chipClass}">${shortLabel} ${fill.current}/${fill.max}${isFull && !isOver ? " \u2713" : ""}</span>`;
-    });
-    html += "</div>";
-
-    if (allIds.length === 0) {
-      html +=
-        '<div class="event-empty">No dishes added yet. Go to Dish Browser to add dishes to this event.</div>';
-      dishesEl.innerHTML = html;
-      return;
-    }
 
     // Pairing suggestions
     const suggestions = getPairingSuggestions(ev.id);
@@ -1443,28 +1454,33 @@
         .join("");
     }
 
-    // Build slot dropdown options for reassignment (no extras for structured)
+    // Build slot dropdown options for reassignment
     const slotOptions = template
       .map((s) => `<option value="${s.type}">${s.label}</option>`)
       .join("");
 
-    // Render each slot section
+    // Render each slot as a compact category card
     template.forEach((slotDef) => {
       const slotDishes = sel.slots[slotDef.type] || [];
       const fill = getSlotFill(ev.id, slotDef.type);
       const isFull = fill.current >= fill.max;
       const isOver = fill.current > fill.max;
-      const progressClass = isOver
-        ? "slot-progress-over"
-        : isFull
-          ? "slot-progress-full"
-          : "";
+      const progressClass = isOver ? "cat-over" : isFull ? "cat-full" : "";
+      const progressText = `${fill.current}/${fill.max}${isFull && !isOver ? " \u2713" : ""}`;
+      const noteKey = `${ev.id}_${slotDef.type}`;
+      const noteVal = categoryNotes[noteKey] || "";
 
-      html += `<div class="course-section slot-section">
-        <div class="course-title ${progressClass}">${slotDef.label} (${fill.current}/${fill.max})${isFull && !isOver ? " \u2713" : ""}</div>`;
+      html += `<div class="planner-category-card">
+        <div class="planner-category-header" data-toggle-cat="${slotDef.type}">
+          <span class="cat-toggle">\u25BC</span>
+          <span class="cat-label">${slotDef.label}</span>
+          <span class="cat-progress ${progressClass}">${progressText}</span>
+        </div>
+        <div class="planner-category-body">
+          <div class="cat-dishes-col">`;
 
       if (slotDishes.length === 0) {
-        html += `<div class="slot-empty">No dishes in this slot</div>`;
+        html += `<div class="cat-empty">\u2014</div>`;
       } else {
         slotDishes.forEach((dishId) => {
           const dish = getDishById(dishId);
@@ -1477,23 +1493,25 @@
               ? `<span class="repetition-warning">Also in: ${otherEvents.map((e) => e.name.split(" ")[0]).join(", ")}</span>`
               : "";
 
-          html += `<div class="planner-dish-item">
-            <div class="planner-dish-info">
-              <div class="planner-dish-name">${escapeHtml(dish.name)}</div>
-              <div class="planner-dish-meta">${formatLabel(dish.category)} &bull; ${(dish.cuisine_region || []).map(formatLabel).join(", ")}</div>
-            </div>
-            <div class="planner-dish-actions">
+          html += `<div class="planner-dish-row">
+            <span class="dish-name">${escapeHtml(dish.name)}</span>
+            <span class="dish-actions">
               ${repWarning}
               <select class="slot-reassign" data-event-id="${ev.id}" data-dish-id="${dish.id}">
                 ${slotOptions.replace(`value="${slotDef.type}"`, `value="${slotDef.type}" selected`)}
               </select>
-              <button class="btn-remove" data-event-id="${ev.id}" data-dish-id="${dish.id}">Remove</button>
-            </div>
+              <button class="btn-dish-remove" data-event-id="${ev.id}" data-dish-id="${dish.id}">&times;</button>
+            </span>
           </div>`;
         });
       }
 
-      html += "</div>";
+      html += `</div>
+          <div class="cat-note-col">
+            <textarea class="category-note-input" data-event-id="${ev.id}" data-slot-type="${slotDef.type}" placeholder="Add note...">${escapeHtml(noteVal)}</textarea>
+          </div>
+        </div>
+      </div>`;
     });
 
     dishesEl.innerHTML = html;
@@ -1752,6 +1770,7 @@
     const menu = menuLibrary[menuId];
     eventSelections = JSON.parse(JSON.stringify(menu.eventSelections || {}));
     eventNotes = JSON.parse(JSON.stringify(menu.eventNotes || {}));
+    categoryNotes = JSON.parse(JSON.stringify(menu.categoryNotes || {}));
     events.forEach((ev) => {
       if (!eventSelections[ev.id] || !eventSelections[ev.id].slots) {
         eventSelections[ev.id] = initEventSelections(ev.id);
@@ -2379,22 +2398,53 @@
     popover.classList.remove("active");
   }
 
+  function getCellDishId(eventId, slotType, slotIndex) {
+    const sel = eventSelections[eventId];
+    if (!sel) return null;
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
+
+    if (pkgKey === "freeform") {
+      // For freeform events, dishes are in extras but rendered in virtual slot rows
+      // We need to find the Nth dish of matching course type
+      const allIds = getAllDishIdsForEvent(eventId);
+      const courseToSlot = {
+        beverage: "welcome_drink",
+        starter: "starter",
+        soup: "soup",
+        salad: "salad",
+        chaat: "starter",
+        main: "main_course",
+        side: "main_course",
+        bread: "bread",
+        rice: "rice",
+        dessert: "dessert",
+        live_station: "live_counter",
+      };
+      const matching = [];
+      allIds.forEach((id) => {
+        const dish = getDishById(id);
+        if (!dish) return;
+        const course = getCourseType(dish);
+        const mapped = courseToSlot[course] || "main_course";
+        if (mapped === slotType) matching.push(id);
+      });
+      return matching[slotIndex] || null;
+    }
+
+    // Structured event
+    if (sel.slots && sel.slots[slotType]) {
+      return sel.slots[slotType][slotIndex] || null;
+    }
+    return null;
+  }
+
   function renderCellSearchResults(query) {
     if (!cellSearchTarget) return;
     const results = document.getElementById("cell-search-results");
     const { eventId, slotType, slotIndex } = cellSearchTarget;
 
     // Get current dish in cell
-    const sel = eventSelections[eventId];
-    let currentDishId = null;
-    if (slotType === "extras") {
-      currentDishId =
-        sel && sel.extras && sel.extras[slotIndex]
-          ? sel.extras[slotIndex]
-          : null;
-    } else if (sel && sel.slots && sel.slots[slotType]) {
-      currentDishId = sel.slots[slotType][slotIndex] || null;
-    }
+    const currentDishId = getCellDishId(eventId, slotType, slotIndex);
 
     // Filter dishes by category matching slotType
     const categories = SLOT_TO_CATEGORIES[slotType] || [];
@@ -2413,11 +2463,12 @@
     // Remove option if cell has a dish
     if (currentDishId) {
       const currentDish = getDishById(currentDishId);
-      html += `<div class="cell-search-item remove-item" data-action="remove">Remove: ${currentDish ? escapeHtml(currentDish.name) : "dish"}</div>`;
+      html += `<div class="cell-search-item remove-item" data-action="remove" data-dish-id="${currentDishId}">\u2715 Remove: ${currentDish ? escapeHtml(currentDish.name) : "dish"}</div>`;
     }
 
     filtered.forEach((dish) => {
-      html += `<div class="cell-search-item" data-dish-id="${dish.id}">${escapeHtml(dish.name)}</div>`;
+      const isCurrent = dish.id === currentDishId;
+      html += `<div class="cell-search-item ${isCurrent ? "current-dish" : ""}" data-dish-id="${dish.id}">${escapeHtml(dish.name)}${isCurrent ? " \u2713" : ""}</div>`;
     });
 
     if (filtered.length === 0 && !currentDishId) {
@@ -2433,21 +2484,28 @@
     const { eventId, slotType, slotIndex } = cellSearchTarget;
     const sel = eventSelections[eventId];
     if (!sel) return;
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
 
-    if (slotType === "extras") {
-      // Replace or add at index
-      if (!sel.extras) sel.extras = [];
-      while (sel.extras.length <= slotIndex) sel.extras.push(null);
-      sel.extras[slotIndex] = dishId;
-      // Clean up nulls at end
-      while (sel.extras.length > 0 && !sel.extras[sel.extras.length - 1]) {
-        sel.extras.pop();
+    if (pkgKey === "freeform") {
+      // For freeform, first remove existing dish at this virtual position if any
+      const existingId = getCellDishId(eventId, slotType, slotIndex);
+      if (existingId && sel.extras) {
+        const idx = sel.extras.indexOf(existingId);
+        if (idx >= 0) sel.extras.splice(idx, 1);
       }
+      // Add the new dish to extras
+      if (!sel.extras) sel.extras = [];
+      sel.extras.push(dishId);
     } else {
       if (!sel.slots[slotType]) sel.slots[slotType] = [];
-      while (sel.slots[slotType].length <= slotIndex)
-        sel.slots[slotType].push(null);
-      sel.slots[slotType][slotIndex] = dishId;
+      // Replace at index or add
+      if (slotIndex < sel.slots[slotType].length) {
+        sel.slots[slotType][slotIndex] = dishId;
+      } else {
+        while (sel.slots[slotType].length < slotIndex)
+          sel.slots[slotType].push(null);
+        sel.slots[slotType][slotIndex] = dishId;
+      }
       // Clean up nulls at end
       while (
         sel.slots[slotType].length > 0 &&
@@ -2472,13 +2530,17 @@
     const { eventId, slotType, slotIndex } = cellSearchTarget;
     const sel = eventSelections[eventId];
     if (!sel) return;
+    const pkgKey = EVENT_PACKAGE_MAP[eventId] || "freeform";
 
-    if (slotType === "extras") {
-      if (sel.extras && sel.extras[slotIndex]) {
-        sel.extras.splice(slotIndex, 1);
+    if (pkgKey === "freeform") {
+      // Find the actual dish ID and remove from extras
+      const dishId = getCellDishId(eventId, slotType, slotIndex);
+      if (dishId && sel.extras) {
+        const idx = sel.extras.indexOf(dishId);
+        if (idx >= 0) sel.extras.splice(idx, 1);
       }
     } else {
-      if (sel.slots[slotType] && sel.slots[slotType][slotIndex]) {
+      if (sel.slots[slotType] && sel.slots[slotType][slotIndex] !== undefined) {
         sel.slots[slotType].splice(slotIndex, 1);
       }
     }
@@ -2836,20 +2898,39 @@
       { passive: true },
     );
 
-    // Event tabs
-    document.getElementById("event-tabs").addEventListener("click", (e) => {
-      const tab = e.target.closest(".event-tab");
-      if (tab) {
-        currentEventId = tab.dataset.eventId;
-        renderEventTabs();
-        renderEventContent();
-        saveState();
-      }
-    });
+    // Event sidebar
+    document
+      .getElementById("planner-sidebar")
+      .addEventListener("click", (e) => {
+        const item = e.target.closest(".planner-event-item");
+        if (item) {
+          currentEventId = item.dataset.eventId;
+          renderEventTabs();
+          renderEventContent();
+          saveState();
+        }
+      });
 
-    // Remove dish from event + slot reassignment
+    // Remove dish from event (supports both old .btn-remove and new .btn-dish-remove)
     document.getElementById("event-dishes").addEventListener("click", (e) => {
-      const btn = e.target.closest(".btn-remove");
+      // Collapse/expand category
+      const catHeader = e.target.closest(
+        ".planner-category-header[data-toggle-cat]",
+      );
+      if (catHeader) {
+        const card = catHeader.closest(".planner-category-card");
+        const body = card.querySelector(".planner-category-body");
+        const toggle = catHeader.querySelector(".cat-toggle");
+        if (body) {
+          const collapsed = body.style.display === "none";
+          body.style.display = collapsed ? "" : "none";
+          if (toggle) toggle.textContent = collapsed ? "\u25BC" : "\u25B6";
+        }
+        return;
+      }
+
+      const btn =
+        e.target.closest(".btn-dish-remove") || e.target.closest(".btn-remove");
       if (btn) {
         removeDishFromEvent(btn.dataset.eventId, btn.dataset.dishId);
       }
@@ -2866,6 +2947,23 @@
         );
       }
     });
+
+    // Category notes (blur to save)
+    document
+      .getElementById("event-dishes")
+      .addEventListener("focusout", (e) => {
+        const textarea = e.target.closest(".category-note-input");
+        if (textarea) {
+          const key = `${textarea.dataset.eventId}_${textarea.dataset.slotType}`;
+          const val = textarea.value.trim();
+          if (val) {
+            categoryNotes[key] = val;
+          } else {
+            delete categoryNotes[key];
+          }
+          saveState();
+        }
+      });
 
     // Event notes
     document.getElementById("event-notes").addEventListener("input", (e) => {
