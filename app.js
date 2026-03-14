@@ -1953,6 +1953,177 @@
   }
 
   // ==========================================
+  // VIEW 4: MENU TABLE
+  // ==========================================
+  function renderMenuView() {
+    const wrapper = document.getElementById("menu-table-wrapper");
+
+    // Build row definitions from full_meal template (superset of all slots)
+    const fullMealSlots = SLOT_TEMPLATE.full_meal;
+    const rows = [];
+
+    // Theme row
+    rows.push({ key: "theme", label: "Theme", slotType: null, index: 0 });
+
+    // Expand each slot by its count
+    fullMealSlots.forEach((slot) => {
+      for (let i = 0; i < slot.count; i++) {
+        const label =
+          slot.count > 1
+            ? `${slot.label.replace(/s$/, "")} ${i + 1}`
+            : slot.label;
+        rows.push({
+          key: `${slot.type}_${i}`,
+          label,
+          slotType: slot.type,
+          index: i,
+        });
+      }
+    });
+
+    // Check if any event has extras, add Extra Pick rows
+    const maxExtras = Math.max(
+      ...events.map((ev) => {
+        const sel = eventSelections[ev.id];
+        return sel && sel.extras ? sel.extras.length : 0;
+      }),
+      0,
+    );
+    const extrasToShow = Math.max(maxExtras, 3);
+    for (let i = 0; i < extrasToShow; i++) {
+      rows.push({
+        key: `extra_${i}`,
+        label: `Extra Pick ${i + 1}`,
+        slotType: "extras",
+        index: i,
+      });
+    }
+
+    // Group events by day for column headers
+    const dayGroups = {};
+    events.forEach((ev) => {
+      const day = ev.day || 1;
+      if (!dayGroups[day]) dayGroups[day] = [];
+      dayGroups[day].push(ev);
+    });
+
+    // For freeform events, pre-compute dish placement into virtual rows
+    const freeformMapping = {};
+    events.forEach((ev) => {
+      const pkgKey = EVENT_PACKAGE_MAP[ev.id];
+      if (pkgKey !== "freeform") return;
+      const allIds = getAllDishIdsForEvent(ev.id);
+      const placed = {};
+      allIds.forEach((id) => {
+        const dish = getDishById(id);
+        if (!dish) return;
+        const course = getCourseType(dish);
+        // Map course type to best-matching slot type
+        const courseToSlot = {
+          beverage: "welcome_drink",
+          starter: "starter",
+          soup: "soup",
+          salad: "salad",
+          chaat: "starter",
+          main: "main_course",
+          side: "main_course",
+          bread: "bread",
+          rice: "rice",
+          dessert: "dessert",
+          live_station: "live_counter",
+        };
+        const slotType = courseToSlot[course] || "main_course";
+        if (!placed[slotType]) placed[slotType] = [];
+        placed[slotType].push(dish.name);
+      });
+      freeformMapping[ev.id] = placed;
+    });
+
+    // Build table HTML
+    let html = '<table class="menu-table">';
+
+    // Day header row
+    html += "<thead><tr><th></th>";
+    Object.entries(dayGroups).forEach(([day, evts]) => {
+      const dayColors = { 1: "#d4edda", 2: "#cce5ff", 3: "#fff3cd" };
+      html += `<th colspan="${evts.length}" class="day-header" style="background:${dayColors[day] || "#f0f0f0"}">Day ${day}</th>`;
+    });
+    html += "</tr>";
+
+    // Event name header row
+    html += "<tr><th class='row-label-header'></th>";
+    events.forEach((ev) => {
+      html += `<th class="event-header-cell">${escapeHtml(ev.name)}</th>`;
+    });
+    html += "</tr></thead>";
+
+    // Body rows
+    html += "<tbody>";
+    rows.forEach((row) => {
+      const isTheme = row.key === "theme";
+      const isExtra = row.slotType === "extras";
+      const rowClass = isTheme ? "theme-row" : isExtra ? "extra-row" : "";
+
+      html += `<tr class="${rowClass}">`;
+      html += `<td class="row-label">${escapeHtml(row.label)}</td>`;
+
+      events.forEach((ev) => {
+        const pkgKey = EVENT_PACKAGE_MAP[ev.id];
+        const sel = eventSelections[ev.id];
+
+        if (isTheme) {
+          const theme = ev.theme || "";
+          html += `<td class="theme-cell">${escapeHtml(theme)}</td>`;
+          return;
+        }
+
+        if (isExtra) {
+          const extras = sel && sel.extras ? sel.extras : [];
+          const dishId = extras[row.index];
+          const dish = dishId ? getDishById(dishId) : null;
+          html += `<td class="dish-cell extra-cell">${dish ? escapeHtml(dish.name) : ""}</td>`;
+          return;
+        }
+
+        // Regular slot row
+        if (pkgKey === "freeform") {
+          // Use pre-computed freeform mapping
+          const mapping = freeformMapping[ev.id] || {};
+          const dishes = mapping[row.slotType] || [];
+          const dishName = dishes[row.index] || "";
+          html += `<td class="dish-cell freeform-cell">${escapeHtml(dishName)}</td>`;
+          return;
+        }
+
+        // Structured event
+        const slots = sel && sel.slots ? sel.slots : {};
+        const slotDishes = slots[row.slotType] || [];
+        const dishId = slotDishes[row.index];
+        const dish = dishId ? getDishById(dishId) : null;
+
+        // Check if this slot type exists in this event's package
+        const template = SLOT_TEMPLATE[pkgKey] || [];
+        const slotDef = template.find((s) => s.type === row.slotType);
+        const isAvailable = slotDef && row.index < slotDef.count;
+        const isNA = !slotDef;
+
+        if (isNA) {
+          html += '<td class="dish-cell na-cell"></td>';
+        } else if (!isAvailable) {
+          html += '<td class="dish-cell na-cell"></td>';
+        } else {
+          html += `<td class="dish-cell">${dish ? escapeHtml(dish.name) : ""}</td>`;
+        }
+      });
+
+      html += "</tr>";
+    });
+
+    html += "</tbody></table>";
+    wrapper.innerHTML = html;
+  }
+
+  // ==========================================
   // EVENT HANDLERS
   // ==========================================
   function switchView(view) {
@@ -1976,6 +2147,9 @@
     }
     if (view === "summary") {
       renderSummary();
+    }
+    if (view === "menu") {
+      renderMenuView();
     }
     saveState();
   }
@@ -2282,6 +2456,11 @@
       .getElementById("btn-copy-text")
       .addEventListener("click", copyAsText);
 
+    // Print menu
+    document
+      .getElementById("btn-print-menu")
+      .addEventListener("click", () => window.print());
+
     // Menu bar
     document.getElementById("menu-trigger").addEventListener("click", () => {
       toggleMenuDropdown();
@@ -2434,6 +2613,9 @@
           break;
         case "3":
           switchView("summary");
+          break;
+        case "4":
+          switchView("menu");
           break;
         case "?":
           document.getElementById("help-overlay").classList.add("active");

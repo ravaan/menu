@@ -1593,6 +1593,152 @@ kbd {
   border-left: 2px solid var(--accent-soft);
 }
 
+/* ========================================
+   VIEW 4: MENU TABLE
+   ======================================== */
+.menu-view-layout {
+  max-width: 100%;
+  padding: 1.5rem;
+}
+
+.menu-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.menu-view-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.menu-view-meta {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-top: 0.15rem;
+}
+
+.btn-print {
+  padding: 0.45rem 1.2rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+.btn-print:hover {
+  background: var(--accent-light);
+}
+
+.menu-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.menu-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.75rem;
+  font-family: var(--font-body);
+  table-layout: fixed;
+}
+
+.menu-table th,
+.menu-table td {
+  border: 1px solid #d0d0d4;
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+  min-width: 110px;
+}
+
+.menu-table th {
+  font-weight: 600;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.day-header {
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.4rem;
+}
+
+.event-header-cell {
+  text-align: center;
+  background: #f8f8fa;
+  font-size: 0.7rem;
+  padding: 0.35rem 0.3rem;
+}
+
+.row-label-header {
+  min-width: 120px;
+  width: 120px;
+  background: #f8f8fa;
+}
+
+.row-label {
+  font-weight: 600;
+  background: #fafafa;
+  white-space: nowrap;
+  min-width: 120px;
+  width: 120px;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
+.dish-cell {
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.theme-row {
+  background: #fffde7;
+}
+
+.theme-row .row-label {
+  background: #fffde7;
+}
+
+.theme-cell {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.na-cell {
+  background: #f5f5f5;
+}
+
+.extra-row {
+  background: #f0faf0;
+}
+
+.extra-row .row-label {
+  background: #f0faf0;
+  color: var(--text-muted);
+}
+
+.extra-cell {
+  color: var(--text-secondary);
+}
+
+.freeform-cell {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
 @media print {
   .app-header,
   .filter-bar,
@@ -1603,16 +1749,81 @@ kbd {
   .event-tabs,
   .event-notes-section,
   .modal-overlay,
-  .toast {
+  .toast,
+  .fab-new-dish,
+  .btn-print,
+  .package-overview,
+  .slot-reassign {
     display: none !important;
   }
 
   .view {
+    display: none !important;
+  }
+
+  #view-menu {
     display: block !important;
   }
 
   body {
     background: white;
     color: black;
+  }
+
+  @page {
+    size: landscape;
+    margin: 0.5cm;
+  }
+
+  .menu-view-layout {
+    padding: 0;
+  }
+
+  .menu-view-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .menu-view-header h2 {
+    font-size: 1rem;
+  }
+
+  .menu-table {
+    font-size: 0.6rem;
+  }
+
+  .menu-table th,
+  .menu-table td {
+    padding: 0.2rem 0.3rem;
+    min-width: auto;
+    border-color: #999;
+  }
+
+  .row-label {
+    position: static;
+    min-width: auto;
+    width: auto;
+  }
+
+  .na-cell {
+    background: #f0f0f0 !important;
+  }
+
+  .theme-row,
+  .theme-row .row-label {
+    background: #fffde7 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .day-header {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .extra-row,
+  .extra-row .row-label {
+    background: #f0faf0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
