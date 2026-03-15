@@ -298,6 +298,433 @@
   };
 
   // ==========================================
+  // MENU TEMPLATES
+  // ==========================================
+
+  const MENU_TEMPLATE_CLASSIC = {
+    mehndi_lunch: {
+      slots: {
+        welcome_drink: ["jaljeera", "roohafza"],
+        soup: ["tomato-dhania-shorba"],
+        salad: [
+          "kachumber-salad",
+          "lachhedar-pyaaz-salad",
+          "cucumber-tomato-mint-salad",
+        ],
+        starter: [
+          "hariyali-bharwan-paneer-tikka",
+          "hara-bhara-kabab",
+          "aloo-tikki-chaat",
+        ],
+        main_course: ["sindhi-kadhi", "gatte-ki-subzi", "mixed-veg-korma"],
+        dal: ["dal-shekhawati"],
+        rice: ["jeera-pulao"],
+        bread: ["koki", "naan-butter-naan"],
+        curd: ["dahi-bhalla"],
+        dessert: ["gulab-jamun", "kheerni"],
+        ice_cream: ["ice-cream-selection"],
+        live_counter: ["live-chaat-station"],
+      },
+    },
+    hi_tea: {
+      slots: {
+        drink: ["masala-chai", "filter-coffee-taj"],
+        starter: ["vada-pav", "kothimbir-vadi", "vegetable-samosa"],
+        dessert: ["nankhatai"],
+      },
+    },
+    sangeet_dinner: {
+      slots: {
+        welcome_drink: ["virgin-mojito", "virgin-strawberry-margarita"],
+        soup: ["cream-of-mushroom-soup"],
+        salad: [
+          "garden-green-salad",
+          "russian-veg-salad",
+          "lebanese-fattoush-salad",
+        ],
+        starter: [
+          "paneer-manchurian",
+          "jalapeno-munchers",
+          "cottage-cheese-shashlik",
+        ],
+        main_course: [
+          "oriental-chilli-garlic-paneer",
+          "baked-cottage-cheese-florentine",
+          "exotic-veg-au-gratin",
+        ],
+        dal: ["dal-makhani"],
+        rice: ["mushroom-parsley-rice"],
+        bread: ["kulcha", "laccha-paratha"],
+        curd: ["boondi-raita"],
+        dessert: ["chocolate-walnut-brownie", "vanilla-creme-brulee"],
+        ice_cream: ["malai-kulfi"],
+        live_counter: ["live-pasta-station"],
+      },
+    },
+    breakfast: {
+      slots: {},
+      extras: [
+        "masala-chai",
+        "filter-coffee-taj",
+        "fresh-juice-station",
+        "cut-fresh-fruits",
+        "paratha-station",
+        "puri-bhaji",
+        "idli-sambhar",
+        "kanda-poha",
+        "freshly-baked-rolls",
+        "cereals-station",
+      ],
+    },
+    haldi_lunch: {
+      slots: {
+        welcome_drink: ["aam-panna", "masala-chaas"],
+        soup: ["lemon-coriander-veg-soup"],
+        salad: [
+          "tossed-veg-salad",
+          "bean-sprouts-pepper-salad",
+          "pineapple-tomato-salad",
+        ],
+        starter: ["phaldari-kabab", "corn-cutlet", "paapdi-chaat"],
+        main_course: ["aloo-mutter-masala", "kadhai-paneer", "subz-jalfrazi"],
+        dal: ["moong-dal-fry"],
+        rice: ["peas-pulao"],
+        bread: ["missi-roti", "pudina-paratha"],
+        curd: ["boondi-phudina-raita"],
+        dessert: ["kesaria-rasmalai", "fresh-fruit-custard"],
+        ice_cream: ["aam-ras"],
+        live_counter: ["live-south-indian-station"],
+      },
+    },
+    pre_wedding_hi_tea: {
+      slots: {
+        drink: ["karak-chai", "chilled-fresh-lime"],
+        starter: ["dhokla", "paneer-tikka-turnover", "fruit-chaat"],
+        dessert: ["date-and-almond-energy-bites"],
+      },
+    },
+    wedding_dinner: {
+      slots: {
+        welcome_drink: ["thandai", "rose-sherbet"],
+        soup: ["shahi-dal-shorba"],
+        salad: [
+          "traditional-greek-salad",
+          "macaroni-three-pepper-salad",
+          "tabouleh",
+        ],
+        starter: [
+          "aachari-paneer-tikka",
+          "subz-shammi-kabab",
+          "zafrani-tawa-paneer",
+        ],
+        main_course: ["paneer-makhani", "navrattan-korma", "baigan-ka-salan"],
+        dal: ["dal-panchmel"],
+        rice: ["kashmiri-pulao"],
+        bread: ["methi-paratha", "tandoori-roti"],
+        curd: ["boondi-raita"],
+        dessert: ["ghevar", "shahi-tukra"],
+        ice_cream: ["rabdi"],
+        live_counter: ["live-jalebi-counter"],
+      },
+    },
+    supper: {
+      slots: {},
+      extras: ["pav-bhaji", "masala-dosa", "bhel-puri", "chilled-fresh-lime"],
+    },
+    checkout_breakfast: {
+      slots: {},
+      extras: [
+        "dal-pakwan",
+        "masala-uttapam",
+        "fresh-juice-station",
+        "cut-fresh-fruits",
+        "freshly-baked-rolls",
+        "cereals-station",
+        "paratha-station",
+      ],
+    },
+  };
+
+  const MENU_TEMPLATE_BALANCED = {
+    mehndi_lunch: {
+      slots: {
+        welcome_drink: ["jaljeera", "rose-sherbet"],
+        soup: ["tomato-pudina-shorba"],
+        salad: [
+          "kachumber-salad",
+          "lachhedar-pyaaz-salad",
+          "bean-sprouts-pepper-salad",
+        ],
+        starter: [
+          "hare-mutter-ki-shammi",
+          "mini-kota-kachori",
+          "paneer-tiltila",
+        ],
+        main_course: [
+          "sindhi-kadhi",
+          "paneer-kofta-anarkali",
+          "gatte-ki-subzi",
+        ],
+        dal: ["dal-shekhawati"],
+        rice: ["sindhi-tahiri"],
+        bread: ["koki", "tandoori-roti"],
+        curd: ["dahi-bhalla"],
+        dessert: ["kheerni", "malpua"],
+        ice_cream: ["sindhi-kulfadi"],
+        live_counter: ["live-chaat-station"],
+      },
+    },
+    hi_tea: {
+      slots: {
+        drink: ["masala-chai", "solkadi"],
+        starter: ["vada-pav", "kothimbir-vadi", "sabudana-vada"],
+        dessert: ["puran-poli"],
+      },
+    },
+    sangeet_dinner: {
+      slots: {
+        welcome_drink: ["virgin-mojito", "citruz-fuzz"],
+        soup: ["tom-yam-soup-veg"],
+        salad: [
+          "lebanese-fattoush-salad",
+          "tabouleh",
+          "char-grilled-exotic-vegetable-salad",
+        ],
+        starter: ["falafel", "crispy-chilli-baby-corn", "jalapeno-munchers"],
+        main_course: [
+          "spinach-cottage-cheese-lasagne",
+          "oriental-chilli-garlic-paneer",
+          "melanzane-parmigianna",
+        ],
+        dal: ["dhungeri-dal"],
+        rice: ["mushroom-parsley-rice"],
+        bread: ["manakish", "kulcha"],
+        curd: ["boondi-raita"],
+        dessert: ["tiramisu", "kunafa"],
+        ice_cream: ["ice-cream-selection"],
+        live_counter: ["live-pasta-station"],
+      },
+    },
+    breakfast: {
+      slots: {},
+      extras: [
+        "fresh-juice-station",
+        "cut-fresh-fruits",
+        "paratha-station",
+        "idli-sambhar",
+        "chura-matar",
+        "freshly-baked-rolls",
+        "cereals-station",
+        "puri-bhaji",
+      ],
+    },
+    haldi_lunch: {
+      slots: {
+        welcome_drink: ["aam-panna", "masala-chaas"],
+        soup: ["lemon-coriander-veg-soup"],
+        salad: [
+          "cucumber-tomato-mint-salad",
+          "thai-papaya-chives-salad",
+          "pineapple-tomato-cottage-cheese-salad",
+        ],
+        starter: [
+          "phaldari-kabab",
+          "palak-chane-ki-tikki",
+          "hara-moong-ki-chaat",
+        ],
+        main_course: ["paneer-jalfrazi", "aloo-methi", "subz-jalfrazi"],
+        dal: ["gujrati-dal"],
+        rice: ["peas-pulao"],
+        bread: ["pudina-paratha", "tawa-paratha"],
+        curd: ["boondi-phudina-raita"],
+        dessert: ["phirni", "fresh-fruit-custard"],
+        ice_cream: ["aam-ras"],
+        live_counter: ["live-south-indian-station"],
+      },
+    },
+    pre_wedding_hi_tea: {
+      slots: {
+        drink: ["karak-chai", "orange-mint-fizz"],
+        starter: ["dabeli", "spinach-corn-puff", "fruit-chaat"],
+        dessert: ["date-and-almond-energy-bites"],
+      },
+    },
+    wedding_dinner: {
+      slots: {
+        welcome_drink: ["thandai", "sauf-ka-sharbat"],
+        soup: ["shahi-dal-shorba"],
+        salad: ["russian-veg-salad", "traditional-greek-salad", "hummus"],
+        starter: [
+          "aachari-paneer-tikka",
+          "zafrani-tawa-paneer",
+          "subz-shammi-kabab",
+        ],
+        main_course: ["dal-baati-churma", "paneer-lababdar", "navrattan-korma"],
+        dal: ["dal-makhani"],
+        rice: ["gatte-ka-pulao"],
+        bread: ["missi-roti", "naan-butter-naan"],
+        curd: ["boondi-raita"],
+        dessert: ["ghevar", "moong-dal-halwa-custom"],
+        ice_cream: ["malai-kulfi"],
+        live_counter: ["live-tawa-kabab-station"],
+      },
+    },
+    supper: {
+      slots: {},
+      extras: ["pav-bhaji", "bhel-puri", "litti-chokha", "chilled-fresh-lime"],
+    },
+    checkout_breakfast: {
+      slots: {},
+      extras: [
+        "dal-pakwan",
+        "masala-dosa",
+        "fresh-juice-station",
+        "cut-fresh-fruits",
+        "freshly-baked-rolls",
+        "cereals-station",
+        "live-south-indian-breakfast",
+      ],
+    },
+  };
+
+  const MENU_TEMPLATE_BOLD = {
+    mehndi_lunch: {
+      slots: {
+        welcome_drink: ["sattu-sherbet", "rose-sherbet"],
+        soup: ["mulligatawny-soup"],
+        salad: [
+          "kachumber-salad",
+          "lentil-coconut-salad",
+          "lachhedar-pyaaz-salad",
+        ],
+        starter: ["mawa-kachori", "aloo-tuk", "hare-mutter-ki-shammi"],
+        main_course: ["sindhi-kadhi", "sai-bhaji", "papad-ki-sabzi"],
+        dal: ["dal-shekhawati"],
+        rice: ["sindhi-tahiri"],
+        bread: ["koki", "bajre-ki-roti"],
+        curd: ["dahi-bhalla"],
+        dessert: ["kheerni", "balushahi"],
+        ice_cream: ["sindhi-kulfadi"],
+        live_counter: ["live-chaat-station"],
+      },
+    },
+    hi_tea: {
+      slots: {
+        drink: ["masala-chai", "solkadi"],
+        starter: ["vada-pav", "kothimbir-vadi", "misal-pav"],
+        dessert: ["puran-poli"],
+      },
+    },
+    sangeet_dinner: {
+      slots: {
+        welcome_drink: ["virgin-strawberry-margarita", "virgin-mojito"],
+        soup: ["hot-sour-veg-soup"],
+        salad: ["lebanese-fattoush-salad", "tabouleh", "kimchi-salad"],
+        starter: ["falafel", "cottage-cheese-shashlik", "paneer-manchurian"],
+        main_course: [
+          "spinach-corn-cottage-cheese-cannelloni",
+          "ratatouille-veg-basil",
+          "oriental-chilli-garlic-paneer",
+        ],
+        dal: ["lobia-masala"],
+        rice: ["mushroom-parsley-rice"],
+        bread: ["manakish", "laccha-paratha"],
+        curd: ["boondi-raita"],
+        dessert: ["kunafa", "tiramisu"],
+        ice_cream: ["ice-cream-selection"],
+        live_counter: ["live-mongolian-station"],
+      },
+    },
+    breakfast: {
+      slots: {},
+      extras: [
+        "fresh-juice-station",
+        "cut-fresh-fruits",
+        "bedmi-puri-aloo",
+        "kanda-poha",
+        "chura-dahi",
+        "idli-sambhar",
+        "freshly-baked-rolls",
+        "cereals-station",
+      ],
+    },
+    haldi_lunch: {
+      slots: {
+        welcome_drink: ["aam-panna", "masala-chaas"],
+        soup: ["lemon-coriander-veg-soup"],
+        salad: [
+          "thai-papaya-chives-salad",
+          "apple-celery-walnut-salad",
+          "cucumber-tomato-mint-salad",
+        ],
+        starter: ["phaldari-kabab", "bhutteyan-da-kabab", "ice-bhel"],
+        main_course: [
+          "paneer-jalfrazi",
+          "hing-jeere-ki-aloo",
+          "gobi-mutter-hara-pyaaz",
+        ],
+        dal: ["hara-moong-dal"],
+        rice: ["peas-pulao"],
+        bread: ["pudina-paratha", "tawa-paratha"],
+        curd: ["boondi-phudina-raita"],
+        dessert: ["lapsi", "mango-cheesecake"],
+        ice_cream: ["aam-ras"],
+        live_counter: ["live-south-indian-station"],
+      },
+    },
+    pre_wedding_hi_tea: {
+      slots: {
+        drink: ["karak-chai", "orange-mint-fizz"],
+        starter: ["dabeli", "pyaaz-kachori", "fruit-chaat"],
+        dessert: ["date-and-almond-energy-bites"],
+      },
+    },
+    wedding_dinner: {
+      slots: {
+        welcome_drink: ["thandai", "sauf-ka-sharbat"],
+        soup: ["shahi-dal-shorba"],
+        salad: [
+          "capsicum-salad",
+          "lentil-coconut-salad",
+          "pineapple-tomato-salad",
+        ],
+        starter: ["zafrani-tawa-paneer", "anjeer-gullar-kabab", "aloo-nazaqat"],
+        main_course: ["dal-baati-churma", "paneer-pasanda", "ker-sangri"],
+        dal: ["dal-panchmel"],
+        rice: ["gatte-ka-pulao"],
+        bread: ["missi-roti", "naan-butter-naan"],
+        curd: ["boondi-raita"],
+        dessert: ["ghevar", "mathura-ke-pede"],
+        ice_cream: ["rabdi"],
+        live_counter: ["live-dhaba-station"],
+      },
+    },
+    supper: {
+      slots: {},
+      extras: [
+        "litti-chokha",
+        "ragda-pattice",
+        "pav-bhaji",
+        "masala-dosa",
+        "chilled-fresh-lime",
+      ],
+    },
+    checkout_breakfast: {
+      slots: {},
+      extras: [
+        "dal-pakwan",
+        "seyal-maani",
+        "sattu-paratha",
+        "fresh-juice-station",
+        "cut-fresh-fruits",
+        "live-south-indian-breakfast",
+        "freshly-baked-rolls",
+        "cereals-station",
+      ],
+    },
+  };
+
+  // ==========================================
   // DATA LOADING
   // ==========================================
   async function loadData() {
@@ -457,9 +884,10 @@
           if (v1) {
             migrateFromV1(JSON.parse(v1));
           } else {
-            // First load: create default menu + draft menu
+            // First load: create default menu + draft menu + template menus
             createNewMenu("My Menu", true);
             createDraftMenu();
+            createTemplateMenus();
           }
         }
       }
@@ -997,6 +1425,62 @@
     // Initialize notes for all events
     events.forEach((ev) => {
       menuLibrary[menuId].eventNotes[ev.id] = "";
+    });
+
+    saveState();
+    updateMenuUI();
+  }
+
+  function createTemplateMenus() {
+    const templates = [
+      { name: "Classic Comfort", data: MENU_TEMPLATE_CLASSIC },
+      { name: "Balanced Blend", data: MENU_TEMPLATE_BALANCED },
+      { name: "Bold & Beautiful", data: MENU_TEMPLATE_BOLD },
+    ];
+    const validIds = new Set(allDishes.map((d) => d.id));
+
+    templates.forEach((tmpl, idx) => {
+      const menuId = "menu_" + (Date.now() + 2 + idx);
+      const selections = {};
+
+      for (const [evId, template] of Object.entries(tmpl.data)) {
+        const pkgKey = EVENT_PACKAGE_MAP[evId] || "freeform";
+        const slots = {};
+        if (template.slots) {
+          for (const [slotType, dishIds] of Object.entries(template.slots)) {
+            slots[slotType] = dishIds.filter((id) => validIds.has(id));
+          }
+        }
+        if (pkgKey === "freeform") {
+          const extras = (template.extras || []).filter((id) =>
+            validIds.has(id),
+          );
+          selections[evId] = { slots, extras };
+        } else {
+          selections[evId] = { slots };
+        }
+      }
+
+      // Fill in any missing events
+      events.forEach((ev) => {
+        if (!selections[ev.id]) {
+          selections[ev.id] = initEventSelections(ev.id);
+        }
+      });
+
+      const eventNotes = {};
+      events.forEach((ev) => {
+        eventNotes[ev.id] = "";
+      });
+
+      menuLibrary[menuId] = {
+        id: menuId,
+        name: tmpl.name,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        eventSelections: selections,
+        eventNotes: eventNotes,
+      };
     });
 
     saveState();
